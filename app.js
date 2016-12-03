@@ -1,5 +1,6 @@
 ﻿var express = require('express'),
     schedule = require('node-schedule'),
+    http = require('http'),
     httpServices = require('./http-services.js')(),
     app = express(),
     dataCache = {
