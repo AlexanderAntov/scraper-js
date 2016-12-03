@@ -44,7 +44,7 @@ function setUpSchedule() {
 
 function setUpCache() {
     cacheNews();
-    cacheWeather();
+    //cacheWeather();
 
     function cacheNews() {
         var newsDataPromises = [

@@ -4,7 +4,7 @@
         tokens;
     //used to retrieve the local config file
     if (fs.existsSync(tokensFilePath)) {
-        tokens = JSON.parse(fs.readFileSync(tokensFilePath, 'utf8'));
+        tokens = require(tokensFilePath);
     } else {
         tokens = {
             newYorkTimes: process.env.NEW_YORK_TIMES_TOKEN,
