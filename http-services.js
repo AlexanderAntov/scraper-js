@@ -1,7 +1,7 @@
 ﻿module.exports = function () {
     var http = require('http'),
         https = require('https'),
-        apiConstants = require('./api-constants.js');
+        apiConstants = require('./api-constants.js')();
 
     return {
         newYorkTimes: function () {
