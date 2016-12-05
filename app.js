@@ -10,13 +10,6 @@
 
 setUpSchedule();
 
-app.set('port', process.env.OPENSHIFT_NODEJS_PORT || 8080);
-app.set('ip', process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1');
-
-http.createServer(app).listen(app.get('port'), app.get('ip'), function () {
-    console.log('Express server listening on port ' + app.get('port'));
-});
-
 app.get('/', function (req, res) {
     res.send('Welcome to Scraper API\n');
 });
@@ -35,6 +28,13 @@ app.get('/weather', function (req, res) {
 app.get('/reset-cache', function (req, res) {
     setUpCache();
     res.send(true);
+});
+
+app.set('port', process.env.OPENSHIFT_NODEJS_PORT || 8080);
+app.set('ip', process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1');
+
+http.createServer(app).listen(app.get('port'), app.get('ip'), function () {
+    console.log('Express server listening on port ' + app.get('port'));
 });
 
 function setUpSchedule() {
