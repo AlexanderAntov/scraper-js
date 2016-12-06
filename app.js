@@ -10,7 +10,7 @@
 setUpSchedule();
 
 app.get('/', function (req, res) {
-    res.send('Welcome to Scraper API\n');
+    res.send('Welcome to Scraper API\n' + 'Server time: ' + new Date().toString());
 });
 
 //news
