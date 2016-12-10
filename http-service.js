@@ -1,6 +1,7 @@
 ﻿module.exports = function () {
     var http = require('http'),
         https = require('https'),
+        cheerio = require('cheerio'),
         apiConstants = require('./api-constants.js')();
 
     return {
@@ -66,6 +67,29 @@
                 }
             }
         },
+        heatingSupply: function () {
+            var options = clone(apiConstants.heatingSupply);
+            return performGetRequest(options, dataTransformer);
+
+            function dataTransformer(data) {
+                var $ = cheerio.load(data),
+                    articlesArray = [];
+                $('.RowsContainer').eq(0).find('.DataContainer.LeadingInfo.RowEntry').each(function (index, elem) {
+                    var articleContainer = $(elem),
+                        articleTextBody = articleContainer.find('.Data > .Content').text();
+                    if (articleTextBody.toLowerCase().indexOf('красна поляна') > -1) {
+                        var dateContainer = articleContainer.find('.Title > .Info');
+                        articlesArray.push({
+                            title: articleContainer.find('.Table > .Cell').text().trim().replace('/n', ''),
+                            shortInfo: articleTextBody.substring(0, 200) + '...',
+                            url: 'http://' + options.host + articleContainer.find('.Button.FRight').attr('href'),
+                            dateTime: dateContainer.find('.Value').text() + ' ' + dateContainer.find('.Desc').text()
+                        });
+                    }
+                });
+                return articlesArray;
+            }
+        },
         weatherData: function (cityName) {
             var options = clone(apiConstants.newYorkTimes);
             options.path = options.path
@@ -96,7 +120,11 @@
                 });
 
                 response.on('end', function () {
-                    resolve(dataTransformer(JSON.parse(result)));
+                    if (options.isApi) {
+                        resolve(dataTransformer(JSON.parse(result)));
+                    } else {
+                        resolve(dataTransformer(result));
+                    }
                 });
             }
 
