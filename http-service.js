@@ -83,6 +83,7 @@
                             title: articleContainer.find('.Table > .Cell').text().trim().replace('/n', ''),
                             shortInfo: articleTextBody.substring(0, 200) + '...',
                             url: 'http://' + options.host + articleContainer.find('.Button.FRight').attr('href'),
+                            image: null,
                             dateTime: dateContainer.find('.Value').text() + ' ' + dateContainer.find('.Desc').text()
                         });
                     }
