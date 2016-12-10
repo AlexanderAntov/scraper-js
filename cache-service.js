@@ -4,6 +4,7 @@
     return {
         news: function (cache) {
             var newsDataPromises = [
+                httpService.heatingSupply(),
                 httpService.newYorkTimes(),
                 httpService.theGuardian()
             ];

@@ -16,21 +16,31 @@
     return {
         newYorkTimes: {
             isHttps: true,
+            isApi: true,
             host: 'api.nytimes.com',
             path: '/svc/topstories/v2/home.json?api-key={0}',
             token: tokens.newYorkTimes
         },
         theGuardian: {
             isHttps: true,
+            isApi: true,
             host: 'content.guardianapis.com',
             path: '/search?api-key={0}&q=NOT%20sport&show-blocks=body',
             token: tokens.theGuardian
         },
         weatherApi: {
             isHttps: false,
+            isApi: true,
             host: 'api.openweathermap.org',
             path: '/data/2.5/forecast?q={0}&units=metric&mode=json&cnt=40&appid={1}',
             token: tokens.weatherApi
+        },
+        heatingSupply: {
+            isHttps: false,
+            isApi: false,
+            host: 'toplo.bg',
+            path: '/all-breakdowns',
+            token: null
         },
         bbc: null,
         googleNews: null,
@@ -39,7 +49,6 @@
         dailyMail: null,
         skyNews: null,
         watterSupply: null,
-        heatingSupply: null,
         facebookFeed: null
     };
 };
