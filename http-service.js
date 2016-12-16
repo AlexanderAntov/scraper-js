@@ -2,6 +2,7 @@
     var http = require('http'),
         https = require('https'),
         cheerio = require('cheerio'),
+        parseXMLString = require('xml2js').parseString,
         apiConstants = require('./api-constants.js')();
 
     return {
@@ -11,9 +12,9 @@
             return performGetRequest(options, dataTransformer);
 
             function dataTransformer(data) {
-                var newsModelsArray = [];
+                var articlesArray = [];
                 data.results.forEach(function (newsItemData) {
-                    newsModelsArray.push({
+                    articlesArray.push({
                         title: newsItemData.title,
                         shortInfo: newsItemData.abstract,
                         url: newsItemData.url,
@@ -21,7 +22,7 @@
                         dateTime: newsItemData['published_date'].replace('T', ' ').split(' ')[0]
                     });
                 });
-                return newsModelsArray;
+                return articlesArray;
 
                 function getImageUrl(data) {
                     if (data.multimedia && data.multimedia.length > 0) {
@@ -37,9 +38,9 @@
             return performGetRequest(options, dataTransformer);
 
             function dataTransformer(data) {
-                var newsModelsArray = [];
+                var articlesArray = [];
                 data.response.results.forEach(function (newsItemData) {
-                    newsModelsArray.push({
+                    articlesArray.push({
                         title: newsItemData.webTitle,
                         shortInfo: getShortInfo(newsItemData),
                         url: newsItemData.webUrl,
@@ -47,7 +48,7 @@
                         dateTime: getDateTime(newsItemData)
                     });
                 });
-                return newsModelsArray;
+                return articlesArray;
 
                 function getShortInfo(data) {
                     if (data.blocks && data.blocks.body && data.blocks.body.length > 0) {
@@ -65,6 +66,27 @@
                     }
                     return null;
                 }
+            }
+        },
+        googleNews: function () {
+            var options = clone(apiConstants.googleNews);
+            return performGetRequest(options, dataTransformer);
+
+            function dataTransformer(data) {
+                var articlesArray = [];
+
+                parseXMLString(data, function (err, result) {
+                    result.rss.channel[0].item.forEach(function (newsItemData) {
+                        articlesArray.push({
+                            title: newsItemData.title[0],
+                            shortInfo: newsItemData.description[0].replace(/<(?:.|\n)*?>/gm, '').substring(0, 200) + '...',
+                            url: newsItemData.link[0],
+                            image: null,
+                            dateTime: newsItemData.pubDate[0]
+                        });
+                    });
+                });
+                return articlesArray;
             }
         },
         heatingSupply: function () {

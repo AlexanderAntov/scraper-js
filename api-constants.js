@@ -28,6 +28,13 @@
             path: '/search?api-key={0}&q=NOT%20sport&show-blocks=body',
             token: tokens.theGuardian
         },
+        googleNews: {
+            isApi: false,
+            isHttps: true,
+            host: 'news.google.com',
+            path: '/news?cf=all&hl=bg&pz=1&ned=bg_bg&output=rss',
+            token: null
+        },
         weatherApi: {
             isHttps: false,
             isApi: true,
@@ -43,7 +50,6 @@
             token: null
         },
         bbc: null,
-        googleNews: null,
         reuters: null,
         independent: null,
         dailyMail: null,

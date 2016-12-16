@@ -6,6 +6,7 @@
             var newsDataPromises = [
                 httpService.heatingSupply(),
                 httpService.newYorkTimes(),
+                httpService.googleNews(),
                 httpService.theGuardian()
             ];
 
