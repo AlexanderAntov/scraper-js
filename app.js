@@ -10,7 +10,7 @@
 setUpSchedule();
 
 app.get('/', function (req, res) {
-    res.send('Welcome to Scraper API\n' + 'Server time: ' + new Date().toString());
+    res.send('Welcome to Scraper API <br />' + 'Server time: ' + new Date().toString());
 });
 
 //news
@@ -36,8 +36,9 @@ app.listen(app.get('port'), function () {
 });
 
 function setUpSchedule() {
-    schedule.scheduleJob({ hour: 7 }, setUpCache);
-    schedule.scheduleJob({ hour: 17 }, setUpCache);
+    var serverTimeOffset = -(new Date().getTimezoneOffset() / 60 + 2);
+    schedule.scheduleJob({ hour: 7 + serverTimeOffset }, setUpCache);
+    schedule.scheduleJob({ hour: 17 + serverTimeOffset }, setUpCache);
 }
 
 function setUpCache() {
