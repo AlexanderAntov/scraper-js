@@ -18,11 +18,6 @@ app.get('/news', function (req, res) {
     res.send(dataCache.news);
 });
 
-//weather
-app.get('/weather', function (req, res) {
-    res.send(dataCache.weather);
-});
-
 //reset-cache
 app.get('/reset-cache', function (req, res) {
     setUpCache();
@@ -43,5 +38,4 @@ function setUpSchedule() {
 
 function setUpCache() {
     cacheService.news(dataCache);
-    //cacheService.weather(dataCache, 'Sofia');
 }
