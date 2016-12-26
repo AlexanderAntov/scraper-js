@@ -18,13 +18,25 @@
                     currentDateForecasts = [],
                     tempDate;
 
-                data.list.forEach(function (weatherDataItem) {
+                data.list.forEach(processWeatherDataItem);
+
+                return [
+                    {
+                        title: 'Weather forecast',
+                        shortInfo: forecastDescription,
+                        url: 'http://sinoptik.bg/sofia-bulgaria-100727011?auto',
+                        image: null,
+                        dateTime: new Date().toDateString()
+                    }
+                ];
+
+                function processWeatherDataItem(weatherDataItem) {
                     tempDate = weatherDataItem.dt_txt.split(' ')[0];
                     currentDateForecasts.push(weatherDataItem.weather[0].description);
 
                     if (tempDate !== currentDate) {
                         if (currentDate) {
-                            forecastDescription += getCurrentDayDescription() + '\r\n';
+                            forecastDescription += getCurrentDayDescription();
                             currentDateForecasts = [];
                         }
 
@@ -39,23 +51,15 @@
                     if (weatherDataItem.main.temp_max > currentDateMax) {
                         currentDateMax = weatherDataItem.main.temp_max;
                     }
-                });
-
-                return [
-                    {
-                        title: 'Weather forecast',
-                        shortInfo: forecastDescription,
-                        url: 'http://sinoptik.bg/sofia-bulgaria-100727011?auto',
-                        image: null,
-                        dateTime: new Date().toDateString()
-                    }
-                ];
+                }
 
                 function getCurrentDayDescription() {
-                    return currentDate +
-                        'min: ' + currentDateMin.toString() + ' ' +
-                        'max: ' + currentDateMax.toString() + ' ' +
-                        getAverageDescription(currentDateForecasts);
+                    var itemSeparator = '  ',
+                        lineSeparator = '\r\n';
+                    return currentDate + itemSeparator +
+                        'min: ' + currentDateMin.toString() + itemSeparator +
+                        'max: ' + currentDateMax.toString() + itemSeparator +
+                        getAverageDescription(currentDateForecasts) + lineSeparator;
                 }
 
                 function getAverageDescription(weatherDescriptions) {
