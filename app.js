@@ -1,6 +1,6 @@
 ﻿var express = require('express'),
     schedule = require('node-schedule'),
-    cacheService = require('./cache-service.js')(),
+    cacheService = require('./common/cache-service.js')(),
     app = express(),
     dataCache = {
         news: null,

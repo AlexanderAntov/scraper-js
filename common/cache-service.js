@@ -1,13 +1,16 @@
 ﻿module.exports = function () {
-    var httpService = require('./http-service.js')();
+    var newYorkTimesService = require('../news/new-york-times/new-york-times-service.js')(),
+        theGuardianService = require('../news/the-guardian/the-guardian-service.js')(),
+        googleNewsService = require('../news/google-news/google-news-service.js')(),
+        heatingSupplyService = require('../technical/heating-supply/heating-supply-service.js')();
 
     return {
         news: function (cache) {
             var newsDataPromises = [
-                httpService.heatingSupply(),
-                httpService.newYorkTimes(),
-                httpService.googleNews(),
-                httpService.theGuardian()
+                heatingSupplyService.get(),
+                newYorkTimesService.get(),
+                googleNewsService.get(),
+                theGuardianService.get()
             ];
 
             Promise.all(newsDataPromises).then(function (dataModelLists) {
