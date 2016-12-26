@@ -10,7 +10,6 @@
 
             function dataTransformer(data) {
                 var articlesArray = [];
-                console.log(data);
                 data.response.results.forEach(function (newsItemData) {
                     articlesArray.push({
                         title: newsItemData.webTitle,

@@ -2,7 +2,8 @@
     var newYorkTimesService = require('../news/new-york-times/new-york-times-service.js')(),
         theGuardianService = require('../news/the-guardian/the-guardian-service.js')(),
         googleNewsService = require('../news/google-news/google-news-service.js')(),
-        heatingSupplyService = require('../technical/heating-supply/heating-supply-service.js')();
+        heatingSupplyService = require('../technical/heating-supply/heating-supply-service.js')(),
+        weatherService = require('../news/weather/weather-service.js')();
 
     return {
         news: function (cache) {
@@ -22,7 +23,7 @@
             });
         },
         weather: function (cache, city) {
-            httpService.weatherData(city).then(function (dataModelLists) {
+            weatherService.get(city).then(function (dataModelLists) {
                 var weatherModelsList = [];
                 dataModelLists.forEach(function (dataModelList) {
                     weatherModelsList = weatherModelsList.concat(dataModelList);
