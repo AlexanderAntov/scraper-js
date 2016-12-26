@@ -1,6 +1,7 @@
 ﻿module.exports = function () {
     var apiConstants = require('../../common/api-constants.js')(),
-        httpService = require('../../common/http-service.js')();
+        httpService = require('../../common/http-service.js')(),
+        weatherIconsConst = require('./weather-icons-const.js');
 
     return {
         get: function (cityName) {
@@ -16,6 +17,7 @@
                     currentDateMin,
                     currentDateMax,
                     currentDateForecasts = [],
+                    weatherCode,
                     tempDate;
 
                 data.list.forEach(processWeatherDataItem);
@@ -25,7 +27,7 @@
                         title: 'Weather forecast summarized',
                         shortInfo: forecastDescription,
                         url: 'http://sinoptik.bg/sofia-bulgaria-100727011?auto',
-                        image: null,
+                        image: process.env.APP_URL + weatherIconsConst[weatherCode],
                         dateTime: new Date().toDateString()
                     }
                 ];
@@ -38,6 +40,8 @@
                         if (currentDate) {
                             forecastDescription += getCurrentDayDescription();
                             currentDateForecasts = [];
+                        } else {
+                            weatherCode = weatherDataItem.weather[0].id;
                         }
 
                         currentDate = tempDate;

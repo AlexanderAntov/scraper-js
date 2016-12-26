@@ -13,12 +13,12 @@ app.get('/', function (req, res) {
     res.send('Welcome to Scraper API <br />' + 'Server time: ' + new Date().toString());
 });
 
-//news
+app.use('/static', express.static('resources'));
+
 app.get('/news', function (req, res) {
     res.send(dataCache.news);
 });
 
-//reset-cache
 app.get('/reset-cache', function (req, res) {
     setUpCache();
     res.send(true);
