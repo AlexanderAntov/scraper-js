@@ -56,10 +56,16 @@
                 function getCurrentDayDescription() {
                     var itemSeparator = '  ',
                         lineSeparator = '\r\n';
-                    return currentDate + itemSeparator +
-                        'min: ' + currentDateMin.toString() + itemSeparator +
-                        'max: ' + currentDateMax.toString() + itemSeparator +
-                        getAverageDescription(currentDateForecasts) + lineSeparator;
+                    return formatDate(currentDate) + itemSeparator +
+                        getAverageDescription(currentDateForecasts) + itemSeparator +
+                        Math.round(currentDateMin).toString() + ' / ' +
+                        Math.round(currentDateMax).toString() +
+                        lineSeparator;
+
+                    function formatDate(value) {
+                        var splittedDate = value.split('-').reverse();
+                        return splittedDate[0] + '-' + splittedDate[1];
+                    }
                 }
 
                 function getAverageDescription(weatherDescriptions) {
