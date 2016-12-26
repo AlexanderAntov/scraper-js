@@ -22,7 +22,7 @@
 
                 return [
                     {
-                        title: 'Weather forecast',
+                        title: 'Weather forecast summarized',
                         shortInfo: forecastDescription,
                         url: 'http://sinoptik.bg/sofia-bulgaria-100727011?auto',
                         image: null,
