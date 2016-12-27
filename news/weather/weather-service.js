@@ -82,9 +82,9 @@
                     return weatherDataItem.weather[0].description + itemSeparator +
                         Math.round(weatherDataItem.temp.min).toString() + ' / ' +
                         Math.round(weatherDataItem.temp.max).toString() + lineSeparator +
-                        'clouds %:' + weatherDataItem.clouds +
-                        'wind:' + weatherDataItem.speed + lineSeparator +
-                        'humidity:' + weatherDataItem.humidity;
+                        'clouds %: ' + weatherDataItem.clouds + lineSeparator +
+                        'wind: ' + weatherDataItem.speed + lineSeparator +
+                        'humidity: ' + weatherDataItem.humidity;
                 }
             }
         }
