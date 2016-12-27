@@ -8,7 +8,7 @@
     return {
         news: function (cache) {
             var newsDataPromises = [
-                weatherService.get('Sofia'),
+                weatherService.getSummary('Sofia'),
                 heatingSupplyService.get(),
                 newYorkTimesService.get(),
                 googleNewsService.get(),
@@ -21,6 +21,11 @@
                     newsModelsList = newsModelsList.concat(dataModelList);
                 });
                 cache.news = newsModelsList;
+            });
+        },
+        weather: function (cache) {
+            weatherService.getDetailedForecast('Sofia').then(function (dataModelList) {
+                cache.weather = dataModelList;
             });
         }
     };

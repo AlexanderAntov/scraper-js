@@ -4,21 +4,18 @@
         weatherIconsConst = require('./weather-icons-const.js');
 
     return {
-        get: function (cityName) {
+        getSummary: function (cityName) {
             var options = httpService.clone(apiConstants.weatherApi);
             options.path = options.path
                 .replace('{0}', cityName)
-                .replace('{1}', options.token);
+                .replace('{1}', 5)
+                .replace('{2}', options.token);
             return httpService.performGetRequest(options, dataTransformer);
 
             function dataTransformer(data) {
                 var forecastDescription = '',
-                    currentDate,
-                    currentDateMin,
-                    currentDateMax,
-                    currentDateForecasts = [],
                     weatherCode,
-                    tempDate;
+                    currentDate = new Date();
 
                 data.list.forEach(processWeatherDataItem);
 
@@ -33,67 +30,67 @@
                 ];
 
                 function processWeatherDataItem(weatherDataItem) {
-                    tempDate = weatherDataItem.dt_txt.split(' ')[0];
-                    currentDateForecasts.push(weatherDataItem.weather[0].description);
-
-                    if (tempDate !== currentDate) {
-                        if (currentDate) {
-                            forecastDescription += getCurrentDayDescription();
-                            currentDateForecasts = [];
-                        } else {
-                            weatherCode = weatherDataItem.weather[0].id;
-                        }
-
-                        currentDate = tempDate;
-                        currentDateMin = weatherDataItem.main.temp_min;
-                        currentDateMax = weatherDataItem.main.temp_max;
+                    if (!weatherCode) {
+                        weatherCode = weatherDataItem.weather[0].id;
                     }
-
-                    if (weatherDataItem.main.temp_min < currentDateMin) {
-                        currentDateMin = weatherDataItem.main.temp_min;
-                    }
-                    if (weatherDataItem.main.temp_max > currentDateMax) {
-                        currentDateMax = weatherDataItem.main.temp_max;
-                    }
+                    forecastDescription += getCurrentDayDescription(weatherDataItem);
+                    currentDate.setDate(currentDate.getDate() + 1);
                 }
 
-                function getCurrentDayDescription() {
+                function getCurrentDayDescription(weatherDataItem) {
                     var itemSeparator = '  ',
                         lineSeparator = '\r\n';
                     return formatDate(currentDate) + itemSeparator +
-                        getAverageDescription(currentDateForecasts) + itemSeparator +
-                        Math.round(currentDateMin).toString() + ' / ' +
-                        Math.round(currentDateMax).toString() +
+                        weatherDataItem.weather[0].description + itemSeparator +
+                        Math.round(weatherDataItem.temp.min).toString() + ' / ' +
+                        Math.round(weatherDataItem.temp.max).toString() +
                         lineSeparator;
-
-                    function formatDate(value) {
-                        var splittedDate = value.split('-').reverse();
-                        return splittedDate[0] + '-' + splittedDate[1];
-                    }
                 }
+            }
+        },
+        getDetailedForecast: function (cityName) {
+            var options = httpService.clone(apiConstants.weatherApi);
+            options.path = options.path
+                .replace('{0}', cityName)
+                .replace('{1}', 16)
+                .replace('{2}', options.token);
+            return httpService.performGetRequest(options, dataTransformer);
 
-                function getAverageDescription(weatherDescriptions) {
-                    var occurenceMap = {},
-                        maxOccurrences = 0,
-                        mostOftenDescription;
-                    weatherDescriptions.forEach(function (description) {
-                        if (!occurenceMap[description]) {
-                            occurenceMap[description] = 1;
-                        } else {
-                            occurenceMap[description]++;
-                        }
+            function dataTransformer(data) {
+                var currentDate = new Date(),
+                    weatherModelsList = [];
+
+                data.list.forEach(processWeatherDataItem);
+
+                return weatherModelsList;
+
+                function processWeatherDataItem(weatherDataItem) {
+                    weatherModelsList.push({
+                        title: 'Weather ' + formatDate(currentDate),
+                        shortInfo: getCurrentDayDescription(weatherDataItem),
+                        url: 'http://sinoptik.bg/sofia-bulgaria-100727011?auto',
+                        image: process.env.APP_URL + weatherIconsConst[weatherDataItem.weather[0].id],
+                        dateTime: ''
                     });
 
-                    for (var description in occurenceMap) {
-                        if (occurenceMap.hasOwnProperty(description) && occurenceMap[description] > maxOccurrences) {
-                            maxOccurrences = occurenceMap[description];
-                            mostOftenDescription = description;
-                        }
-                    }
+                    currentDate.setDate(currentDate.getDate() + 1);
+                }
 
-                    return mostOftenDescription;
+                function getCurrentDayDescription(weatherDataItem) {
+                    var itemSeparator = '  ',
+                        lineSeparator = '\r\n';
+                    return weatherDataItem.weather[0].description + itemSeparator +
+                        Math.round(weatherDataItem.temp.min).toString() + ' / ' +
+                        Math.round(weatherDataItem.temp.max).toString() + lineSeparator +
+                        'clouds %:' + weatherDataItem.clouds +
+                        'wind:' + weatherDataItem.speed + lineSeparator +
+                        'humidity:' + weatherDataItem.humidity;
                 }
             }
         }
     };
+
+    function formatDate(dateValue) {
+        return dateValue.getDate().toString() + '-' + (dateValue.getMonth() + 1).toString();
+    }
 };

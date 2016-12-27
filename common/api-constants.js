@@ -39,7 +39,7 @@
             isHttps: false,
             isApi: true,
             host: 'api.openweathermap.org',
-            path: '/data/2.5/forecast?q={0}&units=metric&mode=json&cnt=40&appid={1}',
+            path: '/data/2.5/forecast/daily?q={0}&units=metric&mode=json&cnt={1}&appid={2}',
             token: tokens.weatherApi
         },
         heatingSupply: {
