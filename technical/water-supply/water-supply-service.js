@@ -1,0 +1,30 @@
+﻿module.exports = function () {
+    var cheerio = require('cheerio'),
+        apiConstants = require('../../common/api-constants.js')(),
+        httpService = require('../../common/http-service.js')();
+
+    return {
+        get: function () {
+            var options = httpService.clone(apiConstants.waterSupply);
+            return httpService.performGetRequest(options, dataTransformer);
+
+            function dataTransformer(data) {
+                var $ = cheerio.load(data),
+                    articlesArray = [];
+                $('#article').find('p').each(function (index, elem) {
+                    var articleTextBody = $(elem).text();
+                    if (articleTextBody.toLowerCase().indexOf('красна поляна') > -1) {
+                        articlesArray.push({
+                            title: 'Water shortages',
+                            shortInfo: articleTextBody.substring(0, 200) + '...',
+                            url: 'http://' + options.host + options.path,
+                            image: null,
+                            dateTime: new Date().toDateString()
+                        });
+                    }
+                });
+                return articlesArray;
+            }
+        }
+    };
+};

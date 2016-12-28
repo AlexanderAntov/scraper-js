@@ -3,6 +3,7 @@
         theGuardianService = require('../news/the-guardian/the-guardian-service.js')(),
         googleNewsService = require('../news/google-news/google-news-service.js')(),
         heatingSupplyService = require('../technical/heating-supply/heating-supply-service.js')(),
+        waterSupplyService = require('../technical/water-supply/water-supply-service.js')(),
         weatherService = require('../news/weather/weather-service.js')();
 
     return {
@@ -10,6 +11,7 @@
             var newsDataPromises = [
                 weatherService.getSummary('Sofia'),
                 heatingSupplyService.get(),
+                waterSupplyService.get(),
                 newYorkTimesService.get(),
                 googleNewsService.get(),
                 theGuardianService.get()
