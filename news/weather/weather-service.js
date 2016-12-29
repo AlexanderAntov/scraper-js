@@ -1,7 +1,8 @@
 ﻿module.exports = function () {
     var apiConstants = require('../../common/api-constants.js')(),
         httpService = require('../../common/http-service.js')(),
-        weatherIconsConst = require('./weather-icons-const.js');
+        weatherIconsConst = require('./weather-icons-const.js'),
+        weatherForecastUrl = 'http://sinoptik.bg';
 
     return {
         getSummary: function (cityName) {
@@ -23,8 +24,8 @@
                     {
                         title: 'Weather forecast summarized',
                         shortInfo: forecastDescription,
-                        url: 'http://sinoptik.bg/sofia-bulgaria-100727011?auto',
-                        image: process.env.APP_URL + weatherIconsConst[weatherCode],
+                        url: weatherForecastUrl,
+                        image: (process.env.APP_URL || '') + weatherIconsConst[weatherCode],
                         dateTime: new Date().toDateString()
                     }
                 ];
@@ -68,7 +69,7 @@
                     weatherModelsList.push({
                         title: 'Weather ' + formatDate(currentDate),
                         shortInfo: getCurrentDayDescription(weatherDataItem),
-                        url: 'http://sinoptik.bg/sofia-bulgaria-100727011?auto',
+                        url: weatherForecastUrl,
                         image: process.env.APP_URL + weatherIconsConst[weatherDataItem.weather[0].id],
                         dateTime: ''
                     });
@@ -84,7 +85,7 @@
                         Math.round(weatherDataItem.temp.max).toString() + lineSeparator +
                         'clouds %: ' + weatherDataItem.clouds + lineSeparator +
                         'wind: ' + weatherDataItem.speed + lineSeparator +
-                        'humidity: ' + weatherDataItem.humidity;
+                        'humidity %: ' + weatherDataItem.humidity;
                 }
             }
         }

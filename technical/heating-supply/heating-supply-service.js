@@ -4,7 +4,7 @@
         httpService = require('../../common/http-service.js')();
 
     return {
-        get: function () {
+        get: function (targetKeyword) {
             var options = httpService.clone(apiConstants.heatingSupply);
             return httpService.performGetRequest(options, dataTransformer);
 
@@ -14,7 +14,7 @@
                 $('.RowsContainer').eq(0).find('.DataContainer.LeadingInfo.RowEntry').each(function (index, elem) {
                     var articleContainer = $(elem),
                         articleTextBody = articleContainer.find('.Data > .Content').text();
-                    if (articleTextBody.toLowerCase().indexOf('красна поляна') > -1) {
+                    if (articleTextBody.toLowerCase().indexOf(targetKeyword.toLowerCase()) > -1) {
                         var dateContainer = articleContainer.find('.Title > .Info');
                         articlesArray.push({
                             title: articleContainer.find('.Table > .Cell').text().trim().replace('/n', ''),

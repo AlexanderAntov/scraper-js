@@ -3,6 +3,9 @@
     "start": "node app.js"
   },
   "main": "app.js",
+  "engines": {
+    "node": "6.x"
+  },
   "dependencies": {
     "cheerio": "^0.22.0",
     "express": "^4.14.0",

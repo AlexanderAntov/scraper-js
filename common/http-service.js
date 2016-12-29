@@ -3,13 +3,9 @@
         https = require('https');
 
     return {
-        clone: clone,
+        clone: obj => JSON.parse(JSON.stringify(obj)),
         performGetRequest: performGetRequest
     };
-
-    function clone(obj) {
-        return JSON.parse(JSON.stringify(obj));
-    }
 
     function performGetRequest(options, dataTransformer) {
         var httpService = options.isHttps ? https : http;

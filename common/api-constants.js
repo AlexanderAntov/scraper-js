@@ -2,7 +2,6 @@
     var fs = require('fs'),
         tokensFilePath = require('path').resolve(__dirname, 'tokens.json'),
         tokens;
-    //used to retrieve the local config file
     if (fs.existsSync(tokensFilePath)) {
         tokens = require(tokensFilePath);
     } else {
