@@ -34,6 +34,13 @@
             path: '/news?cf=all&hl=bg&pz=1&ned=bg_bg&output=rss',
             token: null
         },
+        cnn: {
+            isHttps: false,
+            isApi: false,
+            host: 'rss.cnn.com',
+            path: '/rss/edition.rss',
+            token: null
+        },
         weatherApi: {
             isHttps: false,
             isApi: true,

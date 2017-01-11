@@ -3,6 +3,7 @@
         newYorkTimesService = require('../news/new-york-times/new-york-times-service.js')(),
         theGuardianService = require('../news/the-guardian/the-guardian-service.js')(),
         googleNewsService = require('../news/google-news/google-news-service.js')(),
+        cnnNewsService = require('../news/cnn/cnn-news-service.js')()
         heatingSupplyService = require('../technical/heating-supply/heating-supply-service.js')(),
         waterSupplyService = require('../technical/water-supply/water-supply-service.js')(),
         weatherService = require('../news/weather/weather-service.js')();
@@ -24,8 +25,9 @@
                 weatherService.getSummary(config.cityName),
                 heatingSupplyService.get(config.suppliersKeyword),
                 waterSupplyService.get(config.suppliersKeyword),
-                newYorkTimesService.get(),
                 googleNewsService.get(),
+                cnnNewsService.get(),
+                newYorkTimesService.get(),
                 theGuardianService.get()
             ];
 
