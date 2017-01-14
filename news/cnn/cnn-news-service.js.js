@@ -12,13 +12,17 @@
                 var articlesArray = [];
                 parseXMLString(data, function (err, result) {
                     result.rss.channel[0].item.forEach(function (newsItemData) {
-                        articlesArray.push({
+                        var currentNewsModel = {
                             title: newsItemData.title[0],
                             shortInfo: newsItemData.description ? newsItemData.description[0] : '',
                             url: newsItemData.link[0],
-                            image: newsItemData['media:group'] ? newsItemData['media:group'][0]['media:content'][0]['$'].url : null,
+                            image: null,//newsItemData['media:group'] ? newsItemData['media:group'][0]['media:content'][0]['$'].url : null
                             dateTime: newsItemData.pubDate ? newsItemData.pubDate[0] : ''
-                        });
+                        };
+
+                        if (currentNewsModel.shortInfo) {
+                            articlesArray.push(currentNewsModel);
+                        }
                     });
                 });
                 return articlesArray;
