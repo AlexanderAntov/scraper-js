@@ -26,7 +26,8 @@
                         shortInfo: forecastDescription,
                         url: weatherForecastUrl,
                         image: (process.env.APP_URL || '') + weatherIconsConst[weatherCode],
-                        dateTime: new Date().toDateString()
+                        dateTime: new Date().toDateString(),
+                        provider: null
                     }
                 ];
 
@@ -71,7 +72,8 @@
                         shortInfo: getCurrentDayDescription(weatherDataItem),
                         url: weatherForecastUrl,
                         image: process.env.APP_URL + weatherIconsConst[weatherDataItem.weather[0].id],
-                        dateTime: ''
+                        dateTime: '',
+                        provider: null
                     });
 
                     currentDate.setDate(currentDate.getDate() + 1);

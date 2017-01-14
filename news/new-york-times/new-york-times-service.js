@@ -16,7 +16,8 @@
                         shortInfo: newsItemData.abstract,
                         url: newsItemData.url,
                         image: getImageUrl(newsItemData),
-                        dateTime: newsItemData['published_date'].replace('T', ' ').split(' ')[0]
+                        dateTime: newsItemData['published_date'].replace('T', ' ').split(' ')[0],
+                        provider: 'nyt'
                     });
                 });
                 return articlesArray;

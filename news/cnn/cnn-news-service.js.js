@@ -17,7 +17,8 @@
                             shortInfo: newsItemData.description ? newsItemData.description[0] : '',
                             url: newsItemData.link[0],
                             image: null,//newsItemData['media:group'] ? newsItemData['media:group'][0]['media:content'][0]['$'].url : null
-                            dateTime: newsItemData.pubDate ? newsItemData.pubDate[0] : ''
+                            dateTime: newsItemData.pubDate ? newsItemData.pubDate[0] : '',
+                            provider: 'cnn'
                         };
 
                         if (currentNewsModel.shortInfo) {

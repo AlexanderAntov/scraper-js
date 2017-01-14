@@ -16,7 +16,8 @@
                         shortInfo: getShortInfo(newsItemData),
                         url: newsItemData.webUrl,
                         image: null,
-                        dateTime: getDateTime(newsItemData)
+                        dateTime: getDateTime(newsItemData),
+                        provider: 'guardian'
                     });
                 });
                 return articlesArray;

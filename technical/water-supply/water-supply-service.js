@@ -19,7 +19,8 @@
                             shortInfo: articleTextBody.substring(0, 200) + '...',
                             url: 'http://' + options.host + options.path,
                             image: null,
-                            dateTime: new Date().toDateString()
+                            dateTime: new Date().toDateString(),
+                            provider: null
                         });
                     }
                 });

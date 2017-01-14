@@ -1,4 +1,5 @@
-﻿var express = require('express'),
+﻿var _ = require('lodash'),
+    express = require('express'),
     schedule = require('node-schedule'),
     cacheService = require('./common/cache-service.js')(),
     app = express(),
@@ -17,6 +18,14 @@ app.use('/static', express.static('resources'));
 
 app.get('/news', function (req, res) {
     res.send(dataCache.news);
+});
+
+app.get('/news/:provider', function (req, res) {
+    if (req.params.provider) {
+        res.send(_.filter(dataCache.news, { provider: req.params.provider }));
+    } else {
+        res.send(dataCache.news);
+    }
 });
 
 app.get('/weather', function (req, res) {

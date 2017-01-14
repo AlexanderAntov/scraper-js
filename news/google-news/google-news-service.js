@@ -18,7 +18,8 @@
                             shortInfo: newsItemData.description[0].replace(/<(?:.|\n)*?>/gm, '').substring(0, 150) + '...',
                             url: newsItemData.link[0],
                             image: null,
-                            dateTime: newsItemData.pubDate[0]
+                            dateTime: newsItemData.pubDate[0],
+                            provider: 'google'
                         });
                     });
                 });
