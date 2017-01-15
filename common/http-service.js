@@ -10,8 +10,8 @@
     function performGetRequest(options, dataTransformer) {
         var httpService = options.isHttps ? https : http;
         return new Promise(function (resolve, reject) {
-            var result = '';
-            var request = httpService.request(options, callback);
+            var result = '',
+                request = httpService.request(options, callback);
 
             function callback(response) {
                 response.setEncoding('utf8');
