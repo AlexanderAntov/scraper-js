@@ -17,15 +17,25 @@ app.get('/', function (req, res) {
 app.use('/static', express.static('resources'));
 
 app.get('/news', function (req, res) {
-    res.send(dataCache.news);
+    var responseNewsList = _.cloneDeep(dataCache.news);
+    if (!_.isUndefined(req.query.skip) && !_.isUndefined(req.query.take)) {
+        responseNewsList = _.take(_.drop(responseNewsList, req.query.skip), req.query.take);
+    }
+    if (!req.query.images) {
+        responseNewsList = getListNoImages(responseNewsList);
+    }
+    res.send(responseNewsList);
 });
 
 app.get('/news/:provider', function (req, res) {
+    var responseNewsList = _.cloneDeep(dataCache.news);
     if (req.params.provider) {
-        res.send(_.filter(dataCache.news, { provider: req.params.provider }));
-    } else {
-        res.send(dataCache.news);
+        responseNewsList = _.filter(dataCache.news, { provider: req.params.provider });
     }
+    if (!req.query.images) {
+        responseNewsList = getListNoImages(responseNewsList);
+    }
+    res.send(responseNewsList);
 });
 
 app.get('/weather', function (req, res) {
@@ -52,4 +62,13 @@ function setUpSchedule() {
 function setUpCache() {
     cacheService.news(dataCache);
     cacheService.weather(dataCache);
+}
+
+function getListNoImages(list) {
+    return _.map(list, function (item) {
+        if (item.provider) {
+            item.image = null;
+        }
+        return item;
+    });
 }

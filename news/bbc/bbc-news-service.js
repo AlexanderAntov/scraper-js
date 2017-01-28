@@ -5,7 +5,6 @@
 
     return {
         get: function () {
-            console.log(apiConstants.bbc);
             var options = httpService.clone(apiConstants.bbc);
             return httpService.performGetRequest(options, dataTransformer);
 
@@ -18,7 +17,7 @@
                                 title: newsItemData.title[0],
                                 shortInfo: newsItemData.description ? newsItemData.description[0] : '',
                                 url: newsItemData.link[0],
-                                image: null,//newsItemData['media:thumbnail'][0]['$'].url
+                                image: newsItemData['media:thumbnail'][0]['$'].url,
                                 dateTime: newsItemData.pubDate ? newsItemData.pubDate[0] : '',
                                 provider: 'bbc'
                             });
