@@ -10,11 +10,16 @@
 
 setUpSchedule();
 
+app.use('/static', express.static('resources'));
+app.use(function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET');
+    next();
+});
+
 app.get('/', function (req, res) {
     res.send('Welcome to Scraper API <br />' + 'Server time: ' + new Date().toString());
 });
-
-app.use('/static', express.static('resources'));
 
 app.get('/news', function (req, res) {
     var responseNewsList = _.cloneDeep(dataCache.news);
