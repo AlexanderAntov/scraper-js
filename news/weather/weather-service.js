@@ -2,7 +2,7 @@
     var apiConstants = require('../../common/api-constants.js')(),
         httpService = require('../../common/http-service.js')(),
         weatherIconsConst = require('./weather-icons-const.js'),
-        weatherForecastUrl = 'http://sinoptik.bg';
+        weatherForecastUrl = 'https://scraper-web.herokuapp.com/index.html#!/weather-line-chart';
 
     return {
         getSummary: function (cityName) {
@@ -64,7 +64,10 @@
 
                 data.list.forEach(processWeatherDataItem);
 
-                return weatherModelsList;
+                return {
+                    rawData: data,
+                    mappedData: weatherModelsList
+                };
 
                 function processWeatherDataItem(weatherDataItem) {
                     weatherModelsList.push({
