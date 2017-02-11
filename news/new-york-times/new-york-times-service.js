@@ -13,7 +13,7 @@
                 data.results.forEach(function (newsItemData) {
                     articlesArray.push({
                         title: newsItemData.title,
-                        shortInfo: newsItemData.abstract,
+                        shortInfo: httpService.trim(newsItemData.abstract),
                         url: newsItemData.url,
                         image: getImageUrl(newsItemData),
                         dateTime: newsItemData['published_date'].replace('T', ' ').split(' ')[0],

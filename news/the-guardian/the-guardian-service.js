@@ -24,7 +24,7 @@
 
                 function getShortInfo(data) {
                     if (data.blocks && data.blocks.body && data.blocks.body.length > 0) {
-                        return data.blocks.body[0].bodyTextSummary.substring(0, 200) + '...';
+                        return httpService.trim(data.blocks.body[0].bodyTextSummary);
                     }
                     return null;
                 }

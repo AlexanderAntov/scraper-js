@@ -4,6 +4,7 @@
 
     return {
         clone: obj => JSON.parse(JSON.stringify(obj)),
+        trim: str => str && str.length > 150 ? str.substring(0, 150) + '...' : str,
         performGetRequest: performGetRequest
     };
 

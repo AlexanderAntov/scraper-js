@@ -15,7 +15,7 @@
                     result.rss.channel[0].item.forEach(function (newsItemData) {
                         articlesArray.push({
                             title: newsItemData.title[0],
-                            shortInfo: newsItemData.description[0].replace(/<(?:.|\n)*?>/gm, '').substring(0, 150) + '...',
+                            shortInfo: httpService.trim(newsItemData.description[0].replace(/<(?:.|\n)*?>/gm, '')),
                             url: newsItemData.link[0],
                             image: null,
                             dateTime: newsItemData.pubDate[0],
