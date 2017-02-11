@@ -5,7 +5,8 @@
     app = express(),
     dataCache = {
         news: null,
-        weather: null
+        weather: null,
+        weatherRaw: null
     };
 
 setUpSchedule();
@@ -45,6 +46,10 @@ app.get('/news/:provider', function (req, res) {
 
 app.get('/weather', function (req, res) {
     res.send(dataCache.weather);
+});
+
+app.get('/weather-raw', function (req, res) {
+    res.send(dataCache.weatherRaw);
 });
 
 app.get('/reset-cache', function (req, res) {

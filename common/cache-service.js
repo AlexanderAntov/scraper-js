@@ -42,8 +42,9 @@
             });
         },
         weather: function (cache) {
-            weatherService.getDetailedForecast(config.cityName).then(function (dataModelList) {
-                cache.weather = dataModelList;
+            weatherService.getDetailedForecast(config.cityName).then(function (data) {
+                cache.weather = data.mappedData;
+                cache.weatherRaw = data.rawData;
             });
         }
     };
