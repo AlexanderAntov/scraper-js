@@ -2,6 +2,7 @@
     express = require('express'),
     schedule = require('node-schedule'),
     cacheService = require('./common/cache-service.js')(),
+    weatherService = require('./news/weather/weather-service.js')()
     app = express(),
     dataCache = {
         news: null,
@@ -49,7 +50,13 @@ app.get('/weather', function (req, res) {
 });
 
 app.get('/weather-raw', function (req, res) {
-    res.send(dataCache.weatherRaw);
+    if (req.query.city) {
+        weatherService.getDetailedForecast(req.query.city).then(function (weatherData) {
+            res.send(weatherData.rawData);
+        });
+    } else {
+        res.send(dataCache.weatherRaw);
+    }
 });
 
 app.get('/reset-cache', function (req, res) {
