@@ -1,6 +1,7 @@
 ﻿module.exports = function () {
     var apiConstants = require('../../common/api-constants.js')(),
-        httpService = require('../../common/http-service.js')();
+        httpService = require('../../common/http-service.js')(),
+        newsModelFactory = require('../../common/news-model-factory.js')();
 
     return {
         get: function () {
@@ -11,14 +12,14 @@
             function dataTransformer(data) {
                 var articlesArray = [];
                 data.results.forEach(function (newsItemData) {
-                    articlesArray.push({
+                    articlesArray.push(newsModelFactory.get({
                         title: newsItemData.title,
                         shortInfo: httpService.trim(newsItemData.abstract),
                         url: newsItemData.url,
                         image: getImageUrl(newsItemData),
                         dateTime: newsItemData['published_date'].replace('T', ' ').split(' ')[0],
                         provider: 'nyt'
-                    });
+                    }));
                 });
                 return articlesArray;
 

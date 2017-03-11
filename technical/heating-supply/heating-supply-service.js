@@ -1,7 +1,8 @@
 ﻿module.exports = function () {
     var cheerio = require('cheerio'),
         apiConstants = require('../../common/api-constants.js')(),
-        httpService = require('../../common/http-service.js')();
+        httpService = require('../../common/http-service.js')(),
+        newsModelFactory = require('../../common/news-model-factory.js')();
 
     return {
         get: function (targetKeyword) {
@@ -16,14 +17,14 @@
                         articleTextBody = articleContainer.find('.Data > .Content').text();
                     if (articleTextBody.toLowerCase().indexOf(targetKeyword.toLowerCase()) > -1) {
                         var dateContainer = articleContainer.find('.Title > .Info');
-                        articlesArray.push({
+                        articlesArray.push(newsModelFactory.get({
                             title: articleContainer.find('.Table > .Cell').text().trim().replace('/n', ''),
                             shortInfo: articleTextBody.substring(0, 200) + '...',
                             url: 'http://' + options.host + articleContainer.find('.Button.FRight').attr('href'),
                             image: null,
                             dateTime: dateContainer.find('.Value').text() + ' ' + dateContainer.find('.Desc').text(),
                             provider: null
-                        });
+                        }));
                     }
                 });
                 return articlesArray;

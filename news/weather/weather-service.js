@@ -2,6 +2,7 @@
     var apiConstants = require('../../common/api-constants.js')(),
         httpService = require('../../common/http-service.js')(),
         weatherIconsConst = require('./weather-icons-const.js'),
+        newsModelFactory = require('../../common/news-model-factory.js')(),
         weatherForecastUrl = 'https://scraper-web.herokuapp.com/index.html#!/weather-line-chart';
 
     return {
@@ -21,14 +22,14 @@
                 data.list.forEach(processWeatherDataItem);
 
                 return [
-                    {
+                    newsModelFactory.get({
                         title: 'Weather forecast summarized',
                         shortInfo: forecastDescription,
                         url: weatherForecastUrl,
                         image: (process.env.APP_URL || '') + weatherIconsConst[weatherCode],
                         dateTime: new Date().toDateString(),
                         provider: null
-                    }
+                    })
                 ];
 
                 function processWeatherDataItem(weatherDataItem) {
@@ -70,14 +71,14 @@
                 };
 
                 function processWeatherDataItem(weatherDataItem) {
-                    weatherModelsList.push({
+                    weatherModelsList.push(newsModelFactory.get({
                         title: 'Weather ' + formatDate(currentDate),
                         shortInfo: getCurrentDayDescription(weatherDataItem),
                         url: weatherForecastUrl,
                         image: process.env.APP_URL + weatherIconsConst[weatherDataItem.weather[0].id],
                         dateTime: '',
                         provider: null
-                    });
+                    }));
 
                     currentDate.setDate(currentDate.getDate() + 1);
                 }

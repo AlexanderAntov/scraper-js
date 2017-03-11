@@ -1,7 +1,8 @@
 ﻿module.exports = function () {
     var parseXMLString = require('xml2js').parseString,
         apiConstants = require('../../common/api-constants.js')(),
-        httpService = require('../../common/http-service.js')();
+        httpService = require('../../common/http-service.js')(),
+        newsModelFactory = require('../../common/news-model-factory.js')();
 
     return {
         get: function () {
@@ -22,7 +23,7 @@
                         };
 
                         if (currentNewsModel.shortInfo) {
-                            articlesArray.push(currentNewsModel);
+                            articlesArray.push(newsModelFactory.get(currentNewsModel));
                         }
                     });
                 });
