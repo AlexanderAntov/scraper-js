@@ -17,7 +17,7 @@
                     if (articleTextBody.toLowerCase().indexOf(targetKeyword.toLowerCase()) > -1) {
                         articlesArray.push(newsModelFactory.get({
                             title: 'Water shortages',
-                            shortInfo: articleTextBody.substring(0, 200) + '...',
+                            info: articleTextBody.substring(0, 200) + '...',
                             url: 'http://' + options.host + options.path,
                             image: null,
                             dateTime: new Date().toDateString(),

@@ -15,14 +15,14 @@
                     result.rss.channel[0].item.forEach(function (newsItemData) {
                         var currentNewsModel = {
                             title: newsItemData.title[0],
-                            shortInfo: httpService.trim(newsItemData.description ? newsItemData.description[0] : ''),
+                            info: httpService.trim(newsItemData.description ? newsItemData.description[0] : ''),
                             url: newsItemData.link[0],
                             image: newsItemData['media:group'] ? newsItemData['media:group'][0]['media:content'][0]['$'].url : null,
                             dateTime: newsItemData.pubDate ? newsItemData.pubDate[0] : '',
                             provider: 'cnn'
                         };
 
-                        if (currentNewsModel.shortInfo) {
+                        if (currentNewsModel.info) {
                             articlesArray.push(newsModelFactory.get(currentNewsModel));
                         }
                     });

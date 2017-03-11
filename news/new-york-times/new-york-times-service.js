@@ -14,7 +14,7 @@
                 data.results.forEach(function (newsItemData) {
                     articlesArray.push(newsModelFactory.get({
                         title: newsItemData.title,
-                        shortInfo: httpService.trim(newsItemData.abstract),
+                        info: httpService.trim(newsItemData.abstract),
                         url: newsItemData.url,
                         image: getImageUrl(newsItemData),
                         dateTime: newsItemData['published_date'].replace('T', ' ').split(' ')[0],

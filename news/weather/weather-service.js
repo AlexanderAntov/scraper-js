@@ -24,7 +24,7 @@
                 return [
                     newsModelFactory.get({
                         title: 'Weather forecast summarized',
-                        shortInfo: forecastDescription,
+                        info: forecastDescription,
                         url: weatherForecastUrl,
                         image: (process.env.APP_URL || '') + weatherIconsConst[weatherCode],
                         dateTime: new Date().toDateString(),
@@ -73,7 +73,7 @@
                 function processWeatherDataItem(weatherDataItem) {
                     weatherModelsList.push(newsModelFactory.get({
                         title: 'Weather ' + formatDate(currentDate),
-                        shortInfo: getCurrentDayDescription(weatherDataItem),
+                        info: getCurrentDayDescription(weatherDataItem),
                         url: weatherForecastUrl,
                         image: process.env.APP_URL + weatherIconsConst[weatherDataItem.weather[0].id],
                         dateTime: '',

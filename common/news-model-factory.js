@@ -3,7 +3,7 @@
         get: function (data) {
             return {
                 title: data.title,
-                shortInfo: data.shortInfo,
+                info: data.info,
                 url: data.url,
                 image: data.image,
                 dateTime: data.dateTime,
