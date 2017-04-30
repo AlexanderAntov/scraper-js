@@ -7,7 +7,9 @@
         bbcNewsService = require('../news/bbc/bbc-news-service.js')(),
         heatingSupplyService = require('../technical/heating-supply/heating-supply-service.js')(),
         waterSupplyService = require('../technical/water-supply/water-supply-service.js')(),
-        weatherService = require('../news/weather/weather-service.js')();
+        weatherService = require('../news/weather/weather-service.js')(),
+        techCrunchNewsService = require('../news/tech-and-science/techcrunch/techcrunch-news-service.js')(),
+        scienceMagNewsService = require('../news/tech-and-science/sciencemag/sciencemag-news-service.js')();
 
     var configFilePath = require('path').resolve(__dirname, 'config.json'),
         config;
@@ -23,6 +25,7 @@
     return {
         news: function (cache) {
             var newsDataPromises = [
+                /*
                 weatherService.getSummary(config.cityName),
                 heatingSupplyService.get(config.suppliersKeyword),
                 waterSupplyService.get(config.suppliersKeyword),
@@ -31,6 +34,12 @@
                 newYorkTimesService.get(),
                 bbcNewsService.get(),
                 theGuardianService.get()
+                */
+            ];
+
+            var techAndScienceNewsPromises = [
+                techCrunchNewsService.get(),
+                scienceMagNewsService.get()
             ];
 
             Promise.all(newsDataPromises).then(function (dataModelLists) {
@@ -39,6 +48,14 @@
                     newsModelsList = newsModelsList.concat(dataModelList);
                 });
                 cache.news = newsModelsList;
+            });
+
+            Promise.all(techAndScienceNewsPromises).then(function (dataModelLists) {
+                var newsModelsList = [];
+                dataModelLists.forEach(function (dataModelList) {
+                    newsModelsList = newsModelsList.concat(dataModelList);
+                });
+                cache.techAndScience = newsModelsList;
             });
         },
         weather: function (cache) {

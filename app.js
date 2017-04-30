@@ -6,6 +6,7 @@
     app = express(),
     dataCache = {
         news: null,
+        techAndScience: null,
         weather: null,
         weatherRaw: null
     };
@@ -43,6 +44,10 @@ app.get('/news/:provider', function (req, res) {
         responseNewsList = getListNoImages(responseNewsList);
     }
     res.send(responseNewsList);
+});
+
+app.get('/tech-and-science', function (req, res) {
+    res.send(dataCache.techAndScience);
 });
 
 app.get('/weather', function (req, res) {
