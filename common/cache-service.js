@@ -25,7 +25,6 @@
     return {
         news: function (cache) {
             var newsDataPromises = [
-                /*
                 weatherService.getSummary(config.cityName),
                 heatingSupplyService.get(config.suppliersKeyword),
                 waterSupplyService.get(config.suppliersKeyword),
@@ -34,7 +33,6 @@
                 newYorkTimesService.get(),
                 bbcNewsService.get(),
                 theGuardianService.get()
-                */
             ];
 
             var techAndScienceNewsPromises = [
