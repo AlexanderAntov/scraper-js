@@ -65,8 +65,12 @@ app.get('/weather-raw', function (req, res) {
 });
 
 app.get('/reset-cache', function (req, res) {
-    setUpCache();
-    res.send(true);
+    if (req.query.token === process.env.AUTH_TOKEN) {
+        setUpCache();
+        res.send(true);
+    } else {
+        res.send(false);
+    }
 });
 
 app.set('port', process.env.PORT || 8080);
