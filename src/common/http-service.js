@@ -1,5 +1,5 @@
-﻿module.exports = function () {
-    var http = require('http'),
+﻿function http() {
+    const http = require('http'),
         https = require('https');
 
     return {
@@ -9,9 +9,9 @@
     };
 
     function performGetRequest(options, dataTransformer) {
-        var httpService = options.isHttps ? https : http;
+        const httpService = options.isHttps ? https : http;
         return new Promise(function (resolve, reject) {
-            var result = '',
+            let result = '',
                 request = httpService.request(options, callback);
 
             function callback(response) {
@@ -36,4 +36,6 @@
             request.end();
         });
     }
-};
+}
+
+module.exports = http();

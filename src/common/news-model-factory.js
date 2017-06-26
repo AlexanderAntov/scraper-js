@@ -1,4 +1,4 @@
-﻿module.exports = function () {
+﻿function newsModelFactory() {
     return {
         get: function (data) {
             return {
@@ -11,4 +11,6 @@
             };
         }
     };
-};
+}
+
+module.exports = newsModelFactory();

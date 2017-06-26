@@ -1,3 +1,4 @@
 node_modules/
-common/tokens.json
-common/config.json
+dist/
+src/common/tokens.json
+src/common/config.json

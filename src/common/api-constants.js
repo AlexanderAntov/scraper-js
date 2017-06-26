@@ -1,7 +1,8 @@
-﻿module.exports = function () {
-    var fs = require('fs'),
-        tokensFilePath = require('path').resolve(__dirname, 'tokens.json'),
-        tokens;
+﻿import * as fs from 'fs';
+
+function apiConstants() {
+    const tokensFilePath = require('path').resolve(__dirname, 'tokens.json');
+    let tokens;
     if (fs.existsSync(tokensFilePath)) {
         tokens = require(tokensFilePath);
     } else {
@@ -89,4 +90,6 @@
         skyNews: null,
         facebookFeed: null
     };
-};
+}
+
+module.exports = apiConstants();

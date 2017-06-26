@@ -1,9 +1,10 @@
-﻿var _ = require('lodash'),
-    express = require('express'),
-    schedule = require('node-schedule'),
-    cacheService = require('./common/cache-service.js')(),
-    weatherService = require('./news/weather/weather-service.js')()
-    app = express(),
+﻿import * as _ from 'lodash';
+import express from 'express';
+import schedule from 'node-schedule';
+import cacheService from './common/cache-service.js';
+import weatherService from './news/weather/weather-service.js';
+
+var app = express(),
     dataCache = {
         news: null,
         techAndScience: null,
@@ -56,7 +57,7 @@ app.get('/weather', function (req, res) {
 
 app.get('/weather-raw', function (req, res) {
     if (req.query.city) {
-        weatherService.getDetailedForecast(req.query.city).then(function (weatherData) {
+        new weatherService().getDetailedForecast(req.query.city).then(function (weatherData) {
             res.send(weatherData.rawData);
         });
     } else {
