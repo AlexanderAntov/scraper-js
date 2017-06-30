@@ -2,8 +2,7 @@
   "name": "scraper-api",
   "version": "1.0.1",
   "scripts": {
-    "heroku-prebuild": "node clean.js && babel src -d dist && node copy.js",
-    "start": "node dist/app.js"
+    "start": "node clean.js && babel src -d dist && node copy.js && node dist/app.js"
   },
   "main": "dist/app.js",
   "engines": {
