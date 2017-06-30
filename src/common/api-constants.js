@@ -1,4 +1,5 @@
 ﻿import * as fs from 'fs';
+import path from 'path';
 
 function apiConstants() {
     const tokensFilePath = require('path').resolve(__dirname, 'tokens.json');

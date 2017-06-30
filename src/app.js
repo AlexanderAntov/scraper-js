@@ -1,4 +1,5 @@
 ﻿import * as _ from 'lodash';
+import path from 'path';
 import express from 'express';
 import schedule from 'node-schedule';
 import cacheService from './common/cache-service.js';
@@ -14,7 +15,7 @@ let app = express(),
 
 setUpSchedule();
 
-app.use('/static', express.static('resources'));
+app.use('/static', express.static(path.join(__dirname, 'resources')));
 app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET');
