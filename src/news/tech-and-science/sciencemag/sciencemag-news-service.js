@@ -1,7 +1,7 @@
 ﻿import xml2js from 'xml2js';
 import { apiConstants, httpService, newsModelFactory } from '../../../common/common.js';
 
-class ScienceMagNews {
+export default class ScienceMagNews {
     get() {
         let options = httpService.clone(apiConstants.scienceMag);
         return httpService.performGetRequest(options, dataTransformer);
@@ -37,5 +37,3 @@ class ScienceMagNews {
         }
     }
 }
-
-module.exports = ScienceMagNews;

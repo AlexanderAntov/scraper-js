@@ -4,7 +4,7 @@ import schedule from 'node-schedule';
 import cacheService from './common/cache-service.js';
 import weatherService from './news/weather/weather-service.js';
 
-var app = express(),
+let app = express(),
     dataCache = {
         news: null,
         techAndScience: null,
@@ -26,7 +26,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/news', function (req, res) {
-    var responseNewsList = _.cloneDeep(dataCache.news);
+    let responseNewsList = _.cloneDeep(dataCache.news);
     if (!_.isUndefined(req.query.skip) && !_.isUndefined(req.query.take)) {
         responseNewsList = _.take(_.drop(responseNewsList, req.query.skip), req.query.take);
     }
@@ -37,7 +37,7 @@ app.get('/news', function (req, res) {
 });
 
 app.get('/news/:provider', function (req, res) {
-    var responseNewsList = _.cloneDeep(dataCache.news);
+    let responseNewsList = _.cloneDeep(dataCache.news);
     if (req.params.provider) {
         responseNewsList = _.filter(dataCache.news, { provider: req.params.provider });
     }
@@ -81,7 +81,7 @@ app.listen(app.get('port'), function () {
 });
 
 function setUpSchedule() {
-    var serverTimeOffset = -(new Date().getTimezoneOffset() / 60 + 2);
+    let serverTimeOffset = -(new Date().getTimezoneOffset() / 60 + 2);
     schedule.scheduleJob({ hour: 7 + serverTimeOffset }, setUpCache);
     schedule.scheduleJob({ hour: 17 + serverTimeOffset }, setUpCache);
 }

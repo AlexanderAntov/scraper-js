@@ -1,7 +1,7 @@
 ﻿import xml2js from 'xml2js';
 import { apiConstants, httpService, newsModelFactory } from '../../common/common.js';
 
-class GoogleNews {
+export default class GoogleNews {
     get() {
         const options = httpService.clone(apiConstants.googleNews);
         return httpService.performGetRequest(options, dataTransformer);
@@ -25,5 +25,3 @@ class GoogleNews {
         }
     }
 }
-
-module.exports = GoogleNews;

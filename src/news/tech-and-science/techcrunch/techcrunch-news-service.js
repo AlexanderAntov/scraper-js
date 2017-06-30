@@ -2,7 +2,7 @@
 import cheerio from 'cheerio';
 import { apiConstants, httpService, newsModelFactory } from '../../../common/common.js';
 
-class TechCrunchNews {
+export default class TechCrunchNews {
     get() {
         const parseXMLString = require('xml2js').parseString,
             options = httpService.clone(apiConstants.techCrunch);
@@ -36,5 +36,3 @@ class TechCrunchNews {
         }
     }
 }
-
-module.exports = TechCrunchNews;

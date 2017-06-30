@@ -1,7 +1,7 @@
 ﻿import { apiConstants, httpService, newsModelFactory } from '../../common/common.js';
 import weatherIconsConst from './weather-icons-const.js';
 
-class Weather {
+export default class Weather {
     getSummary(cityName) {
         let options = httpService.clone(apiConstants.weatherApi);
         options.path = options.path

@@ -1,7 +1,7 @@
 ﻿import xml2js from 'xml2js';
 import { apiConstants, httpService, newsModelFactory } from '../../common/common.js';
 
-class BbcNews {
+export default class BbcNews {
     get() {
         const options = httpService.clone(apiConstants.bbc);
         return httpService.performGetRequest(options, dataTransformer);
@@ -24,5 +24,3 @@ class BbcNews {
         }
     }
 }
-
-module.exports = BbcNews;

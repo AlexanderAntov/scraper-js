@@ -1,7 +1,7 @@
 ﻿import xml2js from 'xml2js';
 import { apiConstants, httpService, newsModelFactory } from '../../common/common.js';
 
-class CnnNews {
+export default class CnnNews {
     get() {
         const options = httpService.clone(apiConstants.cnn);
         return httpService.performGetRequest(options, dataTransformer);
@@ -28,5 +28,3 @@ class CnnNews {
         }
     }
 }
-
-module.exports = CnnNews;

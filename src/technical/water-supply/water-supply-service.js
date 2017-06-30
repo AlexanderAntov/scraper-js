@@ -1,7 +1,7 @@
 ﻿import cheerio from 'cheerio';
 import { apiConstants, httpService, newsModelFactory } from '../../common/common.js';
 
-class WaterSupply {
+export default class WaterSupply {
     get(targetKeyword) {
         const options = httpService.clone(apiConstants.waterSupply);
         return httpService.performGetRequest(options, dataTransformer);
@@ -26,5 +26,3 @@ class WaterSupply {
         }
     }
 }
-
-module.exports = WaterSupply;

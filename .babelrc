@@ -3,6 +3,8 @@
   "plugins": [],
   "ignore": [
     "dist/**/*.js",
-    "node_modules/**/*.js"
+    "node_modules/**/*.js",
+    "clean.js",
+    "copy.js"
   ]
 }

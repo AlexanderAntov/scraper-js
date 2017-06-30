@@ -1,6 +1,6 @@
 ﻿import { apiConstants, httpService, newsModelFactory } from '../../common/common.js';
 
-class TheGuardianNews {
+export default class TheGuardianNews {
     get() {
         let options = httpService.clone(apiConstants.theGuardian);
         options.path = options.path.replace('{0}', options.token);
@@ -39,5 +39,3 @@ class TheGuardianNews {
         }
     }
 }
-
-module.exports = TheGuardianNews;

@@ -1,7 +1,7 @@
 ﻿import cheerio from 'cheerio';
 import { apiConstants, httpService, newsModelFactory } from '../../common/common.js';
 
-class HeatingSupply {
+export default class HeatingSupply {
     get(targetKeyword) {
         const options = httpService.clone(apiConstants.heatingSupply);
         return httpService.performGetRequest(options, dataTransformer);
@@ -28,5 +28,3 @@ class HeatingSupply {
         }
     }
 }
-
-module.exports = HeatingSupply;
