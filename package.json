@@ -1,4 +1,6 @@
 {
+  "name": "scraper-api",
+  "version": "1.0.1",
   "scripts": {
     "heroku-prebuild": "node clean.js && babel src -d dist && node copy.js",
     "start": "node dist/app.js"
