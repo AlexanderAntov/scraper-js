@@ -1,7 +1,7 @@
 ﻿import * as fs from 'fs';
 import path from 'path';
 
-function apiConstants() {
+module.exports = (() => {
     const tokensFilePath = require('path').resolve(__dirname, 'tokens.json');
     let tokens;
     if (fs.existsSync(tokensFilePath)) {
@@ -91,6 +91,4 @@ function apiConstants() {
         skyNews: null,
         facebookFeed: null
     };
-}
-
-module.exports = apiConstants();
+})();

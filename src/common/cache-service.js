@@ -10,7 +10,7 @@ import weatherService from '../news/weather/weather-service.js';
 import techCrunchNewsService from '../news/tech-and-science/techcrunch/techcrunch-news-service.js';
 import scienceMagNewsService from '../news/tech-and-science/sciencemag/sciencemag-news-service.js';
 
-function cache() {
+module.exports = (() => {
     const configFilePath = require('path').resolve(__dirname, 'config.json');
     let config;
     if (fs.existsSync(configFilePath)) {
@@ -63,6 +63,4 @@ function cache() {
             });
         }
     };
-}
-
-module.exports = cache();
+})();

@@ -11,8 +11,8 @@ export default class ScienceMagNews {
                 currentModel = null,
                 currentInfo = null;
 
-            xml2js.parseString(data, function (err, result) {
-                result['rdf:RDF'].item.forEach(function (newsItemData) {
+            xml2js.parseString(data, (err, result) => {
+                result['rdf:RDF'].item.forEach((newsItemData) => {
                     currentInfo = httpService.trim(
                         newsItemData
                             .description[0]

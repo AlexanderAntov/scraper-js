@@ -8,8 +8,8 @@ export default class BbcNews {
 
         function dataTransformer(data) {
             var articlesArray = [];
-            xml2js.parseString(data, function (err, result) {
-                result.rss.channel[0].item.forEach(function (newsItemData) {
+            xml2js.parseString(data, (err, result) => {
+                result.rss.channel[0].item.forEach((newsItemData) => {
                     articlesArray.push(newsModelFactory.get({
                         title: newsItemData.title[0],
                         info: httpService.trim(newsItemData.description ? newsItemData.description[0] : ''),

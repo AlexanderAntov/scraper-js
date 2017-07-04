@@ -8,7 +8,7 @@ export default class CnnNews {
 
         function dataTransformer(data) {
             let articlesArray = [];
-            xml2js.parseString(data, function (err, result) {
+            xml2js.parseString(data, (err, result) => {
                 result.rss.channel[0].item.forEach(function (newsItemData) {
                     let currentNewsModel = {
                         title: newsItemData.title[0],

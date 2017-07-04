@@ -16,17 +16,17 @@ let app = express(),
 setUpSchedule();
 
 app.use('/static', express.static(path.join(__dirname, 'resources')));
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET');
     next();
 });
 
-app.get('/', function (req, res) {
+app.get('/', (req, res) => {
     res.send('Welcome to Scraper API <br />' + 'Server time: ' + new Date().toString());
 });
 
-app.get('/news', function (req, res) {
+app.get('/news', (req, res) => {
     let responseNewsList = _.cloneDeep(dataCache.news);
     if (!_.isUndefined(req.query.skip) && !_.isUndefined(req.query.take)) {
         responseNewsList = _.take(_.drop(responseNewsList, req.query.skip), req.query.take);
@@ -37,7 +37,7 @@ app.get('/news', function (req, res) {
     res.send(responseNewsList);
 });
 
-app.get('/news/:provider', function (req, res) {
+app.get('/news/:provider', (req, res) => {
     let responseNewsList = _.cloneDeep(dataCache.news);
     if (req.params.provider) {
         responseNewsList = _.filter(dataCache.news, { provider: req.params.provider });
@@ -48,17 +48,17 @@ app.get('/news/:provider', function (req, res) {
     res.send(responseNewsList);
 });
 
-app.get('/tech-and-science', function (req, res) {
+app.get('/tech-and-science', (req, res) => {
     res.send(dataCache.techAndScience);
 });
 
-app.get('/weather', function (req, res) {
+app.get('/weather', (req, res) => {
     res.send(dataCache.weather);
 });
 
-app.get('/weather-raw', function (req, res) {
+app.get('/weather-raw', (req, res) => {
     if (req.query.city) {
-        new weatherService().getDetailedForecast(req.query.city).then(function (weatherData) {
+        new weatherService().getDetailedForecast(req.query.city).then((weatherData) => {
             res.send(weatherData.rawData);
         });
     } else {
@@ -66,7 +66,7 @@ app.get('/weather-raw', function (req, res) {
     }
 });
 
-app.get('/reset-cache', function (req, res) {
+app.get('/reset-cache', (req, res) => {
     if (req.query.token === process.env.AUTH_TOKEN) {
         setUpCache();
         res.send(true);
@@ -77,7 +77,7 @@ app.get('/reset-cache', function (req, res) {
 
 app.set('port', process.env.PORT || 8080);
 
-app.listen(app.get('port'), function () {
+app.listen(app.get('port'), () => {
     console.log('Express server listening on port ' + app.get('port'));
 });
 

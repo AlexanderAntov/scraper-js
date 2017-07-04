@@ -12,8 +12,8 @@ export default class TechCrunchNews {
             let articlesArray = [],
                 currentInfo = null;
 
-            xml2js.parseString(data, function (err, result) {
-                result.rss.channel[0].item.forEach(function (newsItemData) {
+            xml2js.parseString(data, (err, result) => {
+                result.rss.channel[0].item.forEach((newsItemData) => {
                     currentInfo = cheerio.load(
                         httpService.trim(
                             newsItemData
