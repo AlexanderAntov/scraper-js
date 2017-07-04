@@ -9,8 +9,8 @@ export default class TechCrunchNews {
         return httpService.performGetRequest(options, dataTransformer);
 
         function dataTransformer(data) {
-            let articlesArray = [],
-                currentInfo = null;
+            const articlesArray = []; 
+            let currentInfo = null;
 
             xml2js.parseString(data, (err, result) => {
                 result.rss.channel[0].item.forEach((newsItemData) => {

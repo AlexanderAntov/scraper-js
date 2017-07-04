@@ -7,7 +7,7 @@ export default class NewYorkTimesNews {
         return httpService.performGetRequest(options, dataTransformer);
 
         function dataTransformer(data) {
-            let articlesArray = [];
+            const articlesArray = [];
             data.results.forEach((newsItemData) => {
                 articlesArray.push(newsModelFactory.get({
                     title: newsItemData.title,

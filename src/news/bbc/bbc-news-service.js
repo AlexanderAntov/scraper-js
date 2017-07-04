@@ -7,7 +7,7 @@ export default class BbcNews {
         return httpService.performGetRequest(options, dataTransformer);
 
         function dataTransformer(data) {
-            var articlesArray = [];
+            const articlesArray = [];
             xml2js.parseString(data, (err, result) => {
                 result.rss.channel[0].item.forEach((newsItemData) => {
                     articlesArray.push(newsModelFactory.get({

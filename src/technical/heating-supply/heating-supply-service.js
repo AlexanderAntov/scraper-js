@@ -7,8 +7,8 @@ export default class HeatingSupply {
         return httpService.performGetRequest(options, dataTransformer);
 
         function dataTransformer(data) {
-            let $ = cheerio.load(data),
-                articlesArray = [];
+            const articlesArray = [];
+            let $ = cheerio.load(data);
             $('.RowsContainer').eq(0).find('.DataContainer.LeadingInfo.RowEntry').each(function (index, elem) {
                 let articleContainer = $(elem),
                     articleTextBody = articleContainer.find('.Data > .Content').text();

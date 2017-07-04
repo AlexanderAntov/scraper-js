@@ -7,8 +7,8 @@ export default class WaterSupply {
         return httpService.performGetRequest(options, dataTransformer);
 
         function dataTransformer(data) {
-            let $ = cheerio.load(data),
-                articlesArray = [];
+            const articlesArray = []
+            let $ = cheerio.load(data);
             $('#article').find('p').each(function (index, elem) {
                 let articleTextBody = $(elem).text();
                 if (articleTextBody.toLowerCase().indexOf(targetKeyword.toLowerCase()) > -1) {

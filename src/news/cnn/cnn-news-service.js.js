@@ -7,9 +7,9 @@ export default class CnnNews {
         return httpService.performGetRequest(options, dataTransformer);
 
         function dataTransformer(data) {
-            let articlesArray = [];
+            const articlesArray = [];
             xml2js.parseString(data, (err, result) => {
-                result.rss.channel[0].item.forEach(function (newsItemData) {
+                result.rss.channel[0].item.forEach((newsItemData) => {
                     let currentNewsModel = {
                         title: newsItemData.title[0],
                         info: httpService.trim(newsItemData.description ? newsItemData.description[0] : ''),

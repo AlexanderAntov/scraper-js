@@ -7,8 +7,8 @@ export default class ScienceMagNews {
         return httpService.performGetRequest(options, dataTransformer);
 
         function dataTransformer(data) {
-            let articlesArray = [],
-                currentModel = null,
+            const articlesArray = [];
+            let currentModel = null,
                 currentInfo = null;
 
             xml2js.parseString(data, (err, result) => {

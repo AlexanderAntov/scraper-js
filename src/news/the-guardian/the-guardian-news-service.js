@@ -7,7 +7,8 @@ export default class TheGuardianNews {
         return httpService.performGetRequest(options, dataTransformer);
 
         function dataTransformer(data) {
-            var articlesArray = [];
+            const articlesArray = [];
+
             data.response.results.forEach((newsItemData) => {
                 articlesArray.push(newsModelFactory.get({
                     title: newsItemData.webTitle,

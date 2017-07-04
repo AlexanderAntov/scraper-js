@@ -7,8 +7,7 @@ export default class GoogleNews {
         return httpService.performGetRequest(options, dataTransformer);
 
         function dataTransformer(data) {
-            let articlesArray = [];
-
+            const articlesArray = [];
             xml2js.parseString(data, (err, result) => {
                 result.rss.channel[0].item.forEach((newsItemData) => {
                     articlesArray.push(newsModelFactory.get({
