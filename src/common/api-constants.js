@@ -9,7 +9,6 @@ module.exports = (() => {
     } else {
         tokens = {
             newYorkTimes: process.env.NEW_YORK_TIMES_TOKEN,
-            theGuardian: process.env.THE_GUARDIAN_TOKEN,
             weatherApi: process.env.WEATHER_API_TOKEN,
             theVerge: process.env.THE_VERGE
         };
@@ -22,13 +21,6 @@ module.exports = (() => {
             host: 'api.nytimes.com',
             path: '/svc/topstories/v2/home.json?api-key={0}',
             token: tokens.newYorkTimes
-        },
-        theGuardian: {
-            isHttps: true,
-            isApi: true,
-            host: 'content.guardianapis.com',
-            path: '/search?api-key={0}&q=NOT%20sport&show-blocks=body',
-            token: tokens.theGuardian
         },
         googleNews: {
             isApi: false,

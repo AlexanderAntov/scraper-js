@@ -1,6 +1,5 @@
 ﻿import * as fs from 'fs';
 import newYorkTimesNewsService from '../news/new-york-times/new-york-times-news-service.js';
-import theGuardianNewsService from '../news/the-guardian/the-guardian-news-service.js';
 import googleNewsService from '../news/google-news/google-news-service.js';
 import cnnNewsService from '../news/cnn/cnn-news-service.js';
 import bbcNewsService from '../news/bbc/bbc-news-service.js';
@@ -31,8 +30,7 @@ module.exports = (() => {
                 new googleNewsService().get(),
                 new cnnNewsService().get(),
                 new newYorkTimesNewsService().get(),
-                new bbcNewsService().get(),
-                new theGuardianNewsService().get()
+                new bbcNewsService().get()
             ];
 
             var techAndScienceNewsPromises = [
