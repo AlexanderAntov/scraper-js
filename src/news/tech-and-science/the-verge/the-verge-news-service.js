@@ -14,7 +14,7 @@ export default class TheVergeNews {
                     title: newsItemData.title,
                     info: newsItemData.description,
                     url: newsItemData.url,
-                    image: newsItemData.urlToImage,
+                    image: null,
                     dateTime: newsItemData.publishedAt,
                     provider: 'verge'
                 }));
