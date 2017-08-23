@@ -10,11 +10,15 @@ module.exports = (() => {
         tokens = {
             newYorkTimes: process.env.NEW_YORK_TIMES_TOKEN,
             weatherApi: process.env.WEATHER_API_TOKEN,
-            theVerge: process.env.THE_VERGE
+            theVerge: process.env.THE_VERGE,
+            emailUsername: process.env.EMAIL_USER,
+            emailPassword: process.env.EMAIL_PASS,
+            emailReceiver: process.env.EMAIL_RECEIVER
         };
     }
 
     return {
+        //http settings
         newYorkTimes: {
             isHttps: true,
             isApi: true,
@@ -78,10 +82,11 @@ module.exports = (() => {
             path: '/TechCrunch.xml',
             token: null
         },
-        reuters: null,
-        independent: null,
-        dailyMail: null,
-        skyNews: null,
-        facebookFeed: null
+        //email settings
+        email: {
+            username: tokens.emailUsername,
+            password: tokens.emailPassword,
+            receiver: tokens.emailReceiver
+        }
     };
 })();

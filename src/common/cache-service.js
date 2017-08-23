@@ -38,20 +38,22 @@ module.exports = (() => {
                 new techCrunchNewsService().get()
             ];
 
-            Promise.all(newsDataPromises).then(function (dataModelLists) {
+            return Promise.all(newsDataPromises).then((dataModelLists) =>  {
                 var newsModelsList = [];
-                dataModelLists.forEach(function (dataModelList) {
+                dataModelLists.forEach((dataModelList) => {
                     newsModelsList = newsModelsList.concat(dataModelList);
                 });
                 cache.news = newsModelsList;
-            });
-
-            Promise.all(techAndScienceNewsPromises).then(function (dataModelLists) {
-                var newsModelsList = [];
-                dataModelLists.forEach(function (dataModelList) {
-                    newsModelsList = newsModelsList.concat(dataModelList);
+                return dataModelLists;
+            }).then(() => {
+                return Promise.all(techAndScienceNewsPromises).then((dataModelLists) => {
+                    var newsModelsList = [];
+                    dataModelLists.forEach((dataModelList) => {
+                        newsModelsList = newsModelsList.concat(dataModelList);
+                    });
+                    cache.techAndScience = newsModelsList;
+                    return dataModelLists;
                 });
-                cache.techAndScience = newsModelsList;
             });
         },
         weather: function (cache) {

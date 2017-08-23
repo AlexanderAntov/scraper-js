@@ -4,6 +4,7 @@ import express from 'express';
 import schedule from 'node-schedule';
 import cacheService from './common/cache-service.js';
 import weatherService from './news/weather/weather-service.js';
+import keywordsService from './news/keywords/keywords-service.js';
 
 let app = express(),
     dataCache = {
@@ -68,7 +69,12 @@ app.get('/weather-raw', (req, res) => {
 
 app.get('/reset-cache', (req, res) => {
     if (req.query.token === process.env.AUTH_TOKEN) {
-        setUpCache();
+        const result = setUpCache();
+        if (req.query.keywords) {
+            result.then(() => {
+                new keywordsService().get(dataCache.news, true);
+            });
+        }
         res.send(true);
     } else {
         res.send(false);
@@ -88,8 +94,10 @@ function setUpSchedule() {
 }
 
 function setUpCache() {
-    cacheService.news(dataCache);
-    cacheService.weather(dataCache);
+    return cacheService.news(dataCache).then((result) => {
+        cacheService.weather(dataCache);
+        return result;
+    });
 }
 
 function getListNoImages(list) {

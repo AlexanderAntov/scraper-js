@@ -17,6 +17,7 @@
     "node-schedule": "^1.2.0",
     "xml2js": "^0.4.17",
     "cpx": "^1.5.0",
-    "rimraf": "^2.6.1"
+    "rimraf": "^2.6.1",
+    "nodemailer": "^4.0.1"
   }
 }
