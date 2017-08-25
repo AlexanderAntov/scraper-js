@@ -1,34 +1,22 @@
 ﻿import xml2js from 'xml2js';
-import cheerio from 'cheerio';
 import { apiConstants, httpService, newsModelFactory } from '../../../common/common.js';
 
-export default class TechCrunchNews {
+export default class GoogleNews {
     get() {
-        const parseXMLString = require('xml2js').parseString,
-            options = httpService.clone(apiConstants.techCrunch);
+        const options = httpService.clone(apiConstants.googleNews);
         return httpService.performGetRequest(options, dataTransformer);
 
         function dataTransformer(data) {
-            const articlesArray = []; 
-            let currentInfo = null;
-
+            const articlesArray = [];
             xml2js.parseString(data, (err, result) => {
                 result.rss.channel[0].item.forEach((newsItemData) => {
-                    currentInfo = cheerio.load(
-                        httpService.trim(
-                            newsItemData
-                            .description[0]
-                            .replace(/<(?:.|\n)*?>/gm, '')
-                            .replace(/&nbsp;/, '')
-                        )
-                    ).text();
                     articlesArray.push(newsModelFactory.get({
                         title: newsItemData.title[0],
-                        info: currentInfo,
+                        info: httpService.trim(newsItemData.description[0].replace(/<(?:.|\n)*?>/gm, '')),
                         url: newsItemData.link[0],
                         image: null,
                         dateTime: newsItemData.pubDate[0],
-                        provider: 'techcrunch'
+                        provider: 'google'
                     }));
                 });
             });

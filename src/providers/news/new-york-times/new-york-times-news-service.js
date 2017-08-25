@@ -1,4 +1,4 @@
-﻿import { apiConstants, httpService, newsModelFactory } from '../../common/common.js';
+﻿import { apiConstants, httpService, newsModelFactory } from '../../../common/common.js';
 
 export default class NewYorkTimesNews {
     get() {

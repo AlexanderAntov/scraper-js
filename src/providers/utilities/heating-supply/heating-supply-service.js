@@ -1,5 +1,5 @@
 ﻿import cheerio from 'cheerio';
-import { apiConstants, httpService, newsModelFactory } from '../../common/common.js';
+import { apiConstants, httpService, newsModelFactory } from '../../../common/common.js';
 
 export default class HeatingSupply {
     get(targetKeyword) {

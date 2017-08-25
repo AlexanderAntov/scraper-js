@@ -2,9 +2,9 @@
 import path from 'path';
 import express from 'express';
 import schedule from 'node-schedule';
-import cacheService from './common/cache-service.js';
-import weatherService from './news/weather/weather-service.js';
-import keywordsService from './news/keywords/keywords-service.js';
+import cacheService from './cache-service.js';
+import weatherService from './providers/weather/weather-service.js';
+import keywordsService from './transformers/keywords/keywords-service.js';
 
 let app = express(),
     dataCache = {

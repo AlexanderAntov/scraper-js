@@ -1,5 +1,5 @@
 ﻿import xml2js from 'xml2js';
-import { apiConstants, httpService, newsModelFactory } from '../../../common/common.js';
+import { apiConstants, httpService, newsModelFactory } from '../../../../common/common.js';
 
 export default class TheVergeNews {
     get() {

@@ -1,13 +1,13 @@
 ﻿import * as fs from 'fs';
-import newYorkTimesNewsService from '../news/new-york-times/new-york-times-news-service.js';
-import googleNewsService from '../news/google-news/google-news-service.js';
-import cnnNewsService from '../news/cnn/cnn-news-service.js';
-import bbcNewsService from '../news/bbc/bbc-news-service.js';
-import heatingSupplyService from '../technical/heating-supply/heating-supply-service.js';
-import waterSupplyService from '../technical/heating-supply/heating-supply-service.js';
-import weatherService from '../news/weather/weather-service.js';
-import techCrunchNewsService from '../news/tech-and-science/techcrunch/techcrunch-news-service.js';
-import theVergeNewsService from '../news/tech-and-science/the-verge/the-verge-news-service.js';
+import newYorkTimesNewsService from './providers/news/new-york-times/new-york-times-news-service.js';
+import googleNewsService from './providers/news/google-news/google-news-service.js';
+import cnnNewsService from './providers/news/cnn/cnn-news-service.js.js';
+import bbcNewsService from './providers/news/bbc/bbc-news-service.js';
+import heatingSupplyService from './providers/utilities/heating-supply/heating-supply-service.js';
+import waterSupplyService from './providers/utilities/heating-supply/heating-supply-service.js';
+import weatherService from './providers/weather/weather-service.js';
+import techCrunchNewsService from './providers/news/tech-and-science/techcrunch/techcrunch-news-service.js';
+import theVergeNewsService from './providers/news/tech-and-science/the-verge/the-verge-news-service.js';
 
 module.exports = (() => {
     const configFilePath = require('path').resolve(__dirname, 'config.json');
