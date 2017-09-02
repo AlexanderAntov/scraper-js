@@ -24,7 +24,7 @@ export default class Weather {
                     url: 'https://scraper-web.herokuapp.com/index.html#!/weather-line-chart',
                     image: (process.env.APP_URL || '') + weatherIconsConst[weatherCode],
                     dateTime: new Date().toDateString(),
-                    provider: null
+                    provider: 'weather'
                 })
             ];
 
@@ -78,7 +78,7 @@ export default class Weather {
                     url: 'https://scraper-web.herokuapp.com/index.html#!/weather-line-chart',
                     image: process.env.APP_URL + weatherIconsConst[weatherDataItem.weather[0].id],
                     dateTime: '',
-                    provider: null
+                    provider: 'weather'
                 }));
 
                 currentDate.setDate(currentDate.getDate() + 1);

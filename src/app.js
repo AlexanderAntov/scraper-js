@@ -4,7 +4,7 @@ import express from 'express';
 import schedule from 'node-schedule';
 import cacheService from './cache-service.js';
 import weatherService from './providers/weather/weather-service.js';
-import keywordsService from './transformers/keywords/keywords-service.js';
+import tfIdfService from './transformers/keywords/tf-idf-service.js';
 
 let app = express(),
     dataCache = {
@@ -72,7 +72,7 @@ app.get('/reset-cache', (req, res) => {
         const result = setUpCache();
         if (req.query.keywords) {
             result.then(() => {
-                new keywordsService().get(dataCache.news, true);
+                new tfIdfService().get(dataCache.news, true);
             });
         }
         res.send(true);
