@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
-import stopWordsList from './stopwords-const.js';
-import mailerService from '../../common/mailer-service.js';
+import stopWordsList from '../stopwords-const.js';
+import mailerService from '../../../common/mailer-service.js';
 
 export default class TfIdfService {
     constructor(options = {}) {

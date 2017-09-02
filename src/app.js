@@ -4,7 +4,7 @@ import express from 'express';
 import schedule from 'node-schedule';
 import cacheService from './cache-service.js';
 import weatherService from './providers/weather/weather-service.js';
-import tfIdfService from './transformers/keywords/tf-idf-service.js';
+import tfIdfService from './transformers/keywords/tf-idf/tf-idf-service.js';
 
 let app = express(),
     dataCache = {
