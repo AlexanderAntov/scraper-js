@@ -9,36 +9,33 @@ export default class TfIdfService {
             TITLE_KEYWORD_MULTIPLIER: options.TITLE_KEYWORD_MULTIPLIER || 1.5,
             LONG_KEYWORD_MULTIPLIER: options.LONG_KEYWORD_MULTIPLIER || null,
             CAPITALIZED_KEYWORDS_MULTIPLIER: options.CAPITALIZED_KEYWORDS_MULTIPLIER || null,
+            TOP_NEWS_SCORE: options.TOP_NEWS_SCORE || 1.5,
+            TOP_NEWS_SCORE_STEP: options.TOP_NEWS_SCORE_STEP || 0.1,
             N_GRAM_MIN_OCCURRENCES: options.N_GRAM_MIN_OCCURRENCES || 1,
             N_GRAM_MAX_WORDS: options.N_GRAM_MAX_WORDS || 5
         };
     }
 
-    prepareModels(modelsList) {
-        let textsList = [],
-            currentProvider = null,
+    addTopNewsScore(modelsList) {
+        let currentProvider = null,
             topNewsScore = null;
 
         modelsList.forEach((newsModel) => {
-            if (newsModel.provider !== 'google' && newsModel.provider !== 'weather') {
-                newsModel.text = newsModel.title + '\n' + newsModel.info + '\n';
-        
+            if (this.TOP_NEWS_SCORE) {
                 if (!currentProvider) {
                     currentProvider = newsModel.provider;
                 } else if (currentProvider !== newsModel.provider) {
-                    topNewsScore = 1.5;
+                    topNewsScore = this.TOP_NEWS_SCORE;
                     newsModel.topNewsScore = topNewsScore;
                     currentProvider = newsModel.provider;
                 } else if (topNewsScore > 1) {
-                    topNewsScore -= 0.1;
+                    topNewsScore -= this.TOP_NEWS_SCORE_STEP;
                     newsModel.topNewsScore = topNewsScore;
                 }
-        
-                textsList.push(newsModel);
             }
         });
 
-        return textsList;
+        return modelsList;
     }
 
     get(modelsList, sendMail) {
@@ -50,7 +47,7 @@ export default class TfIdfService {
             idfMap = {},
             tfIdfMap = [];
 
-        this.prepareModels(modelsList).forEach((model, index) => {
+        this.addTopNewsScore(modelsList).forEach((model, index) => {
             let textItemWords = this.generateNGrams(this.normalizeText(model.text)),
                 textItemWordsLength = textItemWords.length;
             textItemWords.forEach((word) => {

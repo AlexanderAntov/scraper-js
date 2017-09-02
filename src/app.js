@@ -72,7 +72,14 @@ app.get('/reset-cache', (req, res) => {
         const result = setUpCache();
         if (req.query.keywords) {
             result.then(() => {
-                new tfIdfService().get(dataCache.news, true);
+                let modelsList = [];
+                dataCache.news.forEach((newsModel) => {
+                    if (newsModel.provider !== 'google' && newsModel.provider !== 'weather') {
+                        newsModel.text = newsModel.title + '\n' + newsModel.info + '\n';
+                        modelsList.push(newsModel);
+                    }
+                });
+                new tfIdfService().get(modelsList, true);
             });
         }
         res.send(true);
