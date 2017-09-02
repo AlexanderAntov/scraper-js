@@ -11,7 +11,7 @@ export default class NewYorkTimesNews {
             data.results.forEach((newsItemData) => {
                 articlesArray.push(newsModelFactory.get({
                     title: newsItemData.title,
-                    info: httpService.trim(newsItemData.abstract),
+                    info: newsItemData.abstract,
                     url: newsItemData.url,
                     image: getImageUrl(newsItemData),
                     dateTime: newsItemData['published_date'].replace('T', ' ').split(' ')[0],

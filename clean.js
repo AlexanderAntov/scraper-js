@@ -1,1 +1,0 @@
-require('rimraf')('/dist', () => console.log('dist has been cleaned'));

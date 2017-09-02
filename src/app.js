@@ -4,14 +4,16 @@ import express from 'express';
 import schedule from 'node-schedule';
 import cacheService from './cache-service.js';
 import weatherService from './providers/weather/weather-service.js';
-import tfIdfService from './transformers/keywords/tf-idf/tf-idf-service.js';
+import tfIdfModifierService from './transformers/keywords/tf-idf/tf-idf-modifier-service.js';
+import httpService from './common/http-service.js';
 
 let app = express(),
     dataCache = {
         news: null,
         techAndScience: null,
         weather: null,
-        weatherRaw: null
+        weatherRaw: null,
+        newsKeywords: null
     };
 
 setUpSchedule();
@@ -69,16 +71,26 @@ app.get('/weather-raw', (req, res) => {
 
 app.get('/reset-cache', (req, res) => {
     if (req.query.token === process.env.AUTH_TOKEN) {
-        const result = setUpCache();
+        let result = setUpCache();
         if (req.query.keywords) {
-            result.then(() => {
-                new tfIdfService().get(dataCache.news, true);
+            result = result.then(() => {
+                const tfIdfModifier = new tfIdfModifierService();
+                return tfIdfModifier.sendMail(tfIdfModifier.get(dataCache.news, dataCache));
             });
         }
+        result.then(() => {
+            dataCache.news.forEach((model) => {
+                model.info = httpService.trim(model.info);
+            });
+        });
         res.send(true);
     } else {
         res.send(false);
     }
+});
+
+app.get('/news-keywords', (req, res) => {
+    res.send(dataCache.newsKeywords);
 });
 
 app.set('port', process.env.PORT || 8080);

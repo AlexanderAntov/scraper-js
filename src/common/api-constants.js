@@ -58,7 +58,7 @@ module.exports = (() => {
             isHttps: false,
             isApi: false,
             host: 'toplo.bg',
-            path: '/all-breakdowns',
+            path: '/breakdowns',
             token: null
         },
         waterSupply: {

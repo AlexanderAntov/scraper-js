@@ -12,7 +12,7 @@ export default class GoogleNews {
                 result.rss.channel[0].item.forEach((newsItemData) => {
                     articlesArray.push(newsModelFactory.get({
                         title: newsItemData.title[0],
-                        info: httpService.trim(newsItemData.description[0].replace(/<(?:.|\n)*?>/gm, '')),
+                        info: newsItemData.description[0].replace(/<(?:.|\n)*?>/gm, ''),
                         url: newsItemData.link[0],
                         image: null,
                         dateTime: newsItemData.pubDate[0],
