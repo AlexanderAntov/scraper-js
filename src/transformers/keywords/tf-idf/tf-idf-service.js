@@ -21,15 +21,15 @@ export default class TfIdfService {
             topNewsScore = null;
 
         modelsList.forEach((newsModel) => {
-            if (this.TOP_NEWS_SCORE) {
+            if (this.options.TOP_NEWS_SCORE) {
                 if (!currentProvider) {
                     currentProvider = newsModel.provider;
                 } else if (currentProvider !== newsModel.provider) {
-                    topNewsScore = this.TOP_NEWS_SCORE;
+                    topNewsScore = this.options.TOP_NEWS_SCORE;
                     newsModel.topNewsScore = topNewsScore;
                     currentProvider = newsModel.provider;
                 } else if (topNewsScore > 1) {
-                    topNewsScore -= this.TOP_NEWS_SCORE_STEP;
+                    topNewsScore -= this.options.TOP_NEWS_SCORE_STEP;
                     newsModel.topNewsScore = topNewsScore;
                 }
             }
@@ -82,7 +82,9 @@ export default class TfIdfService {
         });
 
         if (sendMail) {
-            let keywordsList = _.map(_.orderBy(tfIdfMap, ['score'], ['desc']), 'word');
+            let keywordsList = _.map(_.orderBy(tfIdfMap, ['score'], ['desc']), (model) => {
+                return model.word + '   ' + model.score.toString();
+            });
             mailerService.send(
                 'News keywords',
                 keywordsList.join('\n')
