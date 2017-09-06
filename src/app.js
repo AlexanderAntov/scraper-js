@@ -5,6 +5,7 @@ import schedule from 'node-schedule';
 import cacheService from './cache-service.js';
 import weatherService from './providers/weather/weather-service.js';
 import tfIdfModifierService from './transformers/keywords/tf-idf/tf-idf-modifier-service.js';
+import httpService from './common/http-service.js';
 
 let app = express(),
     dataCache = {
@@ -73,6 +74,9 @@ app.get('/reset-cache', (req, res) => {
         if (req.query.keywords) {
             result.then(() => {
                 new tfIdfModifierService().get(dataCache.news, true);
+                dataCache.news.forEach((model) => {
+                    model.info = httpService.trim(model.info);
+                });
             });
         }
         res.send(true);
