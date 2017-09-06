@@ -4,7 +4,7 @@ import express from 'express';
 import schedule from 'node-schedule';
 import cacheService from './cache-service.js';
 import weatherService from './providers/weather/weather-service.js';
-import tfIdfService from './transformers/keywords/tf-idf/tf-idf-service.js';
+import tfIdfModifierService from './transformers/keywords/tf-idf/tf-idf-modifier-service.js';
 
 let app = express(),
     dataCache = {
@@ -72,14 +72,7 @@ app.get('/reset-cache', (req, res) => {
         const result = setUpCache();
         if (req.query.keywords) {
             result.then(() => {
-                let modelsList = [];
-                dataCache.news.forEach((newsModel) => {
-                    if (newsModel.provider !== 'google' && newsModel.provider !== 'weather') {
-                        newsModel.text = newsModel.title + '\n' + newsModel.info + '\n';
-                        modelsList.push(newsModel);
-                    }
-                });
-                new tfIdfService().get(modelsList, true);
+                new tfIdfModifierService().get(dataCache.news, true);
             });
         }
         res.send(true);

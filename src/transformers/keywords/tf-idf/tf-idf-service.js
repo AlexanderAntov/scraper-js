@@ -1,53 +1,17 @@
 import * as _ from 'lodash';
 import stopWordsList from '../stopwords-const.js';
-import mailerService from '../../../common/mailer-service.js';
 
 export default class TfIdfService {
     constructor(options = {}) {
-        this.options = {
-            MIN_PHRASE_LENGTH: options.MIN_PHRASE_LENGTH || 3,
-            TITLE_KEYWORD_MULTIPLIER: options.TITLE_KEYWORD_MULTIPLIER || 1.5,
-            LONG_KEYWORD_MULTIPLIER: options.LONG_KEYWORD_MULTIPLIER || null,
-            CAPITALIZED_KEYWORDS_MULTIPLIER: options.CAPITALIZED_KEYWORDS_MULTIPLIER || null,
-            TOP_NEWS_SCORE: options.TOP_NEWS_SCORE || 1.5,
-            TOP_NEWS_SCORE_STEP: options.TOP_NEWS_SCORE_STEP || 0.1,
-            N_GRAM_MIN_OCCURRENCES: options.N_GRAM_MIN_OCCURRENCES || 1,
-            N_GRAM_MAX_WORDS: options.N_GRAM_MAX_WORDS || 5
-        };
+        this.options = options;
     }
 
-    addTopNewsScore(modelsList) {
-        let currentProvider = null,
-            topNewsScore = null;
-
-        modelsList.forEach((newsModel) => {
-            if (this.options.TOP_NEWS_SCORE) {
-                if (!currentProvider) {
-                    currentProvider = newsModel.provider;
-                } else if (currentProvider !== newsModel.provider) {
-                    topNewsScore = this.options.TOP_NEWS_SCORE;
-                    newsModel.topNewsScore = topNewsScore;
-                    currentProvider = newsModel.provider;
-                } else if (topNewsScore > 1) {
-                    topNewsScore -= this.options.TOP_NEWS_SCORE_STEP;
-                    newsModel.topNewsScore = topNewsScore;
-                }
-            }
-        });
-
-        return modelsList;
-    }
-
-    get(modelsList, sendMail) {
-        if (_.isEmpty(modelsList)) {
-            throw Error('no models have been provided for keyword evaluation');
-        }
-
+    get(modelsList) {
         let tfMap = {},
             idfMap = {},
             tfIdfMap = [];
 
-        this.addTopNewsScore(modelsList).forEach((model, index) => {
+        modelsList.forEach((model, index) => {
             let textItemWords = this.generateNGrams(this.normalizeText(model.text)),
                 textItemWordsLength = textItemWords.length;
             textItemWords.forEach((word) => {
@@ -74,22 +38,15 @@ export default class TfIdfService {
         });
 
         Object.keys(tfMap).forEach((word) => {
-            let score = (tfMap[word].reduce((x, y) => { return x + y }) / tfMap[word].length) * idfMap[word];
-            tfIdfMap.push({
-                word: word,
-                score: score
-            });
+            const score = (tfMap[word].reduce((x, y) => { return x + y }) / tfMap[word].length) * idfMap[word],
+                isScoreValid = !this.options.TF_IDF_SCORE_THRESHOLD || (score > this.options.TF_IDF_SCORE_THRESHOLD);
+            if (isScoreValid) {
+                tfIdfMap.push({
+                    word: word,
+                    score: score
+                });
+            }
         });
-
-        if (sendMail) {
-            let keywordsList = _.map(_.orderBy(tfIdfMap, ['score'], ['desc']), (model) => {
-                return model.word + '   ' + model.score.toString();
-            });
-            mailerService.send(
-                'News keywords',
-                keywordsList.join('\n')
-            );
-        }
 
         return tfIdfMap;
 
@@ -98,35 +55,12 @@ export default class TfIdfService {
             let tfScore = wordOccurrenceCount / textItemWordsLength;
 
             idfMap[word] = idfMap[word] ? idfMap[word] + wordOccurrenceCount : wordOccurrenceCount;
-            modifyTFScore();
-            tfMap[word].push(tfScore);
 
-            function modifyTFScore() {
-                //title keyword modifier
-                if (model.title.indexOf(word) > -1) {
-                    tfScore = tfScore * options.TITLE_KEYWORD_MULTIPLIER;
-                }
-                //top news modifier
-                if (model.topNewsScore) {
-                    tfScore = tfScore * model.topNewsScore;
-                }
-                //multiple words modifier
-                if (options.LONG_KEYWORD_MULTIPLIER !== 1) {
-                    const wordCountInPhrase = word.split(' ').length || 1;
-                    if (options.LONG_KEYWORD_MULTIPLIER) {
-                        tfScore = tfScore * options.LONG_KEYWORD_MULTIPLIER;
-                    } else if (wordCountInPhrase > 1) {
-                        tfScore =  Math.pow(1 + tfScore, wordCountInPhrase);
-                    }
-                }
-                //capital letters modifier
-                const capitalLettersCount = countUpperCaseChars(word);
-                if (options.CAPITALIZED_KEYWORDS_MULTIPLIER && capitalLettersCount > 0) {
-                    tfScore = tfScore * options.CAPITALIZED_KEYWORDS_MULTIPLIER;
-                } else {
-                    tfScore = tfScore * (1 + (capitalLettersCount / 10));
-                }
+            if (_.isFunction(options.TF_SCORE_MODIFIER)) {
+                tfScore = options.TF_SCORE_MODIFIER(tfScore, model, word);
             }
+
+            tfMap[word].push(tfScore);
         }
 
         function evalWordCount(text = '', word = '') {
@@ -145,20 +79,6 @@ export default class TfIdfService {
                 } else {
                     break;
                 };
-            }
-
-            return count;
-        }
-
-        function countUpperCaseChars(word) {
-            let count = 0,
-                wordLength = word.length,
-                i;
-
-            for (i = 0; i < wordLength; i++) {
-                if(/[A-Z]/.test(word.charAt(i))) {
-                    count++;
-                }
             }
 
             return count;
