@@ -70,15 +70,17 @@ app.get('/weather-raw', (req, res) => {
 
 app.get('/reset-cache', (req, res) => {
     if (req.query.token === process.env.AUTH_TOKEN) {
-        const result = setUpCache();
+        let result = setUpCache();
         if (req.query.keywords) {
-            result.then(() => {
-                new tfIdfModifierService().get(dataCache.news, true);
-                dataCache.news.forEach((model) => {
-                    model.info = httpService.trim(model.info);
-                });
+            result = result.then(() => {
+                return new tfIdfModifierService().get(dataCache.news, true);
             });
         }
+        result.then(() => {
+            dataCache.news.forEach((model) => {
+                model.info = httpService.trim(model.info);
+            });
+        });
         res.send(true);
     } else {
         res.send(false);
