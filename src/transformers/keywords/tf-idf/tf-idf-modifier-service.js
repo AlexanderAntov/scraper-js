@@ -28,8 +28,12 @@ export default class TfIdfModifierService {
             .get(this.addTopNewsScore(modelsList.filter(this.removeNonEnglishNews)));
 
         if (sendMail) {
-            let keywordsList = _.map(_.orderBy(weightedKeywords, ['score'], ['desc']), (model) => {
-                return model.word + '   ' + model.score.toString();
+            let keywordsList = _.map(_.orderBy(weightedKeywords, ['score'], ['desc']), (model, index) => {
+                let result = model.word + '   ' + model.score.toString();
+                if (index < 50) {
+                    result += '   https://www.google.com/search?q=' + model.word.replace(/\s+/g, '+');
+                }
+                return result;
             });
             mailerService.send(
                 'News keywords',

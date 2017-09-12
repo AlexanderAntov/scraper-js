@@ -11,7 +11,7 @@ export default class HeatingSupply {
                 $('.card.z-depth-3').each((index, elem) => {
                     let articleContainer = $(elem).find('.card-content').eq(0),
                         articleTitle = articleContainer.find('.red-text.text-darken-3');
-                    if (articleTitle.text().toLowerCase().indexOf(targetKeyword.toLowerCase()) > -1) {
+                    if (targetKeyword && articleTitle.text().toLowerCase().indexOf(targetKeyword.toLowerCase()) > -1) {
                         let articleUrl = articleTitle.attr('href');
     
                         httpService.performGetRequest({
@@ -40,6 +40,8 @@ export default class HeatingSupply {
                                 provider: null
                             })]);
                         });
+                    } else {
+                        resolve([]);
                     }
                 });
             });
