@@ -23,10 +23,12 @@ module.exports = (() => {
 
     return {
         news: function (cache) {
+            /*
+            new heatingSupplyService().get(config.suppliersKeyword),
+            new waterSupplyService().get(config.suppliersKeyword),
+            */
             var newsDataPromises = [
                 new weatherService().getSummary(config.cityName),
-                new heatingSupplyService().get(config.suppliersKeyword),
-                new waterSupplyService().get(config.suppliersKeyword),
                 new googleNewsService().get(),
                 new cnnNewsService().get(),
                 new newYorkTimesNewsService().get(),
