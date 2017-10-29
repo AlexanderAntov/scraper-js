@@ -3,6 +3,8 @@ import newYorkTimesNewsService from './providers/news/new-york-times/new-york-ti
 import googleNewsService from './providers/news/google-news/google-news-service.js';
 import cnnNewsService from './providers/news/cnn/cnn-news-service.js.js';
 import bbcNewsService from './providers/news/bbc/bbc-news-service.js';
+import heatingSupplyService from './providers/utilities/heating-supply/heating-supply-service.js';
+import waterSupplyService from './providers/utilities/water-supply/water-supply-service.js';
 import weatherService from './providers/weather/weather-service.js';
 import techCrunchNewsService from './providers/news/tech-and-science/techcrunch/techcrunch-news-service.js';
 import theVergeNewsService from './providers/news/tech-and-science/the-verge/the-verge-news-service.js';
@@ -23,6 +25,8 @@ module.exports = (() => {
         news: function (cache) {
             var newsDataPromises = [
                 new weatherService().getSummary(config.cityName),
+                new heatingSupplyService().get(config.suppliersKeyword),
+                new waterSupplyService().get(config.suppliersKeyword),
                 new googleNewsService().get(),
                 new cnnNewsService().get(),
                 new newYorkTimesNewsService().get(),
