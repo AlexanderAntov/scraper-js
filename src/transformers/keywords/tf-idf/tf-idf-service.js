@@ -6,28 +6,6 @@ export default class TfIdfService {
         this.options = options;
     }
 
-    addTopNewsScore(modelsList) {
-        let currentProvider = null,
-            topNewsScore = null;
-
-        modelsList.forEach((newsModel) => {
-            if (this.TOP_NEWS_SCORE) {
-                if (!currentProvider) {
-                    currentProvider = newsModel.provider;
-                } else if (currentProvider !== newsModel.provider) {
-                    topNewsScore = this.TOP_NEWS_SCORE;
-                    newsModel.topNewsScore = topNewsScore;
-                    currentProvider = newsModel.provider;
-                } else if (topNewsScore > 1) {
-                    topNewsScore -= this.TOP_NEWS_SCORE_STEP;
-                    newsModel.topNewsScore = topNewsScore;
-                }
-            }
-        });
-
-        return modelsList;
-    }
-
     get(modelsList) {
         let tfMap = {},
             idfMap = {},
