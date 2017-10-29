@@ -23,12 +23,10 @@ module.exports = (() => {
 
     return {
         news: function (cache) {
-            /*
-            new heatingSupplyService().get(config.suppliersKeyword),
-            new waterSupplyService().get(config.suppliersKeyword),
-            */
             var newsDataPromises = [
                 new weatherService().getSummary(config.cityName),
+                new heatingSupplyService().get(config.suppliersKeyword),
+                new waterSupplyService().get(config.suppliersKeyword),
                 new googleNewsService().get(),
                 new cnnNewsService().get(),
                 new newYorkTimesNewsService().get(),
@@ -43,7 +41,7 @@ module.exports = (() => {
             return Promise.all(newsDataPromises).then((dataModelLists) =>  {
                 var newsModelsList = [];
                 dataModelLists.forEach((dataModelList) => {
-                    newsModelsList = newsModelsList.concat(dataModelList);
+                    newsModelsList = newsModelsList.concat(dataModelList || []);
                 });
                 cache.news = newsModelsList;
                 return dataModelLists;
@@ -51,7 +49,7 @@ module.exports = (() => {
                 return Promise.all(techAndScienceNewsPromises).then((dataModelLists) => {
                     var newsModelsList = [];
                     dataModelLists.forEach((dataModelList) => {
-                        newsModelsList = newsModelsList.concat(dataModelList);
+                        newsModelsList = newsModelsList.concat(dataModelList || []);
                     });
                     cache.techAndScience = newsModelsList;
                     return dataModelLists;

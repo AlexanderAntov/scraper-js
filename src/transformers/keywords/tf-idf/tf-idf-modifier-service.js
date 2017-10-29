@@ -19,7 +19,7 @@ export default class TfIdfModifierService {
         this.tfIdf = new tfIdfService(this.options);
     }
 
-    get(modelsList, sendMail) {
+    get(modelsList, cache) {
         if (_.isEmpty(modelsList)) {
             throw Error('no models have been provided for keyword evaluation');
         }
@@ -27,21 +27,26 @@ export default class TfIdfModifierService {
         let weightedKeywords = this.tfIdf
             .get(this.addTopNewsScore(modelsList.filter(this.removeNonEnglishNews)));
 
-        if (sendMail) {
-            let keywordsList = _.map(_.orderBy(weightedKeywords, ['score'], ['desc']), (model, index) => {
-                let result = model.word + '   ' + model.score.toString();
-                if (index < 50) {
-                    result += '   https://www.google.com/search?q=' + model.word.replace(/\s+/g, '+');
-                }
-                return result;
-            });
-            mailerService.send(
-                'News keywords',
-                keywordsList.join('\n')
-            );
+        cache.newsKeywords = _.orderBy(weightedKeywords, ['score'], ['desc']);
+        return cache.newsKeywords;
+    }
+
+    sendMail(modelsList) {
+        if (_.isEmpty(modelsList)) {
+            throw Error('no models have been provided for mailing');
         }
 
-        return weightedKeywords;
+        let keywordsList = _.map(modelsList, (model, index) => {
+            let result = model.word + '   ' + model.score.toString();
+            if (index < 50) {
+                result += '   https://www.google.com/search?q=' + model.word.replace(/\s+/g, '+');
+            }
+            return result;
+        });
+        mailerService.send(
+            'News keywords',
+            keywordsList.join('\n')
+        );
     }
 
     removeNonEnglishNews(newsModel) {

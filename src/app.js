@@ -12,7 +12,8 @@ let app = express(),
         news: null,
         techAndScience: null,
         weather: null,
-        weatherRaw: null
+        weatherRaw: null,
+        newsKeywords: null
     };
 
 setUpSchedule();
@@ -73,7 +74,8 @@ app.get('/reset-cache', (req, res) => {
         let result = setUpCache();
         if (req.query.keywords) {
             result = result.then(() => {
-                return new tfIdfModifierService().get(dataCache.news, true);
+                const tfIdfModifier = new tfIdfModifierService();
+                return tfIdfModifier.sendMail(tfIdfModifier.get(dataCache.news, dataCache));
             });
         }
         result.then(() => {
@@ -85,6 +87,10 @@ app.get('/reset-cache', (req, res) => {
     } else {
         res.send(false);
     }
+});
+
+app.get('/news-keywords', (req, res) => {
+    res.send(dataCache.newsKeywords);
 });
 
 app.set('port', process.env.PORT || 8080);

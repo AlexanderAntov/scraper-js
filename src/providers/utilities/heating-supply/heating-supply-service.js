@@ -6,7 +6,13 @@ export default class HeatingSupply {
         const options = httpService.clone(apiConstants.heatingSupply);
         return new Promise((resolve, reject) => {
             httpService.performGetRequest(options, (data) => {
-                let $ = cheerio.load(data);
+                let $ = cheerio.load(data),
+                    breakdownTiles = $('.card.z-depth-3');
+
+                if (breakdownTiles.length === 0) {
+                    resolve([]);
+                    return;
+                }
     
                 $('.card.z-depth-3').each((index, elem) => {
                     let articleContainer = $(elem).find('.card-content').eq(0),
