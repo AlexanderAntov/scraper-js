@@ -70,14 +70,6 @@ export default class TfIdfService {
             }
         });
 
-        if (sendMail) {
-            let keywordsList = _.map(_.orderBy(tfIdfMap, ['score'], ['desc']), 'word');
-            mailerService.send(
-                'News keywords',
-                keywordsList.join('\n')
-            );
-        }
-
         return tfIdfMap;
 
         function evalFrequency(model, word, options, textItemWordsLength) {
