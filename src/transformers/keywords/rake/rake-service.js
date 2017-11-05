@@ -103,5 +103,3 @@ export default class RakeService {
 		return keys.sort((a, b) => { return obj[b] - obj[a] });
 	}
 }
-
-module.exports = RakeService;

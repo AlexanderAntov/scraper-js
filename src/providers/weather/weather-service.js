@@ -1,5 +1,6 @@
 ﻿import { apiConstants, httpService, newsModelFactory } from '../../common/common.js';
 import weatherIconsConst from './weather-icons-const.js';
+import weatherSummaryService from '../../transformers/weather-summary/weather-summary-service.js';
 
 export default class Weather {
     getSummary(cityName) {
@@ -19,7 +20,7 @@ export default class Weather {
 
             return [
                 newsModelFactory.get({
-                    title: 'Weather forecast summarized',
+                    title: weatherSummaryService.get(data.list),
                     info: forecastDescription,
                     url: 'https://scraper-web.herokuapp.com/index.html#!/weather-line-chart',
                     image: (process.env.APP_URL || '') + weatherIconsConst[weatherCode],

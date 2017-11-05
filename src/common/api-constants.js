@@ -30,7 +30,7 @@ module.exports = (() => {
             isApi: false,
             isHttps: true,
             host: 'news.google.com',
-            path: '/news?cf=all&hl=bg&pz=1&ned=bg_bg&output=rss',
+            path: '/news/rss?gl=BG&ned=bg_bg&hl=bg',
             token: null
         },
         cnn: {
