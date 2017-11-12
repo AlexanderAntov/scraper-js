@@ -30,7 +30,7 @@ export default class WeatherSummaryService {
         } else if (minSum > 0 && maxSum > 0) {
             summary += 'Getting warmer';
         } else {
-            summary += 'Rather stable';
+            summary += 'Stable';
         }
 
         if (changesMap[0].weatherCode !== changesMap[1].weatherCode) {

@@ -3,6 +3,7 @@ import newYorkTimesNewsService from './providers/news/new-york-times/new-york-ti
 import googleNewsService from './providers/news/google-news/google-news-service.js';
 import cnnNewsService from './providers/news/cnn/cnn-news-service.js.js';
 import bbcNewsService from './providers/news/bbc/bbc-news-service.js';
+import reutersNewsService from './providers/news/reuters/reuters-news-service.js';
 import heatingSupplyService from './providers/utilities/heating-supply/heating-supply-service.js';
 import waterSupplyService from './providers/utilities/water-supply/water-supply-service.js';
 import weatherService from './providers/weather/weather-service.js';
@@ -10,7 +11,7 @@ import techCrunchNewsService from './providers/news/tech-and-science/techcrunch/
 import theVergeNewsService from './providers/news/tech-and-science/the-verge/the-verge-news-service.js';
 
 module.exports = (() => {
-    const configFilePath = require('path').resolve(__dirname, 'config.json');
+    const configFilePath = require('path').resolve(__dirname, 'common/config.json');
     let config;
     if (fs.existsSync(configFilePath)) {
         config = require(configFilePath);
@@ -30,7 +31,8 @@ module.exports = (() => {
                 new googleNewsService().get(),
                 new cnnNewsService().get(),
                 new newYorkTimesNewsService().get(),
-                new bbcNewsService().get()
+                new bbcNewsService().get(),
+                new reutersNewsService().get()
             ];
 
             var techAndScienceNewsPromises = [
@@ -57,6 +59,7 @@ module.exports = (() => {
             });
         },
         weather: function (cache) {
+
             new weatherService().getDetailedForecast(config.cityName).then(function (data) {
                 cache.weather = data.mappedData;
                 cache.weatherRaw = data.rawData;

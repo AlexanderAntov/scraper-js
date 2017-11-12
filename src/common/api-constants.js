@@ -47,6 +47,13 @@ module.exports = (() => {
             path: '/news/rss.xml',
             token: null
         },
+        reuters: {
+            isHttps: false,
+            isApi: false,
+            host: 'feeds.reuters.com',
+            path: '/reuters/topNews',
+            token: null
+        },
         weatherApi: {
             isHttps: false,
             isApi: true,
