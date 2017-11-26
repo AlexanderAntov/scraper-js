@@ -23,7 +23,7 @@ module.exports = (() => {
     }
 
     return {
-        news: function (cache) {
+        news: (cache) => {
             var newsDataPromises = [
                 new weatherService().getSummary(config.cityName),
                 new heatingSupplyService().get(config.suppliersKeyword),
@@ -58,8 +58,7 @@ module.exports = (() => {
                 });
             });
         },
-        weather: function (cache) {
-
+        weather: (cache) => {
             new weatherService().getDetailedForecast(config.cityName).then(function (data) {
                 cache.weather = data.mappedData;
                 cache.weatherRaw = data.rawData;

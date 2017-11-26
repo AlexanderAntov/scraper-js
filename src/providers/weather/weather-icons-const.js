@@ -1,4 +1,4 @@
-﻿module.exports = {
+﻿export default {
     //https://openweathermap.org/weather-conditions
     //Thunderstorm
     200: '/static/images/thunder-storm.png',

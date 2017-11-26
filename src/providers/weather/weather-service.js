@@ -102,5 +102,3 @@ export default class Weather {
         }
     }
 }
-
-module.exports = Weather;

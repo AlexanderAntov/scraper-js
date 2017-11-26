@@ -113,7 +113,7 @@ function setUpCache() {
 }
 
 function getListNoImages(list) {
-    return _.map(list, function (item) {
+    return _.map(list, (item) => {
         if (item.provider) {
             item.image = null;
         }
