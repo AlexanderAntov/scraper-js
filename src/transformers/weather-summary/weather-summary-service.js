@@ -1,3 +1,5 @@
+import weatherCodes from './weather-codes-const';
+
 export default class WeatherSummaryService {
     static get(modelList) {
         let changesMap = [{
@@ -33,8 +35,19 @@ export default class WeatherSummaryService {
             summary += 'Stable';
         }
 
+        switch(Math.floor(changesMap[1].weatherCode / 100)) {
+            case weatherCodes.THUNDERSTORM:
+            case weatherCodes.DRIZZLE:
+            case weatherCodes.RAIN:
+                summary += ', stay dry';
+                break;
+            case weatherCodes.SNOW:
+                summary += ', stay warm';
+                break;
+        }
+
         if (changesMap[0].weatherCode !== changesMap[1].weatherCode) {
-            summary += ' ' + changesMap[1].description;
+            summary += '; ' + changesMap[1].description;
         }
 
         return summary;
