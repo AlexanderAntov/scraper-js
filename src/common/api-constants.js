@@ -10,7 +10,7 @@ module.exports = (() => {
         tokens = {
             newYorkTimes: process.env.NEW_YORK_TIMES_TOKEN,
             weatherApi: process.env.WEATHER_API_TOKEN,
-            theVerge: process.env.NEWS_API,
+            newsApi: process.env.NEWS_API,
             emailUsername: process.env.EMAIL_USER,
             emailPassword: process.env.EMAIL_PASS,
             emailReceiver: process.env.EMAIL_RECEIVER
