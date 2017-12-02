@@ -38,9 +38,9 @@ module.exports = (() => {
 
             var techAndScienceNewsPromises = [
                 new theVergeNewsService().get(),
-                new techCrunchNewsService().get(),
-                new techRadarNewsService().get()
+                new techCrunchNewsService().get()
             ];
+            //new techRadarNewsService().get()
 
             return Promise.all(newsDataPromises).then((dataModelLists) =>  {
                 var newsModelsList = [];
