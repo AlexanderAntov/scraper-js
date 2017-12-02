@@ -10,7 +10,7 @@ module.exports = (() => {
         tokens = {
             newYorkTimes: process.env.NEW_YORK_TIMES_TOKEN,
             weatherApi: process.env.WEATHER_API_TOKEN,
-            theVerge: process.env.THE_VERGE,
+            theVerge: process.env.NEWS_API,
             emailUsername: process.env.EMAIL_USER,
             emailPassword: process.env.EMAIL_PASS,
             emailReceiver: process.env.EMAIL_RECEIVER
@@ -71,8 +71,8 @@ module.exports = (() => {
         waterSupply: {
             isHttps: false,
             isApi: false,
-            host: 'obrazcov.bg',
-            path: '/%D0%BA%D1%8A%D0%B4%D0%B5-%D0%B2-%D1%81%D0%BE%D1%84%D0%B8%D1%8F-%D0%BD%D1%8F%D0%BC%D0%B0-%D0%B4%D0%B0-%D0%B8%D0%BC%D0%B0-%D0%B2%D0%BE%D0%B4%D0%B0-%D0%B4%D0%BD%D0%B5%D1%81/',
+            host: 'sofiyskavoda.bg',
+            path: '/water_stops.aspx',
             token: null
         },
         theVerge: {
@@ -80,7 +80,7 @@ module.exports = (() => {
             isApi: true,
             host: 'newsapi.org',
             path: '/v1/articles?source=the-verge&sort-by=top&apiKey={0}',
-            token: tokens.theVerge
+            token: tokens.newsApi
         },
         techCrunch: {
             isHttps: false,
@@ -88,6 +88,13 @@ module.exports = (() => {
             host: 'feeds.feedburner.com',
             path: '/TechCrunch.xml',
             token: null
+        },
+        techRadar: {
+            isHttps: true,
+            isApi: true,
+            host: 'newsapi.org',
+            path: '/v1/articles?source=techradar&sort-by=top&apiKey={0}',
+            token: tokens.newsApi
         },
         //email settings
         email: {

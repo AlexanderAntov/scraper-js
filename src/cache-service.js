@@ -9,6 +9,7 @@ import waterSupplyService from './providers/utilities/water-supply/water-supply-
 import weatherService from './providers/weather/weather-service.js';
 import techCrunchNewsService from './providers/news/tech-and-science/techcrunch/techcrunch-news-service.js';
 import theVergeNewsService from './providers/news/tech-and-science/the-verge/the-verge-news-service.js';
+import techRadarNewsService from './providers/news/tech-and-science/techradar/techradar-news-service.js'
 
 module.exports = (() => {
     const configFilePath = require('path').resolve(__dirname, 'common/config.json');
@@ -37,7 +38,8 @@ module.exports = (() => {
 
             var techAndScienceNewsPromises = [
                 new theVergeNewsService().get(),
-                new techCrunchNewsService().get()
+                new techCrunchNewsService().get(),
+                new techRadarNewsService().get()
             ];
 
             return Promise.all(newsDataPromises).then((dataModelLists) =>  {

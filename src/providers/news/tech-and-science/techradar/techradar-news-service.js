@@ -1,8 +1,8 @@
 ﻿import { apiConstants, httpService, newsModelFactory } from '../../../../common/common.js';
 
-export default class TheVergeNews {
+export default class TechRadarNews {
     get() {
-        let options = httpService.clone(apiConstants.theVerge);
+        let options = httpService.clone(apiConstants.techRadar);
         options.path = options.path.replace('{0}', options.token);
         return httpService.performGetRequest(options, dataTransformer);
 
@@ -15,7 +15,7 @@ export default class TheVergeNews {
                     url: newsItemData.url,
                     image: newsItemData.urlToImage,
                     dateTime: newsItemData.publishedAt,
-                    provider: 'verge'
+                    provider: 'techradar'
                 }));
             });
             return articlesArray;
