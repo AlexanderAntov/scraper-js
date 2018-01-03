@@ -52,7 +52,11 @@ app.get('/news/:provider', (req, res) => {
 });
 
 app.get('/tech-and-science', (req, res) => {
-    res.send(dataCache.techAndScience);
+    let responseNewsList = _.cloneDeep(dataCache.techAndScience);
+    if (!req.query.images) {
+        responseNewsList = getListNoImages(responseNewsList);
+    }
+    res.send(responseNewsList);
 });
 
 app.get('/weather', (req, res) => {
