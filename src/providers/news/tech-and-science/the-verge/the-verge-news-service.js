@@ -1,7 +1,7 @@
 ﻿import { apiConstants, httpService, newsModelFactory } from '../../../../common/common.js';
 
 export default class TheVergeNews {
-    get() {
+    static get() {
         let options = httpService.clone(apiConstants.theVerge);
         options.path = options.path.replace('{0}', options.token);
         return httpService.performGetRequest(options, dataTransformer);

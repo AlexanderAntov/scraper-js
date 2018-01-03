@@ -2,7 +2,7 @@
 import { apiConstants, httpService, newsModelFactory } from '../../../common/common.js';
 
 export default class HeatingSupply {
-    get(targetKeyword) {
+    static get(targetKeyword) {
         const options = httpService.clone(apiConstants.heatingSupply);
         return new Promise((resolve, reject) => {
             httpService.performGetRequest(options, (data) => {

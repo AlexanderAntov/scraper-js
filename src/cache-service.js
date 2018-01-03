@@ -26,20 +26,20 @@ module.exports = (() => {
     return {
         news: (cache) => {
             var newsDataPromises = [
-                new weatherService().getSummary(config.cityName),
-                new heatingSupplyService().get(config.suppliersKeyword),
-                new waterSupplyService().get(config.suppliersKeyword),
-                new googleNewsService().get(),
-                new cnnNewsService().get(),
-                new newYorkTimesNewsService().get(),
-                new bbcNewsService().get(),
-                new reutersNewsService().get()
+                weatherService.getSummary(config.cityName),
+                heatingSupplyService.get(config.suppliersKeyword),
+                waterSupplyService.get(config.suppliersKeyword),
+                googleNewsService.get(),
+                cnnNewsService.get(),
+                newYorkTimesNewsService.get(),
+                bbcNewsService.get(),
+                reutersNewsService.get()
             ];
 
             var techAndScienceNewsPromises = [
-                new theVergeNewsService().get(),
-                new techCrunchNewsService().get(),
-                new techRadarNewsService().get()
+                theVergeNewsService.get(),
+                techCrunchNewsService.get(),
+                techRadarNewsService.get()
             ];
 
             return Promise.all(newsDataPromises).then((dataModelLists) =>  {
@@ -61,7 +61,7 @@ module.exports = (() => {
             });
         },
         weather: (cache) => {
-            new weatherService().getDetailedForecast(config.cityName).then(function (data) {
+            weatherService.getDetailedForecast(config.cityName).then(function (data) {
                 cache.weather = data.mappedData;
                 cache.weatherRaw = data.rawData;
             });

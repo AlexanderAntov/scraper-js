@@ -2,7 +2,7 @@
 import { apiConstants, httpService, newsModelFactory } from '../../../common/common.js';
 
 export default class GoogleNews {
-    get() {
+    static get() {
         const options = httpService.clone(apiConstants.googleNews);
         return httpService.performGetRequest(options, dataTransformer);
 

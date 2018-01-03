@@ -2,7 +2,7 @@
 import { apiConstants, httpService, newsModelFactory } from '../../../common/common.js';
 
 export default class CnnNews {
-    get() {
+    static get() {
         const options = httpService.clone(apiConstants.cnn);
         return httpService.performGetRequest(options, dataTransformer);
 

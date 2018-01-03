@@ -3,7 +3,7 @@ import weatherIconsConst from './weather-icons-const.js';
 import weatherSummaryService from '../../transformers/weather-summary/weather-summary-service.js';
 
 export default class Weather {
-    getSummary(cityName) {
+    static getSummary(cityName) {
         let options = httpService.clone(apiConstants.weatherApi);
         options.path = options.path
             .replace('{0}', cityName)
@@ -53,7 +53,7 @@ export default class Weather {
         }
     }
 
-    getDetailedForecast(cityName) {
+    static getDetailedForecast(cityName) {
         let options = httpService.clone(apiConstants.weatherApi);
         options.path = options.path
             .replace('{0}', cityName)

@@ -1,7 +1,7 @@
 ﻿import { apiConstants, httpService, newsModelFactory } from '../../../common/common.js';
 
 export default class WaterSupply {
-    get() {
+    static get() {
         return Promise.resolve([]);
     }
 }

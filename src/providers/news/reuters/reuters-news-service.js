@@ -2,7 +2,7 @@
 import { apiConstants, httpService, newsModelFactory } from '../../../common/common.js';
 
 export default class ReutersNews {
-    get() {
+    static get() {
         const options = httpService.clone(apiConstants.reuters);
         return httpService.performGetRequest(options, dataTransformer);
 

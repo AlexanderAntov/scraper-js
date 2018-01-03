@@ -2,7 +2,7 @@
 import { apiConstants, httpService, newsModelFactory } from '../../../common/common.js';
 
 export default class BbcNews {
-    get() {
+    static get() {
         const options = httpService.clone(apiConstants.bbc);
         return httpService.performGetRequest(options, dataTransformer);
 
