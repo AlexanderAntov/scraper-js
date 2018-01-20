@@ -6,6 +6,7 @@ import cacheService from './cache-service.js';
 import weatherService from './providers/weather/weather-service.js';
 import tfIdfModifierService from './transformers/keywords/tf-idf/tf-idf-modifier-service.js';
 import httpService from './common/http-service.js';
+import apiProvidersConst from './common/api-providers-const.js';
 
 let app = express(),
     dataCache = {
@@ -49,6 +50,10 @@ app.get('/news/:provider', (req, res) => {
         responseNewsList = getListNoImages(responseNewsList);
     }
     res.send(responseNewsList);
+});
+
+app.get('/news-providers', (req, res) => {
+    res.send(apiProvidersConst);
 });
 
 app.get('/tech-and-science', (req, res) => {
