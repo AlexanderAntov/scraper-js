@@ -1,6 +1,6 @@
 ﻿import xml2js from 'xml2js';
 import cheerio from 'cheerio';
-import { apiConstants, httpService, newsModelFactory } from '../../../../common/common.js';
+import { apiConstants, apiProvidersConst, httpService, newsModelFactory } from '../../../../common/common.js';
 
 export default class TechCrunchNews {
     static get() {
@@ -28,7 +28,7 @@ export default class TechCrunchNews {
                         url: newsItemData.link[0],
                         image: null,
                         dateTime: newsItemData.pubDate[0],
-                        provider: 'techcrunch'
+                        provider: apiProvidersConst.TECH_CRUNCH.id
                     }));
                 });
             });

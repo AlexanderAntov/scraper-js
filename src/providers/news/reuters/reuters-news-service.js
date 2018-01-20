@@ -1,5 +1,5 @@
 ﻿import xml2js from 'xml2js';
-import { apiConstants, httpService, newsModelFactory } from '../../../common/common.js';
+import { apiConstants, apiProvidersConst, httpService, newsModelFactory } from '../../../common/common.js';
 
 export default class ReutersNews {
     static get() {
@@ -16,7 +16,7 @@ export default class ReutersNews {
                         url: newsItemData.link[0],
                         image: null,
                         dateTime: newsItemData.pubDate[0],
-                        provider: 'reuters'
+                        provider: apiProvidersConst.REUTERS.id
                     }));
                 });
             });

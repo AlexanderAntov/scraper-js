@@ -1,5 +1,5 @@
 ﻿import xml2js from 'xml2js';
-import { apiConstants, httpService, newsModelFactory } from '../../../common/common.js';
+import { apiConstants, apiProvidersConst, httpService, newsModelFactory } from '../../../common/common.js';
 
 export default class GoogleNews {
     static get() {
@@ -16,7 +16,7 @@ export default class GoogleNews {
                         url: newsItemData.link[0],
                         image: null,
                         dateTime: newsItemData.pubDate[0],
-                        provider: 'google'
+                        provider: apiProvidersConst.GOOGLE_BG.id
                     }));
                 });
             });

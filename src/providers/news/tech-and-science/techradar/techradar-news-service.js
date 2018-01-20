@@ -1,4 +1,4 @@
-﻿import { apiConstants, httpService, newsModelFactory } from '../../../../common/common.js';
+﻿import { apiConstants, apiProvidersConst, httpService, newsModelFactory } from '../../../../common/common.js';
 
 export default class TechRadarNews {
     static get() {
@@ -15,7 +15,7 @@ export default class TechRadarNews {
                     url: newsItemData.url,
                     image: newsItemData.urlToImage,
                     dateTime: newsItemData.publishedAt,
-                    provider: 'techradar'
+                    provider: apiProvidersConst.TECH_RADAR.id
                 }));
             });
             return articlesArray;

@@ -1,5 +1,5 @@
 ﻿import xml2js from 'xml2js';
-import { apiConstants, httpService, newsModelFactory } from '../../../common/common.js';
+import { apiConstants, apiProvidersConst, httpService, newsModelFactory } from '../../../common/common.js';
 
 export default class BbcNews {
     static get() {
@@ -16,7 +16,7 @@ export default class BbcNews {
                         url: newsItemData.link[0],
                         image: newsItemData['media:thumbnail'] ? newsItemData['media:thumbnail'][0]['$'].url : null,
                         dateTime: newsItemData.pubDate ? newsItemData.pubDate[0] : '',
-                        provider: 'bbc'
+                        provider: apiProvidersConst.BBC.id
                     }));
                 });
             });

@@ -1,4 +1,4 @@
-﻿import { apiConstants, httpService, newsModelFactory } from '../../../../common/common.js';
+﻿import { apiConstants, apiProvidersConst, httpService, newsModelFactory } from '../../../../common/common.js';
 
 export default class TheVergeNews {
     static get() {
@@ -15,7 +15,7 @@ export default class TheVergeNews {
                     url: newsItemData.url,
                     image: newsItemData.urlToImage,
                     dateTime: newsItemData.publishedAt,
-                    provider: 'verge'
+                    provider: apiProvidersConst.THE_VERGE.id
                 }));
             });
             return articlesArray;

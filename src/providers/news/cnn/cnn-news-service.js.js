@@ -1,5 +1,5 @@
 ﻿import xml2js from 'xml2js';
-import { apiConstants, httpService, newsModelFactory } from '../../../common/common.js';
+import { apiConstants, apiProvidersConst, httpService, newsModelFactory } from '../../../common/common.js';
 
 export default class CnnNews {
     static get() {
@@ -16,7 +16,7 @@ export default class CnnNews {
                         url: newsItemData.link[0],
                         image: newsItemData['media:group'] ? newsItemData['media:group'][0]['media:content'][0]['$'].url : null,
                         dateTime: newsItemData.pubDate ? newsItemData.pubDate[0] : '',
-                        provider: 'cnn'
+                        provider: apiProvidersConst.CNN.id
                     };
 
                     if (currentNewsModel.info) {

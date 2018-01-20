@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import apiProvidersConst from '../../../common/api-providers-const.js';
 import tfIdfService from './tf-idf-service.js';
 import mailerService from '../../../common/mailer-service.js';
 
@@ -26,7 +27,8 @@ export default class TfIdfModifierService {
 
         let weightedKeywords = this.tfIdf
             .get(this.addTopNewsScore(modelsList.filter((newsModel) => {
-                return newsModel.provider !== 'google' && newsModel.provider !== 'weather';
+                return newsModel.provider !== apiProvidersConst.GOOGLE_BG.id && 
+                    newsModel.provider !== apiProvidersConst.WEATHER.id;
             })));
 
         cache.newsKeywords = _.orderBy(weightedKeywords, ['score'], ['desc']);

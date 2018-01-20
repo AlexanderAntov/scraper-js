@@ -1,4 +1,4 @@
-﻿import { apiConstants, httpService, newsModelFactory } from '../../../common/common.js';
+﻿import { apiConstants, apiProvidersConst, httpService, newsModelFactory } from '../../../common/common.js';
 
 export default class NewYorkTimesNews {
     static get() {
@@ -15,7 +15,7 @@ export default class NewYorkTimesNews {
                     url: newsItemData.url,
                     image: getImageUrl(newsItemData),
                     dateTime: newsItemData['published_date'].replace('T', ' ').split(' ')[0],
-                    provider: 'nyt'
+                    provider: apiProvidersConst.NYT.id
                 }));
             });
             return articlesArray;

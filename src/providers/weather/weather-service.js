@@ -1,4 +1,4 @@
-﻿import { apiConstants, httpService, newsModelFactory } from '../../common/common.js';
+﻿import { apiConstants, apiProvidersConst, httpService, newsModelFactory } from '../../common/common.js';
 import weatherIconsConst from './weather-icons-const.js';
 import weatherSummaryService from '../../transformers/weather-summary/weather-summary-service.js';
 
@@ -25,7 +25,7 @@ export default class Weather {
                     url: 'https://scraper-web.herokuapp.com/index.html#!/weather-line-chart',
                     image: (process.env.APP_URL || '') + weatherIconsConst[weatherCode],
                     dateTime: new Date().toDateString(),
-                    provider: 'weather'
+                    provider: apiProvidersConst.WEATHER.id
                 })
             ];
 
@@ -79,7 +79,7 @@ export default class Weather {
                     url: 'https://scraper-web.herokuapp.com/index.html#!/weather-line-chart',
                     image: process.env.APP_URL + weatherIconsConst[weatherDataItem.weather[0].id],
                     dateTime: '',
-                    provider: 'weather'
+                    provider: apiProvidersConst.WEATHER.id
                 }));
 
                 currentDate.setDate(currentDate.getDate() + 1);

@@ -1,5 +1,5 @@
 ﻿import cheerio from 'cheerio';
-import { apiConstants, httpService, newsModelFactory } from '../../../common/common.js';
+import { apiConstants, apiProvidersConst, httpService, newsModelFactory } from '../../../common/common.js';
 
 export default class HeatingSupply {
     static get(targetKeyword) {
@@ -43,7 +43,7 @@ export default class HeatingSupply {
                                     .text()
                                     .replace(/\r\n\s+/g, '')
                                     .trim(),
-                                provider: null
+                                provider: apiProvidersConst.HEATING.id
                             })]);
                         });
                     } else {
