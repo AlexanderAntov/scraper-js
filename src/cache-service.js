@@ -58,12 +58,16 @@ module.exports = (() => {
                     cache.techAndScience = newsModelsList;
                     return dataModelLists;
                 });
+            }).catch((error) => {
+                console.error(error);
             });
         },
         weather: (cache) => {
             weatherService.getDetailedForecast(config.cityName).then(function (data) {
                 cache.weather = data.mappedData;
                 cache.weatherRaw = data.rawData;
+            }).catch((error) => {
+                console.error(error);
             });
         }
     };

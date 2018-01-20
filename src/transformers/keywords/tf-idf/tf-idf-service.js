@@ -12,7 +12,7 @@ export default class TfIdfService {
             tfIdfMap = [];
 
         modelsList.forEach((model, index) => {
-            let textItemWords = this.generateNGrams(this.normalizeText(model.text)),
+            let textItemWords = this.generateNGrams(this.normalizeText(model.getText())),
                 textItemWordsLength = textItemWords.length;
             textItemWords.forEach((word) => {
                 word = word.trim();
@@ -51,7 +51,7 @@ export default class TfIdfService {
         return tfIdfMap;
 
         function evalFrequency(model, word, options, textItemWordsLength) {
-            const wordOccurrenceCount = evalWordCount(model.text, word);
+            const wordOccurrenceCount = evalWordCount(model.getText(), word);
             let tfScore = wordOccurrenceCount / textItemWordsLength;
 
             idfMap[word] = idfMap[word] ? idfMap[word] + wordOccurrenceCount : wordOccurrenceCount;

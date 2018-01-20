@@ -25,7 +25,9 @@ export default class TfIdfModifierService {
         }
 
         let weightedKeywords = this.tfIdf
-            .get(this.addTopNewsScore(modelsList.filter(this.removeNonEnglishNews)));
+            .get(this.addTopNewsScore(modelsList.filter((newsModel) => {
+                return newsModel.provider !== 'google' && newsModel.provider !== 'weather';
+            })));
 
         cache.newsKeywords = _.orderBy(weightedKeywords, ['score'], ['desc']);
         return cache.newsKeywords;
@@ -47,14 +49,6 @@ export default class TfIdfModifierService {
             'News keywords',
             keywordsList.join('\n')
         );
-    }
-
-    removeNonEnglishNews(newsModel) {
-        const result = newsModel.provider !== 'google' && newsModel.provider !== 'weather';
-        if (result) {
-            newsModel.text = newsModel.title + '\n' + newsModel.info + '\n';
-        }
-        return result;
     }
 
     addTopNewsScore(modelsList) {
