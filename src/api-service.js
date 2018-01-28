@@ -41,7 +41,7 @@ export default class ApiService {
     newsByProvider(req, res) {
         let responseNewsList = _.cloneDeep(this.cache.news);
         if (req.params.provider) {
-            responseNewsList = _.filter(this.cache.news, { provider: req.params.provider });
+            responseNewsList = _.filter(this.cache.news, { provider: parseInt(req.params.provider) });
         }
         if (!req.query.images) {
             responseNewsList = this._getListNoImages(responseNewsList);
