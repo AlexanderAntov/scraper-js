@@ -8,6 +8,7 @@ module.exports = (() => {
         tokens = require(tokensFilePath);
     } else {
         tokens = {
+            authToken: process.env.AUTH_TOKEN,
             newYorkTimes: process.env.NEW_YORK_TIMES_TOKEN,
             weatherApi: process.env.WEATHER_API_TOKEN,
             newsApi: process.env.NEWS_API,
@@ -19,6 +20,7 @@ module.exports = (() => {
 
     return {
         //http settings
+        auth: tokens.authToken,
         newYorkTimes: {
             isHttps: true,
             isApi: true,

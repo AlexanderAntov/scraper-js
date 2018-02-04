@@ -3,6 +3,7 @@ import providersCacheService from './providers/providers-cache-service.js';
 import weatherService from './providers/weather/weather-service.js';
 import tfIdfModifierService from './transformers/keywords/tf-idf/tf-idf-modifier-service.js';
 import httpService from './common/http-service.js';
+import apiConstants from './common/api-constants.js';
 import apiProvidersConst from './common/api-providers-const.js';
 
 export default class ApiService {
@@ -80,7 +81,7 @@ export default class ApiService {
     }
 
     resetCache(req, res) {
-        if (req.query.token === process.env.AUTH_TOKEN) {
+        if (req.query.token === apiConstants.auth) {
             let result = this.setUpCache();
             if (req.query.keywords) {
                 result = result.then(() => {
