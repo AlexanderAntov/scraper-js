@@ -6,6 +6,7 @@ import bbcNewsService from './news/bbc/bbc-news-service.js';
 import reutersNewsService from './news/reuters/reuters-news-service.js';
 import heatingSupplyService from './utilities/heating-supply/heating-supply-service.js';
 import waterSupplyService from './utilities/water-supply/water-supply-service.js';
+import airPollutionService from './weather/air-pollution-service.js';
 import weatherService from './weather/weather-service.js';
 import techCrunchNewsService from './news/tech-and-science/techcrunch/techcrunch-news-service.js';
 import theVergeNewsService from './news/tech-and-science/the-verge/the-verge-news-service.js';
@@ -27,6 +28,7 @@ module.exports = (() => {
         news: (cache) => {
             var newsDataPromises = [
                 weatherService.getSummary(config.cityName),
+                airPollutionService.getSummary(),
                 heatingSupplyService.get(config.suppliersKeyword),
                 waterSupplyService.get(config.suppliersKeyword),
                 googleNewsService.get(),

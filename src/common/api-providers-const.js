@@ -4,46 +4,50 @@ export default {
         id: 1,
         value: 'weather'
     },
-    GOOGLE_BG: {
+    AIR_POLLUTION: {
         id: 2,
+        value: 'air pollution'
+    },
+    GOOGLE_BG: {
+        id: 3,
         value: 'Google BG'
     },
     CNN: {
-        id: 3,
+        id: 4,
         value: 'CNN'
     },
     NYT: {
-        id: 4,
+        id: 5,
         value: 'New York Times'
     },
     BBC: {
-        id: 5,
+        id: 6,
         value: 'BBC'
     },
     REUTERS: {
-        id: 6,
+        id: 7,
         value: 'Reuters'
     },
     //tech and science
     THE_VERGE: {
-        id: 7,
+        id: 8,
         value: 'The Verge'
     },
     TECH_CRUNCH: {
-        id: 8,
+        id: 9,
         value: 'TechCrunch'
     },
     TECH_RADAR: {
-        id: 9,
+        id: 10,
         value: 'TechRadar'
     },
     //utilities
     HEATING: {
-        id: 10,
+        id: 11,
         value: 'Toplo'
     },
     WATER: {
-        id: 11,
-        value: 'SV'
+        id: 12,
+        value: 'Sofiiska voda'
     }
 };

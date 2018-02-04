@@ -11,6 +11,7 @@ module.exports = (() => {
             authToken: process.env.AUTH_TOKEN,
             newYorkTimes: process.env.NEW_YORK_TIMES_TOKEN,
             weatherApi: process.env.WEATHER_API_TOKEN,
+            airPollution: process.env.AIR_POLLUTION_TOKEN,
             newsApi: process.env.NEWS_API,
             emailUsername: process.env.EMAIL_USER,
             emailPassword: process.env.EMAIL_PASS,
@@ -62,6 +63,13 @@ module.exports = (() => {
             host: 'api.openweathermap.org',
             path: '/data/2.5/forecast/daily?q={0}&units=metric&mode=json&cnt={1}&appid={2}',
             token: tokens.weatherApi
+        },
+        airPollution: {
+            isHttps: true,
+            isApi: true,
+            host: 'airtube.info',
+            path: '/api/sensor_get.php?geohash={0}&period=3d&mode=table&interval=1d',
+            token: tokens.airPollution
         },
         heatingSupply: {
             isHttps: false,
