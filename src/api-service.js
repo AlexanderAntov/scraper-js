@@ -42,7 +42,19 @@ export default class ApiService {
     newsByProvider(req, res) {
         let responseNewsList = _.cloneDeep(this.cache.news);
         if (req.params.provider) {
-            responseNewsList = _.filter(this.cache.news, { provider: parseInt(req.params.provider) });
+            let targetProvider = null;
+            for (let provider in apiProvidersConst) {
+                if (apiProvidersConst.hasOwnProperty(provider) && 
+                    apiProvidersConst[provider].filter === req.params.provider) {
+                        targetProvider = apiProvidersConst[provider];
+                 }
+            }
+
+            if (targetProvider) {
+                responseNewsList = _.filter(this.cache.news, { provider: targetProvider.id });
+            } else {
+                responseNewsList = [];
+            }
         }
         if (!req.query.images) {
             responseNewsList = this._getListNoImages(responseNewsList);

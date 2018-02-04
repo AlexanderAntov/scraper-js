@@ -10,23 +10,28 @@ export default {
     },
     GOOGLE_BG: {
         id: 3,
-        value: 'Google BG'
+        value: 'Google BG',
+        filter: 'google'
     },
     CNN: {
         id: 4,
-        value: 'CNN'
+        value: 'CNN',
+        filter: 'cnn'
     },
     NYT: {
         id: 5,
-        value: 'New York Times'
+        value: 'New York Times',
+        filter: 'nyt'
     },
     BBC: {
         id: 6,
-        value: 'BBC'
+        value: 'BBC',
+        filter: 'bbc'
     },
     REUTERS: {
         id: 7,
-        value: 'Reuters'
+        value: 'Reuters',
+        filter: 'reuters'
     },
     //tech and science
     THE_VERGE: {
