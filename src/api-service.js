@@ -24,6 +24,13 @@ export default class ApiService {
         });
     }
 
+    setUpCacheWithKeywords() {
+        this.setUpCache().then(() => {
+            const tfIdfModifier = new tfIdfModifierService();
+            return tfIdfModifier.sendMail(tfIdfModifier.get(this.cache.news, this.cache));
+        });
+    }
+
     home(req, res) {
         res.send('Welcome to Scraper API <br />' + 'Server time: ' + new Date().toString());
     }

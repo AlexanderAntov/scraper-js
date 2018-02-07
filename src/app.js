@@ -15,7 +15,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get('/', apiService.home);
+app.get('/', (req, res) => apiService.home(req, res));
 app.get('/news', (req, res) => apiService.news(req, res));
 app.get('/news/:provider', (req, res) => apiService.newsByProvider(req, res));
 app.get('/news-keywords', (req, res) => apiService.newsKeywords(req, res));
@@ -32,7 +32,12 @@ app.listen(app.get('port'), () => {
 });
 
 function setUpSchedule() {
-    let serverTimeOffset = -(new Date().getTimezoneOffset() / 60 + 2);
-    schedule.scheduleJob({ hour: 7 + serverTimeOffset }, (req, res) => apiService.setUpCache(req, res));
-    schedule.scheduleJob({ hour: 17 + serverTimeOffset }, (req, res) => apiService.setUpCache(req, res));
+    const setUpCache = () => apiService.setUpCache(),
+        setUpCacheWithKeywords = () => apiService.setUpCacheWithKeywords(),
+        serverTimeOffset = -(new Date().getTimezoneOffset() / 60 + 2);
+    schedule.scheduleJob({ hour: 7 + serverTimeOffset }, setUpCacheWithKeywords);
+    schedule.scheduleJob({ hour: 9 + serverTimeOffset }, setUpCache);
+    schedule.scheduleJob({ hour: 13 + serverTimeOffset }, setUpCache);
+    schedule.scheduleJob({ hour: 17 + serverTimeOffset, minute: 30 }, setUpCacheWithKeywords);
+    schedule.scheduleJob({ hour: 20 + serverTimeOffset }, setUpCache);
 }

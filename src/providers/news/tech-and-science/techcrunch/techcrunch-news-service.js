@@ -4,8 +4,7 @@ import { apiConstants, apiProvidersConst, httpService, newsModelFactory } from '
 
 export default class TechCrunchNews {
     static get() {
-        const parseXMLString = require('xml2js').parseString,
-            options = httpService.clone(apiConstants.techCrunch);
+        const options = httpService.clone(apiConstants.techCrunch);
         return httpService.performGetRequest(options, dataTransformer);
 
         function dataTransformer(data) {
