@@ -21,12 +21,22 @@ export default class AirPollution {
 
         function constructInfo(data) {
             const itemSeparator = '  ',
+                valueSeparator = '/',
                 lineSeparator = '\r\n';
             let info = '';
             if (data && data.table && data.table.values) {
-                info += 'current: ' + data.sensor.P1.current + lineSeparator;
+                info += 'current: ' + 
+                    data.sensor.P1.current + 
+                    valueSeparator +
+                    data.sensor.P2.current +
+                    lineSeparator;
                 data.table.values.reverse().forEach((model) => {
-                    info += formatDate(new Date(model.time * 1000)) + ' ' + model.P1 + lineSeparator;
+                    info += formatDate(new Date(model.time * 1000)) + 
+                        itemSeparator + 
+                        model.P1 + 
+                        valueSeparator +
+                        model.P2 +
+                        lineSeparator;
                 });
             }
             return info;
