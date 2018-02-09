@@ -24,7 +24,11 @@ export default class HttpService {
 
                 response.on('end', () => {
                     if (options.isApi) {
-                        resolve(dataTransformer(JSON.parse(result)));
+                        if (HttpService._isValidJson(result)) {
+                            resolve(dataTransformer(JSON.parse(result)));
+                        } else {
+                            resolve(dataTransformer({}));
+                        }
                     } else {
                         resolve(dataTransformer(result));
                     }
@@ -37,5 +41,13 @@ export default class HttpService {
 
             request.end();
         });
+    }
+
+    static _isValidJson(data) {
+        try {
+            return data && JSON.parse(data);
+        } catch (error) {
+            return false;
+        }
     }
 }

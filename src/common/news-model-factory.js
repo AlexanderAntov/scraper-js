@@ -1,5 +1,8 @@
-﻿class NewsModel {
+﻿import * as _ from 'lodash';
+
+class NewsModel {
     constructor(data = {}) {
+        this.id = parseInt(_.uniqueId());
         this.title = data.title;
         this.info = data.info;
         this.url = data.url;
