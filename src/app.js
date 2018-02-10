@@ -33,11 +33,10 @@ app.listen(app.get('port'), () => {
 
 function setUpSchedule() {
     const setUpCache = () => apiService.setUpCache(),
-        setUpCacheWithKeywords = () => apiService.setUpCacheWithKeywords(),
-        serverTimeOffset = -(new Date().getTimezoneOffset() / 60 + 2);
-    schedule.scheduleJob({ hour: 7 + serverTimeOffset }, setUpCacheWithKeywords);
-    schedule.scheduleJob({ hour: 9 + serverTimeOffset }, setUpCache);
-    schedule.scheduleJob({ hour: 13 + serverTimeOffset }, setUpCache);
-    schedule.scheduleJob({ hour: 17 + serverTimeOffset, minute: 30 }, setUpCacheWithKeywords);
-    schedule.scheduleJob({ hour: 20 + serverTimeOffset }, setUpCache);
+        setUpCacheWithKeywords = () => apiService.setUpCacheWithKeywords();
+    schedule.scheduleJob({ hour: 7, minute: 0, second: 0 }, setUpCacheWithKeywords);
+    schedule.scheduleJob({ hour: 9, minute: 0, second: 0 }, setUpCache);
+    schedule.scheduleJob({ hour: 13, minute: 0, second: 0 }, setUpCache);
+    schedule.scheduleJob({ hour: 17, minute: 30, second: 0 }, setUpCacheWithKeywords);
+    schedule.scheduleJob({ hour: 20, minute: 0, second: 0 }, setUpCache);
 }

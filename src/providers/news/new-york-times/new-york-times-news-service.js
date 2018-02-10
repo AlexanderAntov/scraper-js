@@ -8,6 +8,10 @@ export default class NewYorkTimesNews {
 
         function dataTransformer(data) {
             const articlesArray = [];
+            if (!data) {
+                return articlesArray;
+            }
+
             data.results.forEach((newsItemData) => {
                 articlesArray.push(newsModelFactory.get({
                     title: newsItemData.title,

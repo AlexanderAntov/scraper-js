@@ -27,7 +27,7 @@ export default class HttpService {
                         if (HttpService._isValidJson(result)) {
                             resolve(dataTransformer(JSON.parse(result)));
                         } else {
-                            resolve(dataTransformer({}));
+                            resolve(dataTransformer(null));
                         }
                     } else {
                         resolve(dataTransformer(result));
