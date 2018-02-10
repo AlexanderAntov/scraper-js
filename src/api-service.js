@@ -1,5 +1,6 @@
 ﻿import * as _ from 'lodash';
 import providersCacheService from './providers/providers-cache-service.js';
+import providersScrapingService from './providers/providers-scraping-service.js';
 import weatherService from './providers/weather/weather-service.js';
 import tfIdfModifierService from './transformers/keywords/tf-idf/tf-idf-modifier-service.js';
 import httpService from './common/http-service.js';
@@ -83,6 +84,18 @@ export default class ApiService {
             responseNewsList = this._getListNoImages(responseNewsList);
         }
         res.send(responseNewsList);
+    }
+
+    scrape(req, res) {
+        let id, model;
+        if (req.params.id) {
+            id = parseInt(req.params.id);
+            model = _.find(this.cache.news, { id: id });
+        }
+
+        providersScrapingService.scrape(model).then((data) => {
+            res.send(data);
+        });
     }
 
     weather(req, res) {

@@ -68,7 +68,7 @@ module.exports = (() => {
             isHttps: true,
             isApi: true,
             host: 'airtube.info',
-            path: '/api/sensor_get.php?geohash={0}&period=3d&mode=table&interval=1d',
+            path: '/api/get_data_history.php?geohash={0}&period=3d&mode=table&interval=1d',
             token: tokens.airPollution
         },
         heatingSupply: {

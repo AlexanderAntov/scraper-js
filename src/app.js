@@ -21,6 +21,7 @@ app.get('/news/:provider', (req, res) => apiService.newsByProvider(req, res));
 app.get('/news-keywords', (req, res) => apiService.newsKeywords(req, res));
 app.get('/news-providers', (req, res) => apiService.newsProviders(req, res));
 app.get('/tech-and-science', (req, res) => apiService.techAndScience(req, res));
+app.get('/scrape/:id', (req, res) => apiService.scrape(req, res));
 app.get('/weather', (req, res) => apiService.weather(req, res));
 app.get('/weather-raw', (req, res) => apiService.weatherRaw(req, res));
 app.get('/reset-cache', (req, res) => apiService.resetCache(req, res));

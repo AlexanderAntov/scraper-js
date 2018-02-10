@@ -24,6 +24,7 @@ export default class AirPollution {
                 valueSeparator = '/',
                 lineSeparator = '\r\n';
             let info = '';
+            //TODO the data has changed
             if (data && data.table && data.table.values) {
                 info += 'current: ' + 
                     data.sensor.P1.current + 

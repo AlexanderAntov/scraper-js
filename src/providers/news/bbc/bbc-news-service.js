@@ -1,4 +1,6 @@
 ﻿import xml2js from 'xml2js';
+import cheerio from 'cheerio';
+import { URL } from 'url';
 import { apiConstants, apiProvidersConst, httpService, newsModelFactory } from '../../../common/common.js';
 
 export default class BbcNews {
@@ -22,5 +24,23 @@ export default class BbcNews {
             });
             return articlesArray;
         }
+    }
+
+    static scrape(model) {
+        const url = new URL(model.url);
+        
+        return httpService.performGetRequest({
+            isApi: false,
+            isHttps: false,
+            host: url.host,
+            path: url.pathname
+        }, (data) => {
+            let $ = cheerio.load(data),
+            result = '';
+            $('.story-body__inner').find('p').each((index, elem) => {
+                result += $(elem).text();
+            });
+            return result;
+        });
     }
 }
