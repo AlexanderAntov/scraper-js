@@ -1,4 +1,6 @@
 ﻿import xml2js from 'xml2js';
+import cheerio from 'cheerio';
+import { URL } from 'url';
 import { apiConstants, apiProvidersConst, httpService, newsModelFactory } from '../../../common/common.js';
 
 export default class CnnNews {
@@ -26,5 +28,23 @@ export default class CnnNews {
             });
             return articlesArray;
         }
+    }
+
+    static scrape(model) {
+        const url = new URL(model.url);
+
+        return httpService.performGetRequest({
+            isApi: false,
+            isHttps: true,
+            host: 'edition.cnn.com',
+            path: url.pathname
+        }, (data) => {
+            let $ = cheerio.load(data),
+                result = '';
+            $('.l-container').find('.zn-body__paragraph').each((index, elem) => {
+                result += $(elem).text();
+            });
+            return result;
+        });
     }
 }

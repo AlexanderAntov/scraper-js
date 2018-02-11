@@ -36,7 +36,7 @@ export default class BbcNews {
             path: url.pathname
         }, (data) => {
             let $ = cheerio.load(data),
-            result = '';
+                result = '';
             $('.story-body__inner').find('p').each((index, elem) => {
                 result += $(elem).text();
             });
