@@ -25,7 +25,7 @@ export default class AirPollution {
                 lineSeparator = '\r\n';
             let info = '';
             if (data && data.length > 0) {
-                data.forEach((model) => {
+                data.reverse().forEach((model) => {
                     info += formatDate(new Date(model.time.current * 1000)) + 
                         itemSeparator + 
                         model.P1.current + 
