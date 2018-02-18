@@ -27,7 +27,6 @@ app.get('/weather-raw', (req, res) => apiService.weatherRaw(req, res));
 app.get('/reset-cache', (req, res) => apiService.resetCache(req, res));
 
 app.set('port', process.env.PORT || 3000);
-app.set('trust proxy', true);
 
 app.listen(app.get('port'), () => {
     console.log('Express server listening on port ' + app.get('port'));

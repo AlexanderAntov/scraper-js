@@ -24,19 +24,13 @@ export default class AirPollution {
                 valueSeparator = '/',
                 lineSeparator = '\r\n';
             let info = '';
-            //TODO the data has changed
-            if (data && data.table && data.table.values) {
-                info += 'current: ' + 
-                    data.sensor.P1.current + 
-                    valueSeparator +
-                    data.sensor.P2.current +
-                    lineSeparator;
-                data.table.values.reverse().forEach((model) => {
-                    info += formatDate(new Date(model.time * 1000)) + 
+            if (data && data.length > 0) {
+                data.forEach((model) => {
+                    info += formatDate(new Date(model.time.current * 1000)) + 
                         itemSeparator + 
-                        model.P1 + 
+                        model.P1.current + 
                         valueSeparator +
-                        model.P2 +
+                        model.P2.current +
                         lineSeparator;
                 });
             }

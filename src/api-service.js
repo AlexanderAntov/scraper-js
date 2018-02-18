@@ -6,7 +6,6 @@ import tfIdfModifierService from './transformers/keywords/tf-idf/tf-idf-modifier
 import httpService from './common/http-service.js';
 import apiConstants from './common/api-constants.js';
 import apiProvidersConst from './common/api-providers-const.js';
-import mailerService from './common/mailer-service.js';
 
 export default class ApiService {
     constructor() {
@@ -34,12 +33,7 @@ export default class ApiService {
     }
 
     home(req, res) {
-        //res.send('Welcome to Scraper API <br />' + 'Server time: ' + new Date().toString());
-        res.send('Thank you for your vote!');
-        mailerService.send('ip', req.headers["X-Forwarded-For"] ||
-            req.headers["x-forwarded-for"] ||
-            req.client.remoteAddress
-        );
+        res.send('Welcome to Scraper API <br />' + 'Server time: ' + new Date().toString());
     }
 
     news(req, res) {
