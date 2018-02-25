@@ -2,8 +2,10 @@
 import * as path from 'path';
 
 export default (() => {
-    const tokensFilePath = path.resolve(__dirname, 'tokens.json');
-    let tokens;
+    const tokensFilePath = path.resolve(__dirname, 'tokens.json'),
+        configFilePath = path.resolve(__dirname, 'config.json');
+    let tokens, config;
+
     if (fs.existsSync(tokensFilePath)) {
         tokens = require(tokensFilePath);
     } else {
@@ -19,8 +21,19 @@ export default (() => {
         };
     }
 
+    if (fs.existsSync(configFilePath)) {
+        config = require(configFilePath);
+    } else {
+        config = {
+            apiUrl: process.env.APP_URL,
+            webAppUrl: process.env.WEB_APP_URL
+        };
+    }
+
     return {
         //http settings
+        apiUrl: config.apiUrl,
+        webAppUrl: config.webAppUrl, 
         auth: tokens.authToken,
         newYorkTimes: {
             isHttps: true,

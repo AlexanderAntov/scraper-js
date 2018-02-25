@@ -22,8 +22,8 @@ export default class Weather {
                 newsModelFactory.get({
                     title: weatherSummaryService.get(data.list),
                     info: forecastDescription,
-                    url: 'https://scraper-web.herokuapp.com/index.html#!/weather-line-chart',
-                    image: (process.env.APP_URL || '') + weatherIconsConst[weatherCode],
+                    url: apiConstants.webAppUrl + '/index.html#!/weather-line-chart',
+                    image: apiConstants.apiUrl + weatherIconsConst[weatherCode],
                     dateTime: new Date().toDateString(),
                     provider: apiProvidersConst.WEATHER.id
                 })
@@ -76,8 +76,8 @@ export default class Weather {
                 weatherModelsList.push(newsModelFactory.get({
                     title: 'Weather ' + formatDate(currentDate),
                     info: getCurrentDayDescription(weatherDataItem),
-                    url: 'https://scraper-web.herokuapp.com/index.html#!/weather-line-chart',
-                    image: process.env.APP_URL + weatherIconsConst[weatherDataItem.weather[0].id],
+                    url: apiConstants.webAppUrl + '/index.html#!/weather-line-chart',
+                    image: apiConstants.apiUrl + weatherIconsConst[weatherDataItem.weather[0].id],
                     dateTime: '',
                     provider: apiProvidersConst.WEATHER.id
                 }));
