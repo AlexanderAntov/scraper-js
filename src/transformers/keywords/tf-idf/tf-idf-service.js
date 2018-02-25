@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import { isFunction } from 'lodash';
 import stopWordsList from '../stopwords-const.js';
 
 export default class TfIdfService {
@@ -56,7 +56,7 @@ export default class TfIdfService {
 
             idfMap[word] = idfMap[word] ? idfMap[word] + wordOccurrenceCount : wordOccurrenceCount;
 
-            if (_.isFunction(options.TF_SCORE_MODIFIER)) {
+            if (isFunction(options.TF_SCORE_MODIFIER)) {
                 tfScore = options.TF_SCORE_MODIFIER(tfScore, model, word);
             }
 

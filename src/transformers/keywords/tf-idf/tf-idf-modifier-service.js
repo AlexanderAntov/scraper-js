@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import { isEmpty, orderBy, map } from 'lodash';
 import apiProvidersConst from '../../../common/api-providers-const.js';
 import tfIdfService from './tf-idf-service.js';
 import mailerService from '../../../common/mailer-service.js';
@@ -21,7 +21,7 @@ export default class TfIdfModifierService {
     }
 
     get(modelsList, cache) {
-        if (_.isEmpty(modelsList)) {
+        if (isEmpty(modelsList)) {
             throw Error('no models have been provided for keyword evaluation');
         }
 
@@ -32,16 +32,16 @@ export default class TfIdfModifierService {
                     newsModel.provider !== apiProvidersConst.AIR_POLLUTION.id;
             })));
 
-        cache.newsKeywords = _.orderBy(weightedKeywords, ['score'], ['desc']);
+        cache.newsKeywords = orderBy(weightedKeywords, ['score'], ['desc']);
         return cache.newsKeywords;
     }
 
     sendMail(modelsList) {
-        if (_.isEmpty(modelsList)) {
+        if (isEmpty(modelsList)) {
             throw Error('no models have been provided for mailing');
         }
 
-        let keywordsList = _.map(modelsList, (model, index) => {
+        let keywordsList = map(modelsList, (model, index) => {
             let result = model.word + '   ' + model.score.toString();
             if (index < 50) {
                 result += '   https://www.google.com/search?q=' + model.word.replace(/\s+/g, '+');

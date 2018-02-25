@@ -1,4 +1,4 @@
-﻿import * as _ from 'lodash';
+﻿import { cloneDeep, take, drop, filter, find } from 'lodash';
 import providersCacheService from './providers/providers-cache-service.js';
 import providersScrapingService from './providers/providers-scraping-service.js';
 import weatherService from './providers/weather/weather-service.js';
@@ -37,9 +37,9 @@ export default class ApiService {
     }
 
     news(req, res) {
-        let responseNewsList = _.cloneDeep(this.cache.news);
+        let responseNewsList = cloneDeep(this.cache.news);
         if (req.query.skip !== undefined && req.query.take !== undefined) {
-            responseNewsList = _.take(_.drop(responseNewsList, req.query.skip), req.query.take);
+            responseNewsList = take(drop(responseNewsList, req.query.skip), req.query.take);
         }
         if (!req.query.images) {
             responseNewsList = this._getListNoImages(responseNewsList);
@@ -48,7 +48,7 @@ export default class ApiService {
     }
 
     newsByProvider(req, res) {
-        let responseNewsList = _.cloneDeep(this.cache.news);
+        let responseNewsList = cloneDeep(this.cache.news);
         if (req.params.provider) {
             let targetProvider = null;
             for (let provider in apiProvidersConst) {
@@ -59,7 +59,7 @@ export default class ApiService {
             }
 
             if (targetProvider) {
-                responseNewsList = _.filter(this.cache.news, { provider: targetProvider.id });
+                responseNewsList = filter(this.cache.news, { provider: targetProvider.id });
             } else {
                 responseNewsList = [];
             }
@@ -79,7 +79,7 @@ export default class ApiService {
     }
 
     techAndScience(req, res) {
-        let responseNewsList = _.cloneDeep(this.cache.techAndScience);
+        let responseNewsList = cloneDeep(this.cache.techAndScience);
         if (!req.query.images) {
             responseNewsList = this._getListNoImages(responseNewsList);
         }
@@ -90,7 +90,7 @@ export default class ApiService {
         let id, model;
         if (req.params.id) {
             id = parseInt(req.params.id);
-            model = _.find(this.cache.news, { id: id });
+            model = find(this.cache.news, { id: id });
         }
 
         providersScrapingService.scrape(model).then((data) => {

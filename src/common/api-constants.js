@@ -1,8 +1,8 @@
 ﻿import * as fs from 'fs';
-import path from 'path';
+import * as path from 'path';
 
-module.exports = (() => {
-    const tokensFilePath = require('path').resolve(__dirname, 'tokens.json');
+export default (() => {
+    const tokensFilePath = path.resolve(__dirname, 'tokens.json');
     let tokens;
     if (fs.existsSync(tokensFilePath)) {
         tokens = require(tokensFilePath);

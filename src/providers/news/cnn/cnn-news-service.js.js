@@ -42,7 +42,7 @@ export default class CnnNews {
             let $ = cheerio.load(data),
                 result = '';
             $('.l-container').find('.zn-body__paragraph').each((index, elem) => {
-                result += $(elem).text();
+                result += ' ' + $(elem).text();
             });
             return result;
         });

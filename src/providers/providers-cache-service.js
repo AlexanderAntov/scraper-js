@@ -1,4 +1,5 @@
 ﻿import * as fs from 'fs';
+import * as path from 'path';
 import newYorkTimesNewsService from './news/new-york-times/new-york-times-news-service.js';
 import googleNewsService from './news/google-news/google-news-service.js';
 import cnnNewsService from './news/cnn/cnn-news-service.js.js';
@@ -12,8 +13,8 @@ import techCrunchNewsService from './news/tech-and-science/techcrunch/techcrunch
 import theVergeNewsService from './news/tech-and-science/the-verge/the-verge-news-service.js';
 import techRadarNewsService from './news/tech-and-science/techradar/techradar-news-service.js'
 
-module.exports = (() => {
-    const configFilePath = require('path').resolve(__dirname, '../common/config.json');
+export default (() => {
+    const configFilePath = path.resolve(__dirname, '../common/config.json');
     let config;
     if (fs.existsSync(configFilePath)) {
         config = require(configFilePath);
@@ -26,7 +27,7 @@ module.exports = (() => {
 
     return {
         news: (cache) => {
-            var newsDataPromises = [
+            const newsDataPromises = [
                 weatherService.getSummary(config.cityName),
                 airPollutionService.getSummary(),
                 heatingSupplyService.get(config.suppliersKeyword),
@@ -38,14 +39,14 @@ module.exports = (() => {
                 reutersNewsService.get()
             ];
 
-            var techAndScienceNewsPromises = [
+            const techAndScienceNewsPromises = [
                 theVergeNewsService.get(),
                 techCrunchNewsService.get(),
                 techRadarNewsService.get()
             ];
 
             return Promise.all(newsDataPromises).then((dataModelLists) =>  {
-                var newsModelsList = [];
+                let newsModelsList = [];
                 dataModelLists.forEach((dataModelList) => {
                     newsModelsList = newsModelsList.concat(dataModelList || []);
                 });
@@ -53,7 +54,7 @@ module.exports = (() => {
                 return dataModelLists;
             }).then(() => {
                 return Promise.all(techAndScienceNewsPromises).then((dataModelLists) => {
-                    var newsModelsList = [];
+                    let newsModelsList = [];
                     dataModelLists.forEach((dataModelList) => {
                         newsModelsList = newsModelsList.concat(dataModelList || []);
                     });
@@ -65,7 +66,7 @@ module.exports = (() => {
             });
         },
         weather: (cache) => {
-            weatherService.getDetailedForecast(config.cityName).then(function (data) {
+            weatherService.getDetailedForecast(config.cityName).then((data) => {
                 cache.weather = data.mappedData;
                 cache.weatherRaw = data.rawData;
             }).catch((error) => {
