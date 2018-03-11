@@ -12,6 +12,12 @@ export default class Weather {
         return httpService.performGetRequest(options, dataTransformer);
 
         function dataTransformer(data) {
+            if (!data.list) {
+                return [
+                    newsModelFactory.get()
+                ];
+            }
+
             let forecastDescription = '',
                 weatherCode,
                 currentDate = new Date();
@@ -62,6 +68,13 @@ export default class Weather {
         return httpService.performGetRequest(options, dataTransformer);
 
         function dataTransformer(data) {
+            if (!data.list) {
+                return {
+                    rawData: null,
+                    mappedData: null
+                };
+            }
+
             let currentDate = new Date(),
                 weatherModelsList = [];
 
