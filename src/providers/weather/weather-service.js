@@ -12,7 +12,8 @@ export default class Weather {
         return httpService.performGetRequest(options, dataTransformer);
 
         function dataTransformer(data) {
-            if (!data.list) {
+            const hasResults = data && data.list;
+            if (!hasResults) {
                 return [
                     newsModelFactory.get()
                 ];
@@ -68,7 +69,8 @@ export default class Weather {
         return httpService.performGetRequest(options, dataTransformer);
 
         function dataTransformer(data) {
-            if (!data.list) {
+            const hasResults = data && data.list;
+            if (!hasResults) {
                 return {
                     rawData: null,
                     mappedData: null
