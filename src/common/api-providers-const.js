@@ -46,13 +46,22 @@ export default {
         id: 10,
         value: 'TechRadar'
     },
+    //programming
+    MEDIUM: {
+        id: 11,
+        value: 'Medium'
+    },
+    THE_MORNING_BREW: {
+        id: 12,
+        value: 'The morning brew'
+    },
     //utilities
     HEATING: {
-        id: 11,
+        id: 13,
         value: 'Toplo'
     },
     WATER: {
-        id: 12,
+        id: 14,
         value: 'Sofiiska voda'
     }
 };

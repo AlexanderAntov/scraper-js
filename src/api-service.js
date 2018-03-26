@@ -10,11 +10,12 @@ import apiProvidersConst from './common/api-providers-const.js';
 export default class ApiService {
     constructor() {
         this.cache = {
-            news: null,
-            techAndScience: null,
-            weather: null,
-            weatherRaw: null,
-            newsKeywords: null
+            news: [],
+            techAndScience: [],
+            programming: [],
+            weather: [],
+            weatherRaw: [],
+            newsKeywords: []
         };
     }
 
@@ -84,6 +85,10 @@ export default class ApiService {
             responseNewsList = this._getListNoImages(responseNewsList);
         }
         res.send(responseNewsList);
+    }
+
+    programming(req, res) {
+        res.send(this.cache.programming);
     }
 
     scrape(req, res) {

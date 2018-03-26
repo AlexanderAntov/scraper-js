@@ -1,5 +1,6 @@
 ﻿import * as fs from 'fs';
 import * as path from 'path';
+import httpService from '../common/http-service.js';
 import newYorkTimesNewsService from './news/new-york-times/new-york-times-news-service.js';
 import googleNewsService from './news/google-news/google-news-service.js';
 import cnnNewsService from './news/cnn/cnn-news-service.js.js';
@@ -11,7 +12,9 @@ import airPollutionService from './weather/air-pollution-service.js';
 import weatherService from './weather/weather-service.js';
 import techCrunchNewsService from './news/tech-and-science/techcrunch/techcrunch-news-service.js';
 import theVergeNewsService from './news/tech-and-science/the-verge/the-verge-news-service.js';
-import techRadarNewsService from './news/tech-and-science/techradar/techradar-news-service.js'
+import techRadarNewsService from './news/tech-and-science/techradar/techradar-news-service.js';
+import mediumNewsService from './news/programming/medium/medium-news-service.js';
+import theMorningBrewNewsService from './news/programming/the-morning-brew/the-morning-brew-news-service.js';
 
 export default (() => {
     const configFilePath = path.resolve(__dirname, '../common/config.json');
@@ -39,28 +42,33 @@ export default (() => {
                 reutersNewsService.get()
             ];
 
-            const techAndScienceNewsPromises = [
+            const techPromises = [
                 theVergeNewsService.get(),
                 techCrunchNewsService.get(),
                 techRadarNewsService.get()
             ];
 
-            return Promise.all(newsDataPromises).then((dataModelLists) =>  {
-                let newsModelsList = [];
-                dataModelLists.forEach((dataModelList) => {
-                    newsModelsList = newsModelsList.concat(dataModelList || []);
+            const programmingPromises = [
+                mediumNewsService.get(),
+                theMorningBrewNewsService.get()
+            ];
+
+            return Promise.all(newsDataPromises).then((resolves) =>  {
+                return httpService.flattenPromiseAllResolve(resolves, (list) => {
+                    cache.news = list;
                 });
-                cache.news = newsModelsList;
-                return dataModelLists;
             }).then(() => {
-                return Promise.all(techAndScienceNewsPromises).then((dataModelLists) => {
-                    let newsModelsList = [];
-                    dataModelLists.forEach((dataModelList) => {
-                        newsModelsList = newsModelsList.concat(dataModelList || []);
+                return Promise.all(techPromises).then((resolves) => {
+                    return httpService.flattenPromiseAllResolve(resolves, (list) => {
+                        cache.techAndScience = list;
                     });
-                    cache.techAndScience = newsModelsList;
-                    return dataModelLists;
-                });
+                })
+            }).then(() => {
+                return Promise.all(programmingPromises).then((resolves) => {
+                    return httpService.flattenPromiseAllResolve(resolves, (list) => {
+                        cache.programming = list;
+                    });
+                })
             }).catch((error) => {
                 console.error(error);
             });

@@ -63,6 +63,13 @@ export default (() => {
             path: '/news/rss.xml',
             token: null
         },
+        bta: {
+            isHttps: false,
+            isApi: false,
+            host: 'feeds.bbci.co.uk',
+            path: '/news/rss.xml',
+            token: null
+        },
         reuters: {
             isHttps: false,
             isApi: false,
@@ -118,6 +125,21 @@ export default (() => {
             host: 'newsapi.org',
             path: '/v1/articles?source=techradar&sort-by=top&apiKey={0}',
             token: tokens.newsApi
+        },
+        //programming
+        medium: {
+            isHttps: true,
+            isApi: false,
+            host: 'medium.com',
+            path: '/feed/',
+            token: null
+        },
+        theMorningBrew: {
+            isHttps: false,
+            isApi: false,
+            host: 'feeds.feedburner.com',
+            path: '/ReflectivePerspective',
+            token: null
         },
         //email settings
         email: {

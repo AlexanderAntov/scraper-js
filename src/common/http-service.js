@@ -1,4 +1,5 @@
-﻿import http from 'http';
+﻿import { isFunction } from 'lodash';
+import http from 'http';
 import https from 'https';
 
 export default class HttpService {
@@ -8,6 +9,17 @@ export default class HttpService {
 
     static trim(str) {
         return str && str.length > 150 ? str.substring(0, 150) + '...' : str;
+    }
+
+    static flattenPromiseAllResolve(resolvesList, modifierFunc) {
+        let list = [];
+        resolvesList.forEach((modelsList) => {
+            list = list.concat(modelsList || []);
+        });
+        if (isFunction(modifierFunc)) {
+            modifierFunc(list);
+        }
+        return list;
     }
 
     static performGetRequest(options, dataTransformer) {
