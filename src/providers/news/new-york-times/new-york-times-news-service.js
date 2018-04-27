@@ -1,8 +1,8 @@
-﻿import { apiConstants, apiProvidersConst, httpService, newsModelFactory } from '../../../common/common.js';
+﻿import { apiConstants, apiProvidersConst, httpService, newsModelFactory, newsModelService } from '../../../common/common.js';
 
 export default class NewYorkTimesNews {
     static get() {
-        let options = httpService.clone(apiConstants.newYorkTimes);
+        let options = newsModelService.clone(apiConstants.newYorkTimes);
         options.path = options.path.replace('{0}', options.token);
         return httpService.performGetRequest(options, dataTransformer);
 

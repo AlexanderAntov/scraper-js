@@ -1,6 +1,6 @@
 ﻿import xml2js from 'xml2js';
 import cheerio from 'cheerio';
-import { apiConstants, apiProvidersConst, httpService, newsModelFactory } from '../../../../common/common.js';
+import { apiConstants, apiProvidersConst, httpService, newsModelFactory, newsModelService } from '../../../../common/common.js';
 
 export default class MediumNews {
     static get() {
@@ -17,7 +17,7 @@ export default class MediumNews {
     }
 
     static getSingleThread(threadName) {
-        let options = httpService.clone(apiConstants.medium);
+        let options = newsModelService.clone(apiConstants.medium);
         options.path += threadName;
         return httpService.performGetRequest(options, dataTransformer);
 
@@ -29,7 +29,7 @@ export default class MediumNews {
                 if (result.rss.channel[0].item) {
                     result.rss.channel[0].item.forEach((newsItemData) => {
                         currentInfo = cheerio.load(
-                            httpService.trim(
+                            newsModelService.trim(
                                 newsItemData['content:encoded'][0]
                                     .replace(/<(?:.|\n)*?>/gm, '')
                                     .replace(/&nbsp;/, '')

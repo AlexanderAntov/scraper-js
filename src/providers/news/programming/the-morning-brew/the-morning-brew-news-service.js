@@ -1,9 +1,9 @@
 ﻿import xml2js from 'xml2js';
-import { apiConstants, apiProvidersConst, httpService, newsModelFactory } from '../../../../common/common.js';
+import { apiConstants, apiProvidersConst, httpService, newsModelFactory, newsModelService } from '../../../../common/common.js';
 
 export default class TheMorningBrewNews {
     static get() {
-        const options = httpService.clone(apiConstants.theMorningBrew);
+        const options = newsModelService.clone(apiConstants.theMorningBrew);
         return httpService.performGetRequest(options, dataTransformer);
 
         function dataTransformer(data) {

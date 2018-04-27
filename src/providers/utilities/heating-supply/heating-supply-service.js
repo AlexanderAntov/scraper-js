@@ -1,9 +1,9 @@
 ﻿import cheerio from 'cheerio';
-import { apiConstants, apiProvidersConst, httpService, newsModelFactory } from '../../../common/common.js';
+import { apiConstants, apiProvidersConst, httpService, newsModelFactory, newsModelService } from '../../../common/common.js';
 
 export default class HeatingSupply {
     static get(targetKeyword) {
-        const options = httpService.clone(apiConstants.heatingSupply);
+        const options = newsModelService.clone(apiConstants.heatingSupply);
         return new Promise((resolve, reject) => {
             httpService.performGetRequest(options, (data) => {
                 let $ = cheerio.load(data),

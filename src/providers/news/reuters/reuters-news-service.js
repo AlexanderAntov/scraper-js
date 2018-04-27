@@ -1,9 +1,9 @@
 ﻿import xml2js from 'xml2js';
-import { apiConstants, apiProvidersConst, httpService, newsModelFactory } from '../../../common/common.js';
+import { apiConstants, apiProvidersConst, httpService, newsModelFactory, newsModelService } from '../../../common/common.js';
 
 export default class ReutersNews {
     static get() {
-        const options = httpService.clone(apiConstants.reuters);
+        const options = newsModelService.clone(apiConstants.reuters);
         return httpService.performGetRequest(options, dataTransformer);
 
         function dataTransformer(data) {

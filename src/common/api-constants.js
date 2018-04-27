@@ -47,7 +47,10 @@ export default (() => {
             isHttps: true,
             host: 'news.google.com',
             path: '/news/rss?gl=BG&ned=bg_bg&hl=bg',
-            token: null
+            token: null,
+            fakeNewsBlacklistKeywords: [
+                'Блиц'
+            ]
         },
         cnn: {
             isHttps: false,

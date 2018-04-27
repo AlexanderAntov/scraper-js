@@ -1,8 +1,8 @@
-﻿import { apiConstants, apiProvidersConst, httpService, newsModelFactory } from '../../../../common/common.js';
+﻿import { apiConstants, apiProvidersConst, httpService, newsModelFactory, newsModelService } from '../../../../common/common.js';
 
 export default class TechRadarNews {
     static get() {
-        let options = httpService.clone(apiConstants.techRadar);
+        let options = newsModelService.clone(apiConstants.techRadar);
         options.path = options.path.replace('{0}', options.token);
         return httpService.performGetRequest(options, dataTransformer);
 

@@ -3,7 +3,7 @@ import providersCacheService from './providers/providers-cache-service.js';
 import providersScrapingService from './providers/providers-scraping-service.js';
 import weatherService from './providers/weather/weather-service.js';
 import tfIdfModifierService from './transformers/keywords/tf-idf/tf-idf-modifier-service.js';
-import httpService from './common/http-service.js';
+import newsModelService from './common/news-model-service.js';
 import apiConstants from './common/api-constants.js';
 import apiProvidersConst from './common/api-providers-const.js';
 
@@ -128,7 +128,7 @@ export default class ApiService {
             }
             result.then(() => {
                 this.cache.news.forEach((model) => {
-                    model.info = httpService.trim(model.info);
+                    model.info = newsModelService.trim(model.info);
                 });
             });
             res.send(true);

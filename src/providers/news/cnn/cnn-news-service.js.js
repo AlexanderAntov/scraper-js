@@ -1,11 +1,11 @@
 ﻿import xml2js from 'xml2js';
 import cheerio from 'cheerio';
 import { URL } from 'url';
-import { apiConstants, apiProvidersConst, httpService, newsModelFactory } from '../../../common/common.js';
+import { apiConstants, apiProvidersConst, httpService, newsModelFactory, newsModelService } from '../../../common/common.js';
 
 export default class CnnNews {
     static get() {
-        const options = httpService.clone(apiConstants.cnn);
+        const options = newsModelService.clone(apiConstants.cnn);
         return httpService.performGetRequest(options, dataTransformer);
 
         function dataTransformer(data) {

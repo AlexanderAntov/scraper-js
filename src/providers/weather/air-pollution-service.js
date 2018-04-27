@@ -1,8 +1,8 @@
-import { apiConstants, apiProvidersConst, httpService, newsModelFactory } from '../../common/common.js';
+import { apiConstants, apiProvidersConst, httpService, newsModelFactory, newsModelService } from '../../common/common.js';
 
 export default class AirPollution {
     static getSummary() {
-        let options = httpService.clone(apiConstants.airPollution);
+        let options = newsModelService.clone(apiConstants.airPollution);
         options.path = options.path.replace('{0}', options.token);
         return httpService.performGetRequest(options, dataTransformer);
 

@@ -1,10 +1,10 @@
-﻿import { apiConstants, apiProvidersConst, httpService, newsModelFactory } from '../../common/common.js';
+﻿import { apiConstants, apiProvidersConst, httpService, newsModelFactory, newsModelService } from '../../common/common.js';
 import weatherIconsConst from './weather-icons-const.js';
 import weatherSummaryService from '../../transformers/weather-summary/weather-summary-service.js';
 
 export default class Weather {
     static getSummary(cityName) {
-        let options = httpService.clone(apiConstants.weatherApi);
+        let options = newsModelService.clone(apiConstants.weatherApi);
         options.path = options.path
             .replace('{0}', cityName)
             .replace('{1}', 5)
@@ -61,7 +61,7 @@ export default class Weather {
     }
 
     static getDetailedForecast(cityName) {
-        let options = httpService.clone(apiConstants.weatherApi);
+        let options = newsModelService.clone(apiConstants.weatherApi);
         options.path = options.path
             .replace('{0}', cityName)
             .replace('{1}', 16)
