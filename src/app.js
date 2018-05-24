@@ -34,10 +34,11 @@ app.listen(app.get('port'), () => {
 });
 
 function setUpSchedule() {
-    const setUpCache = () => apiService.setUpCache(),
+    const setUpCache = () => apiService.setUpCache(false),
+        setUpAndSaveCache = () => apiService.setUpCache(true),
         setUpCacheWithKeywords = () => apiService.setUpCacheWithKeywords();
     schedule.scheduleJob({ hour: 7, minute: 0, second: 0 }, setUpCacheWithKeywords);
-    schedule.scheduleJob({ hour: 9, minute: 0, second: 0 }, setUpCache);
+    schedule.scheduleJob({ hour: 9, minute: 0, second: 0 }, setUpAndSaveCache);
     schedule.scheduleJob({ hour: 13, minute: 0, second: 0 }, setUpCache);
     schedule.scheduleJob({ hour: 17, minute: 30, second: 0 }, setUpCacheWithKeywords);
     schedule.scheduleJob({ hour: 20, minute: 0, second: 0 }, setUpCache);

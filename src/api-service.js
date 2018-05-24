@@ -1,4 +1,5 @@
-﻿import { cloneDeep, take, drop, filter, find } from 'lodash';
+﻿import * as fs from 'fs';
+import { cloneDeep, take, drop, filter, find } from 'lodash';
 import providersCacheService from './providers/providers-cache-service.js';
 import providersScrapingService from './providers/providers-scraping-service.js';
 import weatherService from './providers/weather/weather-service.js';
@@ -19,9 +20,19 @@ export default class ApiService {
         };
     }
 
-    setUpCache() {
+    setUpCache(saveCache) {
         return providersCacheService.news(this.cache).then((result) => {
             providersCacheService.weather(this.cache);
+
+            if (saveCache) {
+                const dateTime = new Date(), 
+                    fileName = dateTime.getDate().toString() + 
+                        (dateTime.getMonth() + 1).toString() + 
+                        dateTime.getFullYear().toString() +
+                        '-cache.json';
+                fs.writeFileSync(`${__dirname}/../caches/${fileName}`, JSON.stringify(result))
+            }
+
             return result;
         });
     }
