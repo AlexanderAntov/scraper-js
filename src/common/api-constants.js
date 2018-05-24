@@ -112,7 +112,7 @@ export default (() => {
             isHttps: true,
             isApi: true,
             host: 'newsapi.org',
-            path: '/v1/articles?source=the-verge&sort-by=top&apiKey={0}',
+            path: '/v2/top-headlines?sources=the-verge&apiKey={0}',
             token: tokens.newsApi
         },
         techCrunch: {
@@ -126,7 +126,7 @@ export default (() => {
             isHttps: true,
             isApi: true,
             host: 'newsapi.org',
-            path: '/v1/articles?source=techradar&sort-by=top&apiKey={0}',
+            path: '/v2/top-headlines?sources=techradar&apiKey={0}',
             token: tokens.newsApi
         },
         //programming
