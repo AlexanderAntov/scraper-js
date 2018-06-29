@@ -7,6 +7,7 @@ import tfIdfModifierService from './transformers/keywords/tf-idf/tf-idf-modifier
 import newsModelService from './common/news-model-service.js';
 import apiConstants from './common/api-constants.js';
 import apiProvidersConst from './common/api-providers-const.js';
+import SummarizationService from './transformers/summarization/summarization-service.js';
 
 export default class ApiService {
     constructor() {
@@ -18,6 +19,7 @@ export default class ApiService {
             weatherRaw: [],
             newsKeywords: []
         };
+        this.summarizationService = new SummarizationService();
     }
 
     setUpCache(saveCache) {
@@ -45,7 +47,7 @@ export default class ApiService {
     }
 
     home(req, res) {
-        res.send('Welcome to Scraper API <br />' + 'Server time: ' + new Date().toString());
+        res.send(`Welcome to Scraper API <br /> Server time: ${new Date().toString()}`);
     }
 
     news(req, res) {
@@ -110,7 +112,9 @@ export default class ApiService {
         }
 
         providersScrapingService.scrape(model).then((data) => {
-            res.send(data);
+            this.summarizationService.summarize(model.title, data, (summary) => {
+                res.send(summary);
+            }); 
         });
     }
 
