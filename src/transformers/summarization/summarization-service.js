@@ -1,4 +1,4 @@
-import { isFunction, range, some } from 'lodash';
+import { range, some } from 'lodash';
 import * as sbd from 'sbd';
 
 export default class SummarizationService {
@@ -8,15 +8,7 @@ export default class SummarizationService {
         };
     
         const summary = [];
-    
-        if (arguments.length < 3) {
-            if (isFunction(content.constructor)) {
-                callback = content;
-                content = title;
-                title = '';
-            }
-        }
-    
+
         this._getSentencesRanks(content, dictionary => {
             splitContentToParagraphs(content, paragraphs => {
                 summary.push(title);
