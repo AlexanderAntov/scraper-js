@@ -112,12 +112,10 @@ export default class ApiService {
         }
 
         providersScrapingService.scrape(model).then((data) => {
-            this.summarizationService.summarize(model.title, data, (summary) => {
-                res.send({
-                    summary: summary,
-                    text: data
-                });
-            }); 
+            res.send({
+                summary: this.summarizationService.summarize(model.title, data),
+                text: data
+            });
         });
     }
 
