@@ -54,7 +54,7 @@ export default class Weather {
                     lineSeparator;
 
                 function formatDate(dateValue) {
-                    return dateValue.getDate().toString() + '-' + (dateValue.getMonth() + 1).toString();
+                    return `${dateValue.getDate().toString()}-${(dateValue.getMonth() + 1).toString()}`;
                 }
             }
         }
@@ -89,9 +89,9 @@ export default class Weather {
 
             function processWeatherDataItem(weatherDataItem) {
                 weatherModelsList.push(newsModelFactory.get({
-                    title: 'Weather ' + formatDate(currentDate),
+                    title: `Weather ${formatDate(currentDate)}`,
                     info: getCurrentDayDescription(weatherDataItem),
-                    url: apiConstants.webAppUrl + '/index.html#!/weather-line-chart',
+                    url: `${apiConstants.webAppUrl}/index.html#!/weather-line-chart`,
                     image: apiConstants.apiUrl + weatherIconsConst[weatherDataItem.weather[0].id],
                     dateTime: '',
                     provider: apiProvidersConst.WEATHER.id
@@ -100,7 +100,7 @@ export default class Weather {
                 currentDate.setDate(currentDate.getDate() + 1);
 
                 function formatDate(dateValue) {
-                    return dateValue.getDate().toString() + '-' + (dateValue.getMonth() + 1).toString();
+                    return `${dateValue.getDate().toString()}-${(dateValue.getMonth() + 1).toString()}`;
                 }
             }
 

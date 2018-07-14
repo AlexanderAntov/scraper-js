@@ -12,7 +12,7 @@ class NewsModel {
     }
 
     getText() {
-        return this.title + '\n' + this.info + '\n';
+        return `${this.title}\n${this.info}\n`;
     }
 }
 

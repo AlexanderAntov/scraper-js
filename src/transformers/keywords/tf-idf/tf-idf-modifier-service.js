@@ -20,7 +20,7 @@ export default class TfIdfModifierService {
         this.tfIdf = new tfIdfService(this.options);
     }
 
-    get(modelsList, cache) {
+    get(modelsList, cache = {}) {
         if (isEmpty(modelsList)) {
             throw Error('no models have been provided for keyword evaluation');
         }
@@ -44,7 +44,7 @@ export default class TfIdfModifierService {
         let keywordsList = map(modelsList, (model, index) => {
             let result = model.word + '   ' + model.score.toString();
             if (index < 50) {
-                result += '   https://www.google.com/search?q=' + model.word.replace(/\s+/g, '+');
+                result += `   https://www.google.com/search?q=${model.word.replace(/s+/g, '+')}`;
             }
             return result;
         });

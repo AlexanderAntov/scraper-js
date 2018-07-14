@@ -37,7 +37,7 @@ export default class AirPollution {
             return info;
 
             function formatDate(dateValue) {
-                return dateValue.getDate().toString() + '-' + (dateValue.getMonth() + 1).toString();
+                return `${dateValue.getDate().toString()}-${(dateValue.getMonth() + 1).toString()}`;
             }
         }
     }

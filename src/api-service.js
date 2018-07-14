@@ -2,12 +2,13 @@
 import { cloneDeep, take, drop, filter, find } from 'lodash';
 import providersCacheService from './providers/providers-cache-service.js';
 import providersScrapingService from './providers/providers-scraping-service.js';
-import weatherService from './providers/weather/weather-service.js';
-import tfIdfModifierService from './transformers/keywords/tf-idf/tf-idf-modifier-service.js';
+import WeatherService from './providers/weather/weather-service.js';
+import TfIdfModifierService from './transformers/keywords/tf-idf/tf-idf-modifier-service.js';
 import newsModelService from './common/news-model-service.js';
 import apiConstants from './common/api-constants.js';
 import apiProvidersConst from './common/api-providers-const.js';
 import SummarizationService from './transformers/summarization/summarization-service.js';
+import FlKnReadabilityService from './transformers/readability/fl-kn-readability-service.js';
 
 export default class ApiService {
     constructor() {
@@ -19,7 +20,10 @@ export default class ApiService {
             weatherRaw: [],
             newsKeywords: []
         };
+        this.weatherService = new WeatherService();
         this.summarizationService = new SummarizationService();
+        this.tfIdfModifier = new TfIdfModifierService();
+        this.flKnReadabilityService = new FlKnReadabilityService();
     }
 
     setUpCache(saveCache) {
@@ -41,8 +45,7 @@ export default class ApiService {
 
     setUpCacheWithKeywords() {
         this.setUpCache().then(() => {
-            const tfIdfModifier = new tfIdfModifierService();
-            return tfIdfModifier.sendMail(tfIdfModifier.get(this.cache.news, this.cache));
+            return this.tfIdfModifier.sendMail(this.tfIdfModifier.get(this.cache.news, this.cache));
         });
     }
 
@@ -114,7 +117,9 @@ export default class ApiService {
         providersScrapingService.scrape(model).then((data) => {
             res.send({
                 summary: this.summarizationService.summarize(model.title, data),
-                text: data
+                text: data,
+                keywords: this.tfIdfModifier.get([model]).map(wordData => wordData.word),
+                readabilityScore: this.flKnReadabilityService.getScore(model.info)
             });
         });
     }
@@ -125,7 +130,7 @@ export default class ApiService {
 
     weatherRaw(req, res) {
         if (req.query.city) {
-            new weatherService().getDetailedForecast(req.query.city).then((weatherData) => {
+            this.weatherService.getDetailedForecast(req.query.city).then((weatherData) => {
                 res.send(weatherData.rawData);
             });
         } else {
@@ -138,8 +143,7 @@ export default class ApiService {
             let result = this.setUpCache();
             if (req.query.keywords) {
                 result = result.then(() => {
-                    const tfIdfModifier = new tfIdfModifierService();
-                    return tfIdfModifier.sendMail(tfIdfModifier.get(this.cache.news, this.cache));
+                    return this.tfIdfModifier.sendMail(this.tfIdfModifier.get(this.cache.news, this.cache));
                 });
             }
             result.then(() => {

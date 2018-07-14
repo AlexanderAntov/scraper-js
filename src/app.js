@@ -30,7 +30,7 @@ app.get('/reset-cache', (req, res) => apiService.resetCache(req, res));
 app.set('port', process.env.PORT || 3000);
 
 app.listen(app.get('port'), () => {
-    console.log('Express server listening on port ' + app.get('port'));
+    console.log(`Express server listening on port ${app.get('port')}`);
 });
 
 function setUpSchedule() {

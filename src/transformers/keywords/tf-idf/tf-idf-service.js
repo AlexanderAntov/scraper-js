@@ -78,7 +78,7 @@ export default class TfIdfService {
                     position += word.length;
                 } else {
                     break;
-                };
+                }
             }
 
             return count;
