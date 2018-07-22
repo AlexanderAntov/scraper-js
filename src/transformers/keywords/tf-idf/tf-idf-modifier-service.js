@@ -1,4 +1,4 @@
-import { isEmpty, orderBy, map } from 'lodash';
+import { isEmpty, orderBy, map, find } from 'lodash';
 import apiProvidersConst from '../../../common/api-providers-const.js';
 import tfIdfService from './tf-idf-service.js';
 import mailerService from '../../../common/mailer-service.js';
@@ -7,7 +7,7 @@ export default class TfIdfModifierService {
     constructor(options = {}) {
         this.options = {
             MIN_PHRASE_LENGTH: options.MIN_PHRASE_LENGTH || 3,
-            TF_SCORE_MODIFIER: this.tfScoreModifier.bind(this),
+            TF_SCORE_MODIFIER: (...args) => this._tfScoreModifier(...args),
             TITLE_KEYWORD_MULTIPLIER: options.TITLE_KEYWORD_MULTIPLIER || 1.5,
             LONG_KEYWORD_MULTIPLIER: options.LONG_KEYWORD_MULTIPLIER || null,
             CAPITALIZED_KEYWORDS_MULTIPLIER: options.CAPITALIZED_KEYWORDS_MULTIPLIER || null,
@@ -32,7 +32,39 @@ export default class TfIdfModifierService {
                     newsModel.provider !== apiProvidersConst.AIR_POLLUTION.id;
             })));
 
-        cache.newsKeywords = orderBy(weightedKeywords, ['score'], ['desc']);
+        const sortedList = orderBy(weightedKeywords, ['score'], ['desc']),
+            sortedListLength = sortedList.length,
+            filteredList = [],
+            processedIds = [];
+        let variationModels = [],
+            i,
+            j;
+
+        for (i = 0; i < sortedListLength; i++) {
+            if (!processedIds.includes(sortedList[i].id)) {
+                processedIds.push(sortedList[i].id);
+                variationModels.push(sortedList[i]);
+            }
+            for (j = 0; j < sortedListLength; j++) {
+                if (!processedIds.includes(sortedList[j].id) &&
+                    (sortedList[i].word.includes(sortedList[j].word) || sortedList[j].word.includes(sortedList[i].word))) {
+                    processedIds.push(sortedList[j].id);
+                    variationModels.push(sortedList[j]);
+                } else {
+                    continue;
+                }
+            }
+
+            if (!isEmpty(variationModels)) {
+                const highestScoreKeyword = orderBy(variationModels, ['score'], ['desc'])[0];
+                if (!find(filteredList, { id: highestScoreKeyword.id })) {
+                    filteredList.push(highestScoreKeyword);
+                }
+            }
+            variationModels = [];
+        }
+
+        cache.newsKeywords = filteredList;
         return cache.newsKeywords;
     }
 
@@ -41,13 +73,16 @@ export default class TfIdfModifierService {
             throw Error('no models have been provided for mailing');
         }
 
-        let keywordsList = map(modelsList, (model, index) => {
-            let result = model.word + '   ' + model.score.toString();
-            if (index < 50) {
-                result += `   https://www.google.com/search?q=${model.word.replace(/s+/g, '+')}`;
-            }
-            return result;
-        });
+        const keywordsList = [];
+        let result;
+        for (let i = 0; i < 50; i++) {
+            result =
+                modelsList[i].word + '   ' +
+                modelsList[i].score.toString() +
+                '   https://www.google.com/search?q=' +
+                modelsList[i].word.replace(/\s/g, '+');
+            keywordsList.push(result);
+        }
         mailerService.send(
             'News keywords',
             keywordsList.join('\n')
@@ -55,28 +90,29 @@ export default class TfIdfModifierService {
     }
 
     addTopNewsScore(modelsList) {
+        const modelsListLength = modelsList.length;
         let currentProvider = null,
             topNewsScore = null;
 
-        modelsList.forEach((newsModel) => {
+        for (let i = 0; i < modelsListLength; i++) {
             if (this.options.TOP_NEWS_SCORE) {
                 if (!currentProvider) {
-                    currentProvider = newsModel.provider;
-                } else if (currentProvider !== newsModel.provider) {
+                    currentProvider = modelsList[i].provider;
+                } else if (currentProvider !== modelsList[i].provider) {
                     topNewsScore = this.options.TOP_NEWS_SCORE;
-                    newsModel.topNewsScore = topNewsScore;
-                    currentProvider = newsModel.provider;
+                    modelsList[i].topNewsScore = topNewsScore;
+                    currentProvider = modelsList[i].provider;
                 } else if (topNewsScore > 1) {
                     topNewsScore -= this.options.TOP_NEWS_SCORE_STEP;
-                    newsModel.topNewsScore = topNewsScore;
+                    modelsList[i].topNewsScore = topNewsScore;
                 }
             }
-        });
+        }
 
         return modelsList;
     }
 
-    tfScoreModifier(tfScore, model, word) {
+    _tfScoreModifier(tfScore, model, word) {
         //title keyword modifier
         if (model.title.indexOf(word) > -1) {
             tfScore = tfScore * this.options.TITLE_KEYWORD_MULTIPLIER;

@@ -1,4 +1,4 @@
-import { isFunction } from 'lodash';
+import { isFunction, uniqueId } from 'lodash';
 import stopWordsList from '../stopwords-const.js';
 
 export default class TfIdfService {
@@ -9,44 +9,53 @@ export default class TfIdfService {
     get(modelsList) {
         let tfMap = {},
             idfMap = {},
-            tfIdfMap = [];
+            tfIdfMap = [],
+            modelsListLength = modelsList.length,
+            i,
+            j;
 
-        modelsList.forEach((model, index) => {
-            let textItemWords = this.generateNGrams(this.normalizeText(model.getText())),
-                textItemWordsLength = textItemWords.length;
-            textItemWords.forEach((word) => {
-                word = word.trim();
-                if (word && word.length > this.options.MIN_PHRASE_LENGTH) {
-                    if (!tfMap[word]) {
-                        tfMap[word] = [];
+        for (i = 0; i < modelsListLength; i++) {
+            let textItemWords = this.generateNGrams(this.normalizeText(modelsList[i].getText())),
+                textItemWordsLength = textItemWords.length,
+                j;
+
+            for (j = 0; j < textItemWordsLength; j++) {
+                textItemWords[j] = textItemWords[j].trim();
+                if (textItemWords[j] && textItemWords[j].length > this.options.MIN_PHRASE_LENGTH) {
+                    if (!tfMap[textItemWords[j]]) {
+                        tfMap[textItemWords[j]] = [];
                         evalFrequency(
-                            model,
-                            word,
+                            modelsList[i],
+                            textItemWords[j],
                             this.options,
                             textItemWordsLength
                         );
-                    } else if (tfMap[word].length < index + 1) {
+                    } else if (tfMap[textItemWords[j]].length < i + 1) {
                         evalFrequency(
-                            model,
-                            word,
+                            modelsList[i],
+                            textItemWords[j],
                             this.options,
                             textItemWordsLength
                         );
                     }
                 }
-            });
-        });
+            }
+        }
 
-        Object.keys(tfMap).forEach((word) => {
-            const score = (tfMap[word].reduce((x, y) => { return x + y }) / tfMap[word].length) * idfMap[word],
+        const wordList = Object.keys(tfMap),
+            wordListLength = wordList.length;
+
+        for (i = 0; i < wordListLength; i++) {
+            const score = (tfMap[wordList[i]].reduce((x, y) => { return x + y }) / tfMap[wordList[i]].length) * idfMap[wordList[i]],
                 isScoreValid = !this.options.TF_IDF_SCORE_THRESHOLD || (score > this.options.TF_IDF_SCORE_THRESHOLD);
             if (isScoreValid) {
                 tfIdfMap.push({
-                    word: word,
+                    id: parseInt(uniqueId()),
+                    word: wordList[i],
                     score: score
                 });
             }
-        });
+        }
 
         return tfIdfMap;
 
