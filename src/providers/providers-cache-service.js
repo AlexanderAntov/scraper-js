@@ -16,70 +16,70 @@ import techRadarNewsService from './news/tech-and-science/techradar/techradar-ne
 import mediumNewsService from './news/programming/medium/medium-news-service.js';
 import theMorningBrewNewsService from './news/programming/the-morning-brew/the-morning-brew-news-service.js';
 
-export default (() => {
-    const configFilePath = path.resolve(__dirname, '../common/config.json');
-    let config;
-    if (fs.existsSync(configFilePath)) {
-        config = require(configFilePath);
-    } else {
-        config = {
-            cityName: process.env.CITY_NAME,
-            suppliersKeyword: process.env.SUPPLIERS_KEYWORD
-        };
+export default class ProvidersCacheService {
+    constructor() {
+        const configFilePath = path.resolve(__dirname, '../common/config.json');
+        if (fs.existsSync(configFilePath)) {
+            this.config = require(configFilePath);
+        } else {
+            this.config = {
+                cityName: process.env.CITY_NAME,
+                suppliersKeyword: process.env.SUPPLIERS_KEYWORD
+            };
+        }
     }
 
-    return {
-        news: (cache) => {
-            const newsDataPromises = [
-                weatherService.getSummary(config.cityName),
-                airPollutionService.getSummary(),
-                heatingSupplyService.get(config.suppliersKeyword),
-                waterSupplyService.get(config.suppliersKeyword),
-                googleNewsService.get(),
-                cnnNewsService.get(),
-                newYorkTimesNewsService.get(),
-                bbcNewsService.get(),
-                reutersNewsService.get()
-            ];
+    news(cache) {
+        const newsDataPromises = [
+            weatherService.getSummary(this.config.cityName),
+            airPollutionService.getSummary(),
+            heatingSupplyService.get(this.config.suppliersKeyword),
+            waterSupplyService.get(this.config.suppliersKeyword),
+            googleNewsService.get(),
+            cnnNewsService.get(),
+            newYorkTimesNewsService.get(),
+            bbcNewsService.get(),
+            reutersNewsService.get()
+        ];
 
-            const techPromises = [
-                theVergeNewsService.get(),
-                techCrunchNewsService.get(),
-                techRadarNewsService.get()
-            ];
+        const techPromises = [
+            theVergeNewsService.get(),
+            techCrunchNewsService.get(),
+            techRadarNewsService.get()
+        ];
 
-            const programmingPromises = [
-                mediumNewsService.get(),
-                theMorningBrewNewsService.get()
-            ];
+        const programmingPromises = [
+            mediumNewsService.get(),
+            theMorningBrewNewsService.get()
+        ];
 
-            return Promise.all(newsDataPromises).then((resolves) =>  {
+        return Promise.all(newsDataPromises).then((resolves) =>  {
+            return httpService.flattenPromiseAllResolve(resolves, (list) => {
+                cache.news = list;
+            });
+        }).then(() => {
+            return Promise.all(techPromises).then((resolves) => {
                 return httpService.flattenPromiseAllResolve(resolves, (list) => {
-                    cache.news = list;
+                    cache.techAndScience = list;
                 });
-            }).then(() => {
-                return Promise.all(techPromises).then((resolves) => {
-                    return httpService.flattenPromiseAllResolve(resolves, (list) => {
-                        cache.techAndScience = list;
-                    });
-                })
-            }).then(() => {
-                return Promise.all(programmingPromises).then((resolves) => {
-                    return httpService.flattenPromiseAllResolve(resolves, (list) => {
-                        cache.programming = list;
-                    });
-                })
-            }).catch((error) => {
-                console.error(error);
-            });
-        },
-        weather: (cache) => {
-            weatherService.getDetailedForecast(config.cityName).then((data) => {
-                cache.weather = data.mappedData;
-                cache.weatherRaw = data.rawData;
-            }).catch((error) => {
-                console.error(error);
-            });
-        }
-    };
-})();
+            })
+        }).then(() => {
+            return Promise.all(programmingPromises).then((resolves) => {
+                return httpService.flattenPromiseAllResolve(resolves, (list) => {
+                    cache.programming = list;
+                });
+            })
+        }).catch((error) => {
+            console.error(error);
+        });
+    }
+
+    weather(cache) {
+        weatherService.getDetailedForecast(this.config.cityName).then((data) => {
+            cache.weather = data.mappedData;
+            cache.weatherRaw = data.rawData;
+        }).catch((error) => {
+            console.error(error);
+        });
+    }
+}

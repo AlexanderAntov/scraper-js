@@ -4,4 +4,4 @@ import httpService from './http-service.js';
 import newsModelFactory from './news-model-factory.js';
 import newsModelService from './news-model-service.js';
 
-module.exports = { apiConstants, apiProvidersConst, httpService, newsModelFactory, newsModelService };
+export { apiConstants, apiProvidersConst, httpService, newsModelFactory, newsModelService };

@@ -1,6 +1,6 @@
 ﻿import * as fs from 'fs';
 import { cloneDeep, take, drop, filter, find } from 'lodash';
-import providersCacheService from './providers/providers-cache-service.js';
+import ProvidersCacheService from './providers/providers-cache-service.js';
 import providersScrapingService from './providers/providers-scraping-service.js';
 import WeatherService from './providers/weather/weather-service.js';
 import TfIdfModifierService from './transformers/keywords/tf-idf/tf-idf-modifier-service.js';
@@ -24,11 +24,12 @@ export default class ApiService {
         this.summarizationService = new SummarizationService();
         this.tfIdfModifier = new TfIdfModifierService();
         this.flKnReadabilityService = new FlKnReadabilityService();
+        this.providersCacheService = new ProvidersCacheService();
     }
 
     setUpCache(saveCache) {
-        return providersCacheService.news(this.cache).then((result) => {
-            providersCacheService.weather(this.cache);
+        return this.providersCacheService.news(this.cache).then((result) => {
+            this.providersCacheService.weather(this.cache);
 
             if (saveCache) {
                 const dateTime = new Date(), 

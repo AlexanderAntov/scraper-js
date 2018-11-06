@@ -1,4 +1,4 @@
-module.exports = [
+export default [
   'a',
   "a's",
   'able',
