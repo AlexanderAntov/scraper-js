@@ -46,7 +46,7 @@ export default (() => {
             isApi: false,
             isHttps: true,
             host: 'news.google.com',
-            path: '/news/rss?gl=BG&ned=bg_bg&hl=bg',
+            path: '/_/rss?hl=bg&gl=BG&ceid=BG:bg',
             token: null,
             fakeNewsBlacklistKeywords: [
                 'Блиц'
