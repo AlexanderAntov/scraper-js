@@ -9,7 +9,6 @@ export default class MediumNews {
             MediumNews.getSingleThread('software-engineering'),
             MediumNews.getSingleThread('data-science'),
             MediumNews.getSingleThread('webpack'),
-            MediumNews.getSingleThread('automation'),
             MediumNews.getSingleThread('machine-learning')
         ]).then((resolves) => {
             return httpService.flattenPromiseAllResolve(resolves, null);
