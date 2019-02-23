@@ -7,16 +7,13 @@ export default class Weather {
         let options = newsModelService.clone(apiConstants.weatherApi);
         options.path = options.path
             .replace('{0}', cityName)
-            .replace('{1}', 5)
-            .replace('{2}', options.token);
+            .replace('{1}', 5);
         return httpService.performGetRequest(options, dataTransformer);
 
         function dataTransformer(data) {
             const hasResults = data && data.list;
             if (!hasResults) {
-                return [
-                    newsModelFactory.get()
-                ];
+                return [];
             }
 
             let forecastDescription = '',
@@ -64,8 +61,7 @@ export default class Weather {
         let options = newsModelService.clone(apiConstants.weatherApi);
         options.path = options.path
             .replace('{0}', cityName)
-            .replace('{1}', 16)
-            .replace('{2}', options.token);
+            .replace('{1}', 16);
         return httpService.performGetRequest(options, dataTransformer);
 
         function dataTransformer(data) {

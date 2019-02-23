@@ -1,6 +1,7 @@
 ﻿import xml2js from 'xml2js';
 import cheerio from 'cheerio';
 import { apiConstants, apiProvidersConst, httpService, newsModelFactory, newsModelService } from '../../../../common/common.js';
+import { isEmpty } from 'lodash';
 
 export default class TechCrunchNews {
     static get() {
@@ -8,7 +9,11 @@ export default class TechCrunchNews {
         return httpService.performGetRequest(options, dataTransformer);
 
         function dataTransformer(data) {
-            const articlesArray = []; 
+            const articlesArray = [];
+            if (isEmpty(data)) {
+                return articlesArray;
+            }
+
             let currentInfo = null;
 
             xml2js.parseString(data, (err, result) => {

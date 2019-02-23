@@ -39,15 +39,13 @@ export default (() => {
             isHttps: true,
             isApi: true,
             host: 'api.nytimes.com',
-            path: '/svc/topstories/v2/home.json?api-key={0}',
-            token: tokens.newYorkTimes
+            path: `/svc/topstories/v2/home.json?api-key=${tokens.newYorkTimes}`,
         },
         googleNews: {
             isApi: false,
             isHttps: true,
             host: 'news.google.com',
             path: '/rss?hl=bg&gl=BG&ceid=BG:bg',
-            token: null,
             fakeNewsBlacklistKeywords: [
                 'Блиц'
             ]
@@ -56,93 +54,92 @@ export default (() => {
             isHttps: false,
             isApi: false,
             host: 'rss.cnn.com',
-            path: '/rss/edition.rss',
-            token: null
+            path: '/rss/edition.rss'
         },
         bbc: {
             isHttps: false,
             isApi: false,
             host: 'feeds.bbci.co.uk',
-            path: '/news/rss.xml',
-            token: null
+            path: '/news/rss.xml'
+        },
+        theGuardian: {
+            isHttps: true,
+            isApi: true,
+            host: 'content.guardianapis.com',
+            path: `/search?api-key=${tokens.theGuardian}&from-date=${new Date().toISOString().split('T')[0]}&order-by=relevance&section=world`,
         },
         bta: {
             isHttps: false,
             isApi: false,
             host: 'feeds.bbci.co.uk',
-            path: '/news/rss.xml',
-            token: null
+            path: '/news/rss.xml'
         },
         reuters: {
             isHttps: false,
             isApi: false,
             host: 'feeds.reuters.com',
-            path: '/reuters/topNews',
-            token: null
+            path: '/reuters/topNews'
         },
         weatherApi: {
             isHttps: false,
             isApi: true,
             host: 'api.openweathermap.org',
-            path: '/data/2.5/forecast/daily?q={0}&units=metric&mode=json&cnt={1}&appid={2}',
-            token: tokens.weatherApi
+            path: `/data/2.5/forecast/daily?q={0}&units=metric&mode=json&cnt={1}&appid=${tokens.weatherApi}`,
         },
         airPollution: {
             isHttps: true,
             isApi: true,
             host: 'airtube.info',
-            path: '/api/get_data_history.php?location_id={0}&period=3d&interval=1d',
-            token: tokens.airPollution
+            path: `/api/get_data_history.php?location_id=${tokens.airPollution}&interval=1d&period=3d`,
         },
         heatingSupply: {
             isHttps: false,
             isApi: false,
             host: 'toplo.bg',
-            path: '/breakdowns',
-            token: null
+            path: '/breakdowns'
         },
         waterSupply: {
             isHttps: false,
             isApi: false,
             host: 'sofiyskavoda.bg',
-            path: '/water_stops.aspx',
-            token: null
+            path: '/water_stops.aspx'
         },
         theVerge: {
             isHttps: true,
             isApi: true,
             host: 'newsapi.org',
-            path: '/v2/top-headlines?sources=the-verge&apiKey={0}',
-            token: tokens.newsApi
+            path: `/v2/top-headlines?sources=the-verge&apiKey=${tokens.newsApi}`
         },
         techCrunch: {
             isHttps: false,
             isApi: false,
             host: 'feeds.feedburner.com',
-            path: '/TechCrunch.xml',
-            token: null
+            path: '/TechCrunch.xml'
         },
         techRadar: {
             isHttps: true,
             isApi: true,
             host: 'newsapi.org',
-            path: '/v2/top-headlines?sources=techradar&apiKey={0}',
-            token: tokens.newsApi
+            path: `/v2/top-headlines?sources=techradar&apiKey=${tokens.newsApi}`
+        },
+        engadget: {
+            isHttps: false,
+            isApi: false,
+            host: 'www.engadget.com',
+            path: '/rss.xml'
         },
         //programming
         medium: {
             isHttps: true,
             isApi: false,
             host: 'medium.com',
-            path: '/feed/',
-            token: null
+            path: '/feed/'
         },
         theMorningBrew: {
             isHttps: false,
             isApi: false,
             host: 'feeds.feedburner.com',
-            path: '/ReflectivePerspective',
-            token: null
+            path: '/ReflectivePerspective'
         },
         //email settings
         email: {

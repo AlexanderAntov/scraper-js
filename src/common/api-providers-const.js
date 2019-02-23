@@ -33,35 +33,40 @@ export default {
         value: 'Reuters',
         filter: 'reuters'
     },
+    THE_GUARDIAN: {
+        id: 8,
+        value: 'The Guardian',
+        filter: 'guardian'
+    },
     //tech and science
     THE_VERGE: {
-        id: 8,
+        id: 9,
         value: 'The Verge'
     },
     TECH_CRUNCH: {
-        id: 9,
+        id: 10,
         value: 'TechCrunch'
     },
     TECH_RADAR: {
-        id: 10,
+        id: 11,
         value: 'TechRadar'
     },
-    //programming
-    MEDIUM: {
-        id: 11,
-        value: 'Medium'
-    },
-    THE_MORNING_BREW: {
+    ENGADGET: {
         id: 12,
+        value: 'Engadget'
+    },
+    //programming
+    THE_MORNING_BREW: {
+        id: 13,
         value: 'The morning brew'
     },
     //utilities
     HEATING: {
-        id: 13,
+        id: 14,
         value: 'Toplo'
     },
     WATER: {
-        id: 14,
+        id: 15,
         value: 'Sofiiska voda'
     }
 };

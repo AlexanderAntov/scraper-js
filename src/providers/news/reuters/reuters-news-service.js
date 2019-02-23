@@ -1,5 +1,6 @@
 ﻿import xml2js from 'xml2js';
 import { apiConstants, apiProvidersConst, httpService, newsModelFactory, newsModelService } from '../../../common/common.js';
+import { isEmpty } from 'lodash';
 
 export default class ReutersNews {
     static get() {
@@ -8,6 +9,10 @@ export default class ReutersNews {
 
         function dataTransformer(data) {
             const articlesArray = [];
+            if (isEmpty(data)) {
+                return articlesArray;
+            }
+
             xml2js.parseString(data, (err, result) => {
                 result.rss.channel[0].item.forEach((newsItemData) => {
                     articlesArray.push(newsModelFactory.get({

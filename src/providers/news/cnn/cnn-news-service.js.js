@@ -2,6 +2,7 @@
 import cheerio from 'cheerio';
 import { URL } from 'url';
 import { apiConstants, apiProvidersConst, httpService, newsModelFactory, newsModelService } from '../../../common/common.js';
+import { isEmpty } from 'lodash';
 
 export default class CnnNews {
     static get() {
@@ -10,6 +11,10 @@ export default class CnnNews {
 
         function dataTransformer(data) {
             const articlesArray = [];
+            if (isEmpty(data)) {
+                return articlesArray;
+            }
+
             xml2js.parseString(data, (err, result) => {
                 result.rss.channel[0].item.forEach((newsItemData) => {
                     let currentNewsModel = {

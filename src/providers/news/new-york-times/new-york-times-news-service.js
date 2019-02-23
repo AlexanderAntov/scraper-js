@@ -1,18 +1,18 @@
 ﻿import { apiConstants, apiProvidersConst, httpService, newsModelFactory, newsModelService } from '../../../common/common.js';
+import { isEmpty } from 'lodash';
 
 export default class NewYorkTimesNews {
     static get() {
         let options = newsModelService.clone(apiConstants.newYorkTimes);
-        options.path = options.path.replace('{0}', options.token);
         return httpService.performGetRequest(options, dataTransformer);
 
         function dataTransformer(data) {
             const articlesArray = [];
-            if (!data) {
+            if (isEmpty(data) || isEmpty(data.results)) {
                 return articlesArray;
             }
 
-            data.results.forEach((newsItemData) => {
+            data.results.forEach(newsItemData => {
                 articlesArray.push(newsModelFactory.get({
                     title: newsItemData.title,
                     info: newsItemData.abstract,

@@ -1,9 +1,10 @@
 import { isFunction, uniqueId } from 'lodash';
 import stopWordsList from '../stopwords-const.js';
+import TfIdfOptions from './tf-idf-options.js';
 
 export default class TfIdfService {
-    constructor(options = {}) {
-        this.options = options;
+    constructor(options) {
+        this.options = new TfIdfOptions(options);
     }
 
     get(modelsList) {

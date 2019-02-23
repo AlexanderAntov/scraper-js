@@ -23,8 +23,7 @@ export default class HeatingSupply {
                         httpService.performGetRequest({
                             isHttps: false,
                             host: 'toplo.bg',
-                            path: `/breakdowns/${articleUrl.match(/\d+$/)[0]}`,
-                            token: null
+                            path: `/breakdowns/${articleUrl.match(/\d+$/)[0]}`
                         }, (data) => {
                             let $$ = cheerio.load(data),
                                 articleContent = $$('.card-content').eq(1),

@@ -3,7 +3,6 @@ import { apiConstants, apiProvidersConst, httpService, newsModelFactory, newsMod
 export default class AirPollution {
     static getSummary() {
         let options = newsModelService.clone(apiConstants.airPollution);
-        options.path = options.path.replace('{0}', options.token);
         return httpService.performGetRequest(options, dataTransformer);
 
         function dataTransformer(data) {
@@ -20,20 +19,16 @@ export default class AirPollution {
         }
 
         function constructInfo(data) {
-            const itemSeparator = '  ',
-                valueSeparator = '/',
-                lineSeparator = '\r\n';
             let info = '';
+            let date = null;
+
             if (data && data.length > 0) {
-                data.reverse().forEach((model) => {
-                    info += formatDate(new Date(model.time.current * 1000)) + 
-                        itemSeparator + 
-                        model.P1.current + 
-                        valueSeparator +
-                        model.P2.current +
-                        lineSeparator;
+                data.reverse().forEach(model => {
+                    date = formatDate(new Date(model.time.current * 1000));
+                    info += `${date}  ${model.P1.current} / ${model.P2.current}\r\n`;
                 });
             }
+
             return info;
 
             function formatDate(dateValue) {

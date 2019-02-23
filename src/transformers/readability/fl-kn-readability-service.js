@@ -10,10 +10,10 @@ export default class FlKnReadabilityService {
     }
     
     getWordCount(text) {
-        text = text.replace(/(^\s*)|(\s*$)/gi, '');
-        text = text.replace(/[ ]{2,}/gi, ' ');
-        text = text.replace(/\n /, '\n');
-        return text.split(' ').length; 
+        return text.replace(/(^\s*)|(\s*$)/gi, '')
+            .replace(/[ ]{2,}/gi, ' ')
+            .replace(/\n /, '\n')
+            .split(' ').length;
     }
 
     getSentencesCount(text) {
@@ -25,8 +25,9 @@ export default class FlKnReadabilityService {
         if (localText.length <= 3) { 
             return 1; 
         }
-        localText = localText.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '');
-        localText = localText.replace(/^y/, '');
-        return localText.match(/[aeiouy]{1,2}/g).length;       
+
+        return localText.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '')
+            .replace(/^y/, '')
+            .match(/[aeiouy]{1,2}/g).length;
     }
 }

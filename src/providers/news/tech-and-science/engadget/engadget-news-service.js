@@ -1,10 +1,11 @@
 ﻿import xml2js from 'xml2js';
+import cheerio from 'cheerio';
 import { apiConstants, apiProvidersConst, httpService, newsModelFactory, newsModelService } from '../../../../common/common.js';
 import { isEmpty } from 'lodash';
 
-export default class TheMorningBrewNews {
+export default class EngadgetNews {
     static get() {
-        const options = newsModelService.clone(apiConstants.theMorningBrew);
+        const options = newsModelService.clone(apiConstants.engadget);
         return httpService.performGetRequest(options, dataTransformer);
 
         function dataTransformer(data) {
@@ -13,15 +14,26 @@ export default class TheMorningBrewNews {
                 return articlesArray;
             }
 
+            let currentInfo = null;
+
             xml2js.parseString(data, (err, result) => {
                 result.rss.channel[0].item.forEach((newsItemData) => {
+                    currentInfo = cheerio.load(
+                        newsModelService.trim(
+                            newsItemData
+                            .description[0]
+                            .replace(/<(?:.|\n)*?>/gm, '')
+                            .replace(/&nbsp;/, '')
+                            .replace(/\t/g, '')
+                        )
+                    ).text();
                     articlesArray.push(newsModelFactory.get({
                         title: newsItemData.title[0],
-                        info: newsItemData.description[0],
+                        info: currentInfo,
                         url: newsItemData.link[0],
                         image: null,
                         dateTime: newsItemData.pubDate[0],
-                        provider: apiProvidersConst.THE_MORNING_BREW.id
+                        provider: apiProvidersConst.TECH_CRUNCH.id
                     }));
                 });
             });

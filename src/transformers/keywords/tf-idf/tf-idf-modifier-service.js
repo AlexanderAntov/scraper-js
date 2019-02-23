@@ -1,22 +1,15 @@
-import { isEmpty, orderBy, map, find } from 'lodash';
+import { isEmpty, orderBy, find } from 'lodash';
 import apiProvidersConst from '../../../common/api-providers-const.js';
 import tfIdfService from './tf-idf-service.js';
 import mailerService from '../../../common/mailer-service.js';
+import stringComparisonService from '../string-comparison/string-comparison-service.js';
+import TfIdfOptions from './tf-idf-options.js';
 
 export default class TfIdfModifierService {
-    constructor(options = {}) {
-        this.options = {
-            MIN_PHRASE_LENGTH: options.MIN_PHRASE_LENGTH || 3,
-            TF_SCORE_MODIFIER: (...args) => this._tfScoreModifier(...args),
-            TITLE_KEYWORD_MULTIPLIER: options.TITLE_KEYWORD_MULTIPLIER || 1.5,
-            LONG_KEYWORD_MULTIPLIER: options.LONG_KEYWORD_MULTIPLIER || null,
-            CAPITALIZED_KEYWORDS_MULTIPLIER: options.CAPITALIZED_KEYWORDS_MULTIPLIER || null,
-            TOP_NEWS_SCORE: options.TOP_NEWS_SCORE || 1.5,
-            TOP_NEWS_SCORE_STEP: options.TOP_NEWS_SCORE_STEP || 0.1,
-            N_GRAM_MIN_OCCURRENCES: options.N_GRAM_MIN_OCCURRENCES || 1,
-            N_GRAM_MAX_WORDS: options.N_GRAM_MAX_WORDS || 5,
-            TF_IDF_SCORE_THRESHOLD: options.TF_IDF_SCORE_THRESHOLD || 0.05
-        };
+    constructor() {
+        this.options = new TfIdfOptions({
+            TF_SCORE_MODIFIER: (...args) => this._tfScoreModifier(...args)
+        });
         this.tfIdf = new tfIdfService(this.options);
     }
 
@@ -41,13 +34,13 @@ export default class TfIdfModifierService {
             j;
 
         for (i = 0; i < sortedListLength; i++) {
-            if (!processedIds.includes(sortedList[i].id)) {
+            if (processedIds.indexOf(sortedList[i].id) === -1) {
                 processedIds.push(sortedList[i].id);
                 variationModels.push(sortedList[i]);
             }
             for (j = 0; j < sortedListLength; j++) {
-                if (!processedIds.includes(sortedList[j].id) &&
-                    (sortedList[i].word.includes(sortedList[j].word) || sortedList[j].word.includes(sortedList[i].word))) {
+                if (processedIds.indexOf(sortedList[j].id) === -1 &&
+                    this._areStringsSimilar(sortedList[i].word, sortedList[j].word)) {
                     processedIds.push(sortedList[j].id);
                     variationModels.push(sortedList[j]);
                 } else {
@@ -64,7 +57,7 @@ export default class TfIdfModifierService {
             variationModels = [];
         }
 
-        cache.newsKeywords = filteredList;
+        cache.newsKeywords = orderBy(filteredList, ['score'], ['desc']);
         return cache.newsKeywords;
     }
 
@@ -112,9 +105,18 @@ export default class TfIdfModifierService {
         return modelsList;
     }
 
+    _areStringsSimilar(first, second) {
+        let result = first.indexOf(second) !== -1 || second.indexOf(first) !== -1;
+        if (this.options.THRESHOLD_STRING_DISTANCE > 0) {
+            result = result ||
+                stringComparisonService.getLevenshteinDistance(first, second) < this.options.THRESHOLD_STRING_DISTANCE;
+        }
+        return result;
+    }
+
     _tfScoreModifier(tfScore, model, word) {
         //title keyword modifier
-        if (model.title.indexOf(word) > -1) {
+        if (model.title.indexOf(word) !== -1) {
             tfScore = tfScore * this.options.TITLE_KEYWORD_MULTIPLIER;
         }
         //top news modifier
