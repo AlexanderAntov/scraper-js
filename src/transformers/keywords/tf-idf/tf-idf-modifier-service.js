@@ -107,9 +107,14 @@ export default class TfIdfModifierService {
 
     _areStringsSimilar(first, second) {
         let result = first.indexOf(second) !== -1 || second.indexOf(first) !== -1;
-        if (this.options.THRESHOLD_STRING_DISTANCE > 0) {
-            result = result ||
-                stringComparisonService.getLevenshteinDistance(first, second) < this.options.THRESHOLD_STRING_DISTANCE;
+        if (this.options.THRESHOLD_STRING_DISTANCE > 0 && this.options.THRESHOLD_STRING_DISTANCE_LENGTH > 0) {
+            const firstLength = first.length;
+
+            if (firstLength > this.options.THRESHOLD_STRING_DISTANCE_LENGTH) {
+                const levenshteinDistance = stringComparisonService.getLevenshteinDistance(first, second);
+                const distanceInPercent = (levenshteinDistance / firstLength) * 100;
+                result = result || distanceInPercent < this.options.THRESHOLD_STRING_DISTANCE;
+            }
         }
         return result;
     }

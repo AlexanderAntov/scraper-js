@@ -11,5 +11,6 @@ export default class TfIdfOptions {
         this.N_GRAM_MAX_WORDS = data.N_GRAM_MAX_WORDS || 5;
         this.TF_IDF_SCORE_THRESHOLD = data.TF_IDF_SCORE_THRESHOLD || 0.05;
         this.THRESHOLD_STRING_DISTANCE = data.THRESHOLD_STRING_DISTANCE || 0;
+        this.THRESHOLD_STRING_DISTANCE_LENGTH = data.THRESHOLD_STRING_DISTANCE_LENGTH || 0;
     }
 }
