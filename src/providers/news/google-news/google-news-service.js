@@ -1,11 +1,11 @@
 ﻿import xml2js from 'xml2js';
-import { apiConstants, apiProvidersConst, httpService, newsModelFactory, newsModelService } from '../../../common/common.js';
-import { isEmpty } from 'lodash';
+import { apiConstants, apiProvidersConst, HttpService, NewsModel, NewsModelService } from '../../../common/common.js';
+import { isEmpty, cloneDeep } from 'lodash';
 
-export default class GoogleNews {
+export class GoogleNewsService {
     static get() {
-        const options = newsModelService.clone(apiConstants.googleNews);
-        return httpService.performGetRequest(options, dataTransformer);
+        const options = cloneDeep(apiConstants.googleNews);
+        return HttpService.performGetRequest(options, dataTransformer);
 
         function dataTransformer(data) {
             const articlesArray = [];
@@ -15,7 +15,7 @@ export default class GoogleNews {
 
             xml2js.parseString(data, (err, result) => {
                 result.rss.channel[0].item.forEach((newsItemData) => {
-                    const newsModel = newsModelFactory.get({
+                    const model = new NewsModel({
                         title: newsItemData.title[0],
                         info: newsItemData.description[0].replace(/<(?:.|\n)*?>/gm, ''),
                         url: newsItemData.link[0],
@@ -24,8 +24,8 @@ export default class GoogleNews {
                         provider: apiProvidersConst.GOOGLE_BG.id
                     });
 
-                    if (newsModelService.textDoesNotContainFakeNewsKeywords(options.fakeNewsBlacklistKeywords, newsModel.info)) {
-                        articlesArray.push(newsModel);
+                    if (NewsModelService.textDoesNotContainFakeNewsKeywords(options.fakeNewsBlacklistKeywords, model.info)) {
+                        articlesArray.push(model);
                     }
                 });
             });

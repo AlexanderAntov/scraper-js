@@ -1,4 +1,4 @@
-export default [
+export const stopWordsList = [
   'a',
   "a's",
   'able',

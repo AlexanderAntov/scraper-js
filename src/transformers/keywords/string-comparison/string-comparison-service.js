@@ -1,4 +1,4 @@
-export default class StringComparisonService {
+export class StringComparisonService {
     static getLevenshteinDistance(first, second) {
         const firstLength = first.length;
         const secondLength = second.length;

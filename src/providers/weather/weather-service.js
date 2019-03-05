@@ -1,14 +1,15 @@
-﻿import { apiConstants, apiProvidersConst, httpService, newsModelFactory, newsModelService } from '../../common/common.js';
-import weatherIconsConst from './weather-icons-const.js';
-import weatherSummaryService from '../../transformers/weather-summary/weather-summary-service.js';
+﻿import { apiConstants, apiProvidersConst, HttpService, NewsModel } from '../../common/common.js';
+import { weatherIconsConst } from './weather-icons-const.js';
+import { WeatherSummaryService } from '../../transformers/weather-summary/weather-summary-service.js';
+import { cloneDeep } from 'lodash';
 
-export default class Weather {
+export class WeatherService {
     static getSummary(cityName) {
-        let options = newsModelService.clone(apiConstants.weatherApi);
+        let options = cloneDeep(apiConstants.weatherApi);
         options.path = options.path
             .replace('{0}', cityName)
             .replace('{1}', 5);
-        return httpService.performGetRequest(options, dataTransformer);
+        return HttpService.performGetRequest(options, dataTransformer);
 
         function dataTransformer(data) {
             const hasResults = data && data.list;
@@ -23,8 +24,8 @@ export default class Weather {
             data.list.forEach(processWeatherDataItem);
 
             return [
-                newsModelFactory.get({
-                    title: weatherSummaryService.get(data.list),
+                new NewsModel({
+                    title: WeatherSummaryService.get(data.list),
                     info: forecastDescription,
                     url: apiConstants.webAppUrl + '/index.html#!/weather-line-chart',
                     image: apiConstants.apiUrl + weatherIconsConst[weatherCode],
@@ -58,11 +59,11 @@ export default class Weather {
     }
 
     static getDetailedForecast(cityName) {
-        let options = newsModelService.clone(apiConstants.weatherApi);
+        let options = cloneDeep(apiConstants.weatherApi);
         options.path = options.path
             .replace('{0}', cityName)
             .replace('{1}', 16);
-        return httpService.performGetRequest(options, dataTransformer);
+        return HttpService.performGetRequest(options, dataTransformer);
 
         function dataTransformer(data) {
             const hasResults = data && data.list;
@@ -84,7 +85,7 @@ export default class Weather {
             };
 
             function processWeatherDataItem(weatherDataItem) {
-                weatherModelsList.push(newsModelFactory.get({
+                weatherModelsList.push(new NewsModel({
                     title: `Weather ${formatDate(currentDate)}`,
                     info: getCurrentDayDescription(weatherDataItem),
                     url: `${apiConstants.webAppUrl}/index.html#!/weather-line-chart`,

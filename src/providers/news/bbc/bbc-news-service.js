@@ -1,13 +1,13 @@
 ﻿import xml2js from 'xml2js';
 import cheerio from 'cheerio';
 import { URL } from 'url';
-import { apiConstants, apiProvidersConst, httpService, newsModelFactory, newsModelService } from '../../../common/common.js';
-import { isEmpty } from 'lodash';
+import { apiConstants, apiProvidersConst, HttpService, NewsModel } from '../../../common/common.js';
+import { isEmpty, cloneDeep } from 'lodash';
 
-export default class BbcNews {
+export class BbcNewsService {
     static get() {
-        const options = newsModelService.clone(apiConstants.bbc);
-        return httpService.performGetRequest(options, dataTransformer);
+        const options = cloneDeep(apiConstants.bbc);
+        return HttpService.performGetRequest(options, dataTransformer);
 
         function dataTransformer(data) {
             const articlesArray = [];
@@ -17,7 +17,7 @@ export default class BbcNews {
 
             xml2js.parseString(data, (err, result) => {
                 result.rss.channel[0].item.forEach((newsItemData) => {
-                    articlesArray.push(newsModelFactory.get({
+                    articlesArray.push(new NewsModel({
                         title: newsItemData.title[0],
                         info: newsItemData.description ? newsItemData.description[0] : '',
                         url: newsItemData.link[0],
@@ -34,7 +34,7 @@ export default class BbcNews {
     static scrape(model) {
         const url = new URL(model.url);
         
-        return httpService.performGetRequest({
+        return HttpService.performGetRequest({
             isApi: false,
             isHttps: false,
             host: url.host,

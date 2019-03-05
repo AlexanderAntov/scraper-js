@@ -1,16 +1,16 @@
 import { isEmpty, orderBy, find } from 'lodash';
-import apiProvidersConst from '../../../common/api-providers-const.js';
-import tfIdfService from './tf-idf-service.js';
-import mailerService from '../../../common/mailer-service.js';
-import stringComparisonService from '../string-comparison/string-comparison-service.js';
-import TfIdfOptions from './tf-idf-options.js';
+import { apiProvidersConst } from '../../../common/api-providers-const.js';
+import { TfIdfService } from './tf-idf-service.js';
+import { MailerService } from '../../../common/mailer-service.js';
+import { StringComparisonService } from '../string-comparison/string-comparison-service.js';
+import { TfIdfOptions } from './tf-idf-options.js';
 
-export default class TfIdfModifierService {
+export class TfIdfModifierService {
     constructor() {
         this.options = new TfIdfOptions({
             TF_SCORE_MODIFIER: (...args) => this._tfScoreModifier(...args)
         });
-        this.tfIdf = new tfIdfService(this.options);
+        this.tfIdf = new TfIdfService(this.options);
     }
 
     get(modelsList, cache = {}) {
@@ -76,7 +76,7 @@ export default class TfIdfModifierService {
                 modelsList[i].word.replace(/\s/g, '+');
             keywordsList.push(result);
         }
-        mailerService.send(
+        MailerService.send(
             'News keywords',
             keywordsList.join('\n')
         );
@@ -111,7 +111,7 @@ export default class TfIdfModifierService {
             const firstLength = first.length;
 
             if (firstLength > this.options.THRESHOLD_STRING_DISTANCE_LENGTH) {
-                const levenshteinDistance = stringComparisonService.getLevenshteinDistance(first, second);
+                const levenshteinDistance = StringComparisonService.getLevenshteinDistance(first, second);
                 const distanceInPercent = (levenshteinDistance / firstLength) * 100;
                 result = result || distanceInPercent < this.options.THRESHOLD_STRING_DISTANCE;
             }

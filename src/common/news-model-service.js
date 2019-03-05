@@ -1,6 +1,6 @@
 import { isEmpty } from 'lodash';
 
-export default class NewsModelService {
+export class NewsModelService {
     static clone(obj) {
         return JSON.parse(JSON.stringify(obj));
     }

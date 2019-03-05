@@ -1,23 +1,23 @@
 ﻿import * as fs from 'fs';
 import * as path from 'path';
-import httpService from '../common/http-service.js';
-import newYorkTimesNewsService from './news/new-york-times/new-york-times-news-service.js';
-import googleNewsService from './news/google-news/google-news-service.js';
-import cnnNewsService from './news/cnn/cnn-news-service.js.js';
-import bbcNewsService from './news/bbc/bbc-news-service.js';
-import reutersNewsService from './news/reuters/reuters-news-service.js';
-import guardianNewsService from './news/guardian/guardian-news-service.js';
-import heatingSupplyService from './utilities/heating-supply/heating-supply-service.js';
-import waterSupplyService from './utilities/water-supply/water-supply-service.js';
-import airPollutionService from './weather/air-pollution-service.js';
-import weatherService from './weather/weather-service.js';
-import techCrunchNewsService from './news/tech-and-science/techcrunch/techcrunch-news-service.js';
-import theVergeNewsService from './news/tech-and-science/the-verge/the-verge-news-service.js';
-import techRadarNewsService from './news/tech-and-science/techradar/techradar-news-service.js';
-import engadgetNewsService from './news/tech-and-science/engadget/engadget-news-service.js';
-import theMorningBrewNewsService from './news/programming/the-morning-brew/the-morning-brew-news-service.js';
+import { HttpService } from '../common/http-service.js';
+import { NewYorkTimesNewsService } from './news/new-york-times/new-york-times-news-service.js';
+import { GoogleNewsService } from './news/google-news/google-news-service.js';
+import { CnnNewsService } from './news/cnn/cnn-news-service.js.js';
+import { BbcNewsService } from './news/bbc/bbc-news-service.js';
+import { ReutersNewsService } from './news/reuters/reuters-news-service.js';
+import { GuardianNewsService } from './news/guardian/guardian-news-service.js';
+import { HeatingSupplyService } from './utilities/heating-supply/heating-supply-service.js';
+import { WaterSupplyService } from './utilities/water-supply/water-supply-service.js';
+import { AirPollutionService } from './weather/air-pollution-service.js';
+import { WeatherService } from './weather/weather-service.js';
+import { TechCrunchNewsService } from './news/tech-and-science/techcrunch/techcrunch-news-service.js';
+import { VergeNewsService } from './news/tech-and-science/verge/verge-news-service.js';
+import { TechRadarNewsService } from './news/tech-and-science/techradar/techradar-news-service.js';
+import { EngadgetNewsService } from './news/tech-and-science/engadget/engadget-news-service.js';
+import { MorningBrewNewsService } from './news/programming/morning-brew/morning-brew-news-service.js';
 
-export default class ProvidersCacheService {
+export class ProvidersCacheService {
     constructor() {
         const configFilePath = path.resolve(__dirname, '../common/config.json');
         if (fs.existsSync(configFilePath)) {
@@ -32,42 +32,42 @@ export default class ProvidersCacheService {
 
     news(cache) {
         const newsDataPromises = [
-            weatherService.getSummary(this.config.cityName),
-            airPollutionService.getSummary(),
-            heatingSupplyService.get(this.config.suppliersKeyword),
-            waterSupplyService.get(this.config.suppliersKeyword),
-            googleNewsService.get(),
-            cnnNewsService.get(),
-            newYorkTimesNewsService.get(),
-            bbcNewsService.get(),
-            reutersNewsService.get(),
-            guardianNewsService.get()
+            WeatherService.getSummary(this.config.cityName),
+            AirPollutionService.getSummary(),
+            HeatingSupplyService.get(this.config.suppliersKeyword),
+            WaterSupplyService.get(this.config.suppliersKeyword),
+            GoogleNewsService.get(),
+            CnnNewsService.get(),
+            NewYorkTimesNewsService.get(),
+            BbcNewsService.get(),
+            ReutersNewsService.get(),
+            GuardianNewsService.get()
         ];
 
         const techPromises = [
-            theVergeNewsService.get(),
-            techCrunchNewsService.get(),
-            techRadarNewsService.get(),
-            engadgetNewsService.get()
+            VergeNewsService.get(),
+            TechCrunchNewsService.get(),
+            TechRadarNewsService.get(),
+            EngadgetNewsService.get()
         ];
 
         const programmingPromises = [
-            theMorningBrewNewsService.get()
+            MorningBrewNewsService.get()
         ];
 
         return Promise.all(newsDataPromises).then((resolves) =>  {
-            return httpService.flattenPromiseAllResolve(resolves, (list) => {
+            return HttpService.flattenPromiseAllResolve(resolves, (list) => {
                 cache.news = list;
             });
         }).then(() => {
             return Promise.all(techPromises).then((resolves) => {
-                return httpService.flattenPromiseAllResolve(resolves, (list) => {
+                return HttpService.flattenPromiseAllResolve(resolves, (list) => {
                     cache.techAndScience = list;
                 });
             })
         }).then(() => {
             return Promise.all(programmingPromises).then((resolves) => {
-                return httpService.flattenPromiseAllResolve(resolves, (list) => {
+                return HttpService.flattenPromiseAllResolve(resolves, (list) => {
                     cache.programming = list;
                 });
             })
@@ -77,7 +77,7 @@ export default class ProvidersCacheService {
     }
 
     weather(cache) {
-        weatherService.getDetailedForecast(this.config.cityName).then((data) => {
+        WeatherService.getDetailedForecast(this.config.cityName).then((data) => {
             cache.weather = data.mappedData;
             cache.weatherRaw = data.rawData;
         }).catch((error) => {

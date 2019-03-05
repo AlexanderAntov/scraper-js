@@ -1,13 +1,14 @@
-import { apiConstants, apiProvidersConst, httpService, newsModelFactory, newsModelService } from '../../common/common.js';
+import { apiConstants, apiProvidersConst, HttpService, NewsModel } from '../../common/common.js';
+import { cloneDeep } from 'lodash';
 
-export default class AirPollution {
+export class AirPollutionService {
     static getSummary() {
-        let options = newsModelService.clone(apiConstants.airPollution);
-        return httpService.performGetRequest(options, dataTransformer);
+        let options = cloneDeep(apiConstants.airPollution);
+        return HttpService.performGetRequest(options, dataTransformer);
 
         function dataTransformer(data) {
             return [
-                newsModelFactory.get({
+                new NewsModel({
                     title: 'Air pollution',
                     info: constructInfo(data),
                     url: null,

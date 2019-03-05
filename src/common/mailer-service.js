@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer';
-import apiConstants from './api-constants.js';
+import { apiConstants } from './api-constants.js';
 
-export default class MailerService {
+export class MailerService {
     static send(subject, body) {
         const mailOptions = {
             from: apiConstants.email.username,

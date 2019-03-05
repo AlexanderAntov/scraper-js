@@ -1,4 +1,4 @@
-export default class TfIdfOptions {
+export class TfIdfOptions {
     constructor(data = {}) {
         this.MIN_PHRASE_LENGTH = data.MIN_PHRASE_LENGTH || 3;
         this.TF_SCORE_MODIFIER = data.TF_SCORE_MODIFIER || null;

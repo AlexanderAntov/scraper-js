@@ -1,12 +1,12 @@
 ﻿import xml2js from 'xml2js';
 import cheerio from 'cheerio';
-import { apiConstants, apiProvidersConst, httpService, newsModelFactory, newsModelService } from '../../../../common/common.js';
-import { isEmpty } from 'lodash';
+import { apiConstants, apiProvidersConst, HttpService, NewsModel, NewsModelService } from '../../../../common/common.js';
+import { isEmpty, cloneDeep } from 'lodash';
 
-export default class EngadgetNews {
+export class EngadgetNewsService {
     static get() {
-        const options = newsModelService.clone(apiConstants.engadget);
-        return httpService.performGetRequest(options, dataTransformer);
+        const options = cloneDeep(apiConstants.engadget);
+        return HttpService.performGetRequest(options, dataTransformer);
 
         function dataTransformer(data) {
             const articlesArray = [];
@@ -19,7 +19,7 @@ export default class EngadgetNews {
             xml2js.parseString(data, (err, result) => {
                 result.rss.channel[0].item.forEach((newsItemData) => {
                     currentInfo = cheerio.load(
-                        newsModelService.trim(
+                        NewsModelService.trim(
                             newsItemData
                             .description[0]
                             .replace(/<(?:.|\n)*?>/gm, '')
@@ -27,7 +27,7 @@ export default class EngadgetNews {
                             .replace(/\t/g, '')
                         )
                     ).text();
-                    articlesArray.push(newsModelFactory.get({
+                    articlesArray.push(new NewsModel({
                         title: newsItemData.title[0],
                         info: currentInfo,
                         url: newsItemData.link[0],

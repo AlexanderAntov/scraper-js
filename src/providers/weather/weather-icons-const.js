@@ -1,4 +1,4 @@
-﻿export default {
+﻿export const weatherIconsConst = {
     //https://openweathermap.org/weather-conditions
     //Thunderstorm
     200: '/static/images/thunder-storm.png',

@@ -1,6 +1,6 @@
 ﻿import { uniqueId } from 'lodash';
 
-class NewsModel {
+export class NewsModel {
     constructor(data = {}) {
         this.id = parseInt(uniqueId());
         this.title = data.title;
@@ -13,11 +13,5 @@ class NewsModel {
 
     getText() {
         return `${this.title}\n${this.info}\n`;
-    }
-}
-
-export default class NewsModelFactory {
-    static get(data) {
-        return new NewsModel(data);
     }
 }

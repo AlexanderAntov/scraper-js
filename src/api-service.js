@@ -1,16 +1,16 @@
 ﻿import * as fs from 'fs';
+import { ProvidersCacheService } from './providers/providers-cache-service.js';
+import { ProvidersScrapingService } from './providers/providers-scraping-service.js';
+import { WeatherService } from './providers/weather/weather-service.js';
+import { TfIdfModifierService } from './transformers/keywords/tf-idf/tf-idf-modifier-service.js';
+import { NewsModelService } from './common/news-model-service.js';
+import { SummarizationService } from './transformers/summarization/summarization-service.js';
+import { FlKnReadabilityService } from './transformers/readability/fl-kn-readability-service.js';
+import { apiConstants } from './common/api-constants.js';
+import { apiProvidersConst } from './common/api-providers-const.js';
 import { cloneDeep, take, drop, filter, find } from 'lodash';
-import ProvidersCacheService from './providers/providers-cache-service.js';
-import providersScrapingService from './providers/providers-scraping-service.js';
-import WeatherService from './providers/weather/weather-service.js';
-import TfIdfModifierService from './transformers/keywords/tf-idf/tf-idf-modifier-service.js';
-import newsModelService from './common/news-model-service.js';
-import apiConstants from './common/api-constants.js';
-import apiProvidersConst from './common/api-providers-const.js';
-import SummarizationService from './transformers/summarization/summarization-service.js';
-import FlKnReadabilityService from './transformers/readability/fl-kn-readability-service.js';
 
-export default class ApiService {
+export class ApiService {
     constructor() {
         this.cache = {
             news: [],
@@ -23,7 +23,6 @@ export default class ApiService {
         this.weatherService = new WeatherService();
         this.summarizationService = new SummarizationService();
         this.tfIdfModifier = new TfIdfModifierService();
-        this.flKnReadabilityService = new FlKnReadabilityService();
         this.providersCacheService = new ProvidersCacheService();
     }
 
@@ -115,12 +114,12 @@ export default class ApiService {
             model = find(this.cache.news, { id: id });
         }
 
-        providersScrapingService.scrape(model).then((data) => {
+        ProvidersScrapingService.scrape(model).then((data) => {
             res.send({
                 summary: this.summarizationService.summarize(model.title, data),
                 text: data,
                 keywords: this.tfIdfModifier.get([model]).map(wordData => wordData.word),
-                readabilityScore: this.flKnReadabilityService.getScore(model.info)
+                readabilityScore: FlKnReadabilityService.getScore(model.info)
             });
         });
     }
@@ -149,7 +148,7 @@ export default class ApiService {
             }
             result.then(() => {
                 this.cache.news.forEach((model) => {
-                    model.info = newsModelService.trim(model.info);
+                    model.info = NewsModelService.trim(model.info);
                 });
             });
             res.send(true);

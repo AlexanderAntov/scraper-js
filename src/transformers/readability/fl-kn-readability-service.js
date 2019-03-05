@@ -1,26 +1,26 @@
-export default class FlKnReadabilityService {
-	getScore(text) {
-        const wordCount = this.getWordCount(text),
-            sentencesCount = this.getSentencesCount(text),
-            syllablesCount = this.getSyllables(text);
+export class FlKnReadabilityService {
+	static getScore(text) {
+        const wordCount = FlKnReadabilityService._getWordCount(text),
+            sentencesCount = FlKnReadabilityService._getSentencesCount(text),
+            syllablesCount = FlKnReadabilityService._getSyllables(text);
 
         return 206.835 - 
             1.015 * (wordCount / sentencesCount) - 
             84.6 * (syllablesCount / wordCount);
     }
     
-    getWordCount(text) {
+    static _getWordCount(text) {
         return text.replace(/(^\s*)|(\s*$)/gi, '')
             .replace(/[ ]{2,}/gi, ' ')
             .replace(/\n /, '\n')
             .split(' ').length;
     }
 
-    getSentencesCount(text) {
+    static _getSentencesCount(text) {
         return text.split('.').length;
     }
 
-    getSyllables(text) {
+    static _getSyllables(text) {
         let localText = text.toLowerCase();
         if (localText.length <= 3) { 
             return 1; 

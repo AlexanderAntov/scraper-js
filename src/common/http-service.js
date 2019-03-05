@@ -2,7 +2,7 @@
 import http from 'http';
 import https from 'https';
 
-export default class HttpService {
+export class HttpService {
     static flattenPromiseAllResolve(resolvesList, modifierFunc) {
         let list = [];
         resolvesList.forEach((modelsList) => {

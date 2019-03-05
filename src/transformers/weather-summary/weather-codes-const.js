@@ -1,4 +1,4 @@
-export default {
+export const weatherCodesConst = {
     THUNDERSTORM: 2,
     DRIZZLE: 3,
     RAIN: 5,

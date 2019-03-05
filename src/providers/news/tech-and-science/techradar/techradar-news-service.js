@@ -1,10 +1,10 @@
-﻿import { apiConstants, apiProvidersConst, httpService, newsModelFactory, newsModelService } from '../../../../common/common.js';
-import { isEmpty } from 'lodash';
+﻿import { apiConstants, apiProvidersConst, HttpService, NewsModel } from '../../../../common/common.js';
+import { isEmpty, cloneDeep } from 'lodash';
 
-export default class TechRadarNews {
+export class TechRadarNewsService {
     static get() {
-        let options = newsModelService.clone(apiConstants.techRadar);
-        return httpService.performGetRequest(options, dataTransformer);
+        let options = cloneDeep(apiConstants.techRadar);
+        return HttpService.performGetRequest(options, dataTransformer);
 
         function dataTransformer(data) {
             const articlesArray = [];
@@ -13,7 +13,7 @@ export default class TechRadarNews {
             }
 
             data.articles.forEach((newsItemData) => {
-                articlesArray.push(newsModelFactory.get({
+                articlesArray.push(new NewsModel({
                     title: newsItemData.title,
                     info: newsItemData.description,
                     url: newsItemData.url,

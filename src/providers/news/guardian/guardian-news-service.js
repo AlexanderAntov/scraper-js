@@ -1,10 +1,10 @@
-﻿import { apiConstants, apiProvidersConst, httpService, newsModelFactory, newsModelService } from '../../../common/common.js';
-import { isEmpty } from 'lodash';
+﻿import { apiConstants, apiProvidersConst, HttpService, NewsModel } from '../../../common/common.js';
+import { isEmpty, cloneDeep } from 'lodash';
 
-export default class GuardianNews {
+export class GuardianNewsService {
     static get() {
-        let options = newsModelService.clone(apiConstants.theGuardian);
-        return httpService.performGetRequest(options, dataTransformer);
+        let options = cloneDeep(apiConstants.theGuardian);
+        return HttpService.performGetRequest(options, dataTransformer);
 
         function dataTransformer(data) {
             const articlesArray = [];
@@ -13,7 +13,7 @@ export default class GuardianNews {
             }
 
             data.response.results.forEach(newsItemData => {
-                articlesArray.push(newsModelFactory.get({
+                articlesArray.push(new NewsModel({
                     title: newsItemData.webTitle,
                     info: newsItemData.webTitle,
                     url: newsItemData.webUrl,

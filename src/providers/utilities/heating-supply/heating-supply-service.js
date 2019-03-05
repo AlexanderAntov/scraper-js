@@ -1,11 +1,12 @@
 ﻿import cheerio from 'cheerio';
-import { apiConstants, apiProvidersConst, httpService, newsModelFactory, newsModelService } from '../../../common/common.js';
+import { apiConstants, apiProvidersConst, HttpService, NewsModel } from '../../../common/common.js';
+import { cloneDeep } from 'lodash';
 
-export default class HeatingSupply {
+export class HeatingSupplyService {
     static get(targetKeyword) {
-        const options = newsModelService.clone(apiConstants.heatingSupply);
+        const options = cloneDeep(apiConstants.heatingSupply);
         return new Promise((resolve, reject) => {
-            httpService.performGetRequest(options, (data) => {
+            HttpService.performGetRequest(options, (data) => {
                 let $ = cheerio.load(data),
                     breakdownTiles = $('.card.z-depth-3');
 
@@ -20,7 +21,7 @@ export default class HeatingSupply {
                     if (targetKeyword && articleTitle.text().toLowerCase().indexOf(targetKeyword.toLowerCase()) > -1) {
                         let articleUrl = articleTitle.attr('href');
     
-                        httpService.performGetRequest({
+                        HttpService.performGetRequest({
                             isHttps: false,
                             host: 'toplo.bg',
                             path: `/breakdowns/${articleUrl.match(/\d+$/)[0]}`
@@ -33,7 +34,7 @@ export default class HeatingSupply {
                                 articleBody += ($$(elem).text().replace(/\r\n\s+/g, '').trim() + '/n');
                             });
 
-                            resolve([newsModelFactory.get({
+                            resolve([new NewsModel({
                                 title: articleTitle.text().trim().replace('/n', ''),
                                 info: articleBody,
                                 url: articleUrl,

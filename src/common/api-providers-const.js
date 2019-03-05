@@ -1,4 +1,4 @@
-export default {
+export const apiProvidersConst = {
     //news
     WEATHER: {
         id: 1,
