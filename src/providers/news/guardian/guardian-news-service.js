@@ -15,7 +15,7 @@ export class GuardianNewsService {
             data.response.results.forEach(newsItemData => {
                 articlesArray.push(new NewsModel({
                     title: newsItemData.webTitle,
-                    info: newsItemData.webTitle,
+                    info: '',
                     url: newsItemData.webUrl,
                     image: null,
                     dateTime: newsItemData.webPublicationDate,
