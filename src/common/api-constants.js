@@ -49,7 +49,10 @@ class ApiConstants {
                 host: 'news.google.com',
                 path: '/rss?hl=bg&gl=BG&ceid=BG:bg',
                 fakeNewsBlacklistKeywords: [
-                    'Блиц'
+                    'Блиц',
+                    'зодии',
+                    'зодия',
+                    '!'
                 ]
             },
             cnn: {

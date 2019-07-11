@@ -17,7 +17,7 @@ export class GoogleNewsService {
                 result.rss.channel[0].item.forEach((newsItemData) => {
                     const model = new NewsModel({
                         title: newsItemData.title[0],
-                        info: newsItemData.description[0].replace(/<(?:.|\n)*?>/gm, ''),
+                        info: newsItemData.description[0].replace(/<(?:.|\n)*?>/gm, '').replace(/&nbsp;/, ''),
                         url: newsItemData.link[0],
                         image: null,
                         dateTime: newsItemData.pubDate[0],

@@ -67,18 +67,23 @@ export class TfIdfModifierService {
         }
 
         const keywordsList = [];
-        let result;
         for (let i = 0; i < 50; i++) {
-            result =
-                modelsList[i].word + '   ' +
-                modelsList[i].score.toString() +
-                '   https://www.google.com/search?q=' +
-                modelsList[i].word.replace(/\s/g, '+');
-            keywordsList.push(result);
+            keywordsList.push(this._formatKeywordMailItem(modelsList[i]));
         }
+        const emailBody = `
+        <html>
+            <head>
+                <meta charset="utf-8" />
+            </head>
+            <body>
+                ${keywordsList.join('')}
+            </body>
+        </html>
+        `;
         MailerService.send(
             'News keywords',
-            keywordsList.join('\n')
+            emailBody,
+            true
         );
     }
 
@@ -103,6 +108,12 @@ export class TfIdfModifierService {
         }
 
         return modelsList;
+    }
+
+    _formatKeywordMailItem(item) {
+        const urlFormattedKeyword = item.word.replace(/\s/g, '+');
+        const url = `https://www.google.com/search?q=${urlFormattedKeyword}`;
+        return `<a href="${url}" target="_blank">${item.word}</a>   ${item.score} <br/>`;
     }
 
     _areStringsSimilar(first, second) {
@@ -138,7 +149,7 @@ export class TfIdfModifierService {
             }
         }
         //capital letters modifier
-        const capitalLettersCount = countUpperCaseChars(word);
+        const capitalLettersCount = this._countUpperCaseChars(word);
         if (this.options.CAPITALIZED_KEYWORDS_MULTIPLIER && capitalLettersCount > 0) {
             tfScore = tfScore * this.options.CAPITALIZED_KEYWORDS_MULTIPLIER;
         } else {
@@ -146,19 +157,19 @@ export class TfIdfModifierService {
         }
 
         return tfScore;
+    }
 
-        function countUpperCaseChars(word) {
-            let count = 0,
-                wordLength = word.length,
-                i;
+    _countUpperCaseChars(word) {
+        let count = 0,
+            wordLength = word.length,
+            i;
 
-            for (i = 0; i < wordLength; i++) {
-                if(/[A-Z]/.test(word.charAt(i))) {
-                    count++;
-                }
+        for (i = 0; i < wordLength; i++) {
+            if (/[A-Z]/.test(word.charAt(i))) {
+                count++;
             }
-
-            return count;
         }
+
+        return count;
     }
 }

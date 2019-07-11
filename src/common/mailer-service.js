@@ -2,13 +2,17 @@ import nodemailer from 'nodemailer';
 import { apiConstants } from './api-constants.js';
 
 export class MailerService {
-    static send(subject, body) {
+    static send(subject, body, isHtml) {
         const mailOptions = {
             from: apiConstants.email.username,
             to: apiConstants.email.receiver,
-            subject: subject,
-            text: body
+            subject: subject
         };
+        if (isHtml) {
+            mailOptions.html = body;
+        } else {
+            mailOptions.text = body;
+        }
 
         nodemailer.createTransport({
             service: 'Gmail',
