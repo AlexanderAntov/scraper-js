@@ -36,7 +36,7 @@ export class ApiService {
                         (dateTime.getMonth() + 1).toString() + 
                         dateTime.getFullYear().toString() +
                         '-cache.json';
-                fs.writeFileSync(`${__dirname}/../caches/${fileName}`, JSON.stringify(result))
+                fs.writeFileSync(`${__dirname}/../caches/${fileName}`, JSON.stringify(this.cache))
             }
 
             return result;

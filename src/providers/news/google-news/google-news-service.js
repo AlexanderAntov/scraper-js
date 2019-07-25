@@ -1,5 +1,6 @@
 ﻿import xml2js from 'xml2js';
 import { apiConstants, apiProvidersConst, HttpService, NewsModel, NewsModelService } from '../../../common/common.js';
+import { fakeNewsFilterService } from '../../../transformers/fake-news-filter/fake-news-filter-service.js'; 
 import { isEmpty, cloneDeep } from 'lodash';
 
 export class GoogleNewsService {
@@ -24,7 +25,7 @@ export class GoogleNewsService {
                         provider: apiProvidersConst.GOOGLE_BG.id
                     });
 
-                    if (NewsModelService.textDoesNotContainFakeNewsKeywords(options.fakeNewsBlacklistKeywords, model.info)) {
+                    if (!fakeNewsFilterService.isClickBait(model.getText())) {
                         articlesArray.push(model);
                     }
                 });

@@ -47,13 +47,7 @@ class ApiConstants {
                 isApi: false,
                 isHttps: true,
                 host: 'news.google.com',
-                path: '/rss?hl=bg&gl=BG&ceid=BG:bg',
-                fakeNewsBlacklistKeywords: [
-                    'Блиц',
-                    'зодии',
-                    'зодия',
-                    '!'
-                ]
+                path: '/rss?hl=bg&gl=BG&ceid=BG:bg'
             },
             cnn: {
                 isHttps: false,
