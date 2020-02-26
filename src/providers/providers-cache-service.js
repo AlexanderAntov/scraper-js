@@ -37,8 +37,8 @@ export class ProvidersCacheService {
             HeatingSupplyService.get(this.config.suppliersKeyword),
             WaterSupplyService.get(this.config.suppliersKeyword),
             GoogleNewsService.get(),
-            CnnNewsService.get(),
             NewYorkTimesNewsService.get(),
+            CnnNewsService.get(),
             BbcNewsService.get(),
             ReutersNewsService.get(),
             GuardianNewsService.get()

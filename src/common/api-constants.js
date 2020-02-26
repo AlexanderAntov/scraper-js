@@ -122,7 +122,7 @@ class ApiConstants {
                 path: `/v2/top-headlines?sources=techradar&apiKey=${this.tokens.newsApi}`
             },
             engadget: {
-                isHttps: false,
+                isHttps: true,
                 isApi: false,
                 host: 'www.engadget.com',
                 path: '/rss.xml'
