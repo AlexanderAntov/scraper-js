@@ -117,9 +117,9 @@ class ApiConstants {
             },
             techRadar: {
                 isHttps: true,
-                isApi: true,
-                host: 'newsapi.org',
-                path: `/v2/top-headlines?sources=techradar&apiKey=${this.tokens.newsApi}`
+                isApi: false,
+                host: 'www.techradar.com',
+                path: '/rss'
             },
             engadget: {
                 isHttps: true,

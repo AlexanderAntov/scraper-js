@@ -1,4 +1,6 @@
-﻿import { apiConstants, apiProvidersConst, HttpService, NewsModel } from '../../../../common/common.js';
+﻿import xml2js from 'xml2js';
+import cheerio from 'cheerio';
+import { apiConstants, apiProvidersConst, HttpService, NewsModel, NewsModelService } from '../../../../common/common.js';
 import { isEmpty, cloneDeep } from 'lodash';
 
 export class TechRadarNewsService {
@@ -8,19 +10,31 @@ export class TechRadarNewsService {
 
         function dataTransformer(data) {
             const articlesArray = [];
-            if (isEmpty(data) || isEmpty(data.articles)) {
+            if (isEmpty(data)) {
                 return articlesArray;
             }
 
-            data.articles.forEach((newsItemData) => {
-                articlesArray.push(new NewsModel({
-                    title: newsItemData.title,
-                    info: newsItemData.description,
-                    url: newsItemData.url,
-                    image: newsItemData.urlToImage,
-                    dateTime: newsItemData.publishedAt,
-                    provider: apiProvidersConst.TECH_RADAR.id
-                }));
+            let currentInfo = null;
+
+            xml2js.parseString(data, (err, result) => {
+                result.rss.channel[0].item.forEach((newsItemData) => {
+                    currentInfo = cheerio.load(
+                        NewsModelService.trim(
+                            newsItemData
+                            ['dc:content'][0]
+                            .replace(/<(?:.|\n)*?>/gm, '')
+                            .replace(/&nbsp;/, '')
+                        )
+                    ).text();
+                    articlesArray.push(new NewsModel({
+                        title: newsItemData.title[0],
+                        info: currentInfo,
+                        url: newsItemData.link[0],
+                        image: newsItemData.image[0].url,
+                        dateTime: newsItemData.pubDate[0],
+                        provider: apiProvidersConst.TECH_CRUNCH.id
+                    }));
+                });
             });
             return articlesArray;
         }
