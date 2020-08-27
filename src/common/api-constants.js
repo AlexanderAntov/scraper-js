@@ -74,10 +74,10 @@ class ApiConstants {
                 path: '/news/rss.xml'
             },
             reuters: {
-                isHttps: false,
+                isHttps: true,
                 isApi: false,
-                host: 'feeds.reuters.com',
-                path: '/reuters/topNews'
+                host: 'news.google.com',
+                path: '/rss/search?q=when:24h+allinurl:reuters.com&ceid=US:en&hl=en-US&gl=US'
             },
             weatherApi: {
                 isHttps: false,
