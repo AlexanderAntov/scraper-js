@@ -75,7 +75,7 @@ export class TfIdfService {
         }
 
         function evalWordCount(text = '', word = '') {
-            const wordLength = word;
+            const wordLength = word.length;
             if (wordLength <= 0) {
                 return (text.length + 1)
             }
