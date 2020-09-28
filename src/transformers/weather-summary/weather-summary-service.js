@@ -2,16 +2,16 @@ import { weatherCodesConst } from './weather-codes-const';
 
 export class WeatherSummaryService {
     static get(modelList) {
-        let changesMap = [{
-                min: 0,
-                max: 0,
-                weatherCode: modelList[0].weather[0].id,
-                description: modelList[0].weather[0].description
-            }],
-            subList = modelList.slice(1, 3),
-            minSum = 0,
-            maxSum = 0,
-            summary = '';
+        const changesMap = [{
+            min: 0,
+            max: 0,
+            weatherCode: modelList[0].weather[0].id,
+            description: modelList[0].weather[0].description
+        }];
+        const subList = modelList.slice(1, 3);
+        let minSum = 0;
+        let maxSum = 0;
+        let summary = '';
 
         subList.forEach((model, index) => {
             changesMap.push({
@@ -35,7 +35,7 @@ export class WeatherSummaryService {
             summary += 'Stable';
         }
 
-        switch(Math.floor(changesMap[1].weatherCode / 100)) {
+        switch (Math.floor(changesMap[1].weatherCode / 100)) {
             case weatherCodesConst.THUNDERSTORM:
             case weatherCodesConst.DRIZZLE:
             case weatherCodesConst.RAIN:

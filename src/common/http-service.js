@@ -17,8 +17,8 @@ export class HttpService {
     static performGetRequest(options, dataTransformer) {
         const httpService = options.isHttps ? https : http;
         return new Promise((resolve, reject) => {
-            let result = '',
-                request = httpService.request(options, callback);
+            const request = httpService.request(options, callback);
+            let result = '';
 
             function callback(response) {
                 response.setEncoding('utf8');

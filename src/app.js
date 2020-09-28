@@ -3,8 +3,8 @@ import express from 'express';
 import schedule from 'node-schedule';
 import { ApiService } from './api-service.js';
 
-let app = express(),
-    apiService = new ApiService();
+const app = express();
+const apiService = new ApiService();
 
 setUpSchedule();
 
@@ -34,9 +34,10 @@ app.listen(app.get('port'), () => {
 });
 
 function setUpSchedule() {
-    const setUpCache = () => apiService.setUpCache(false),
-        setUpAndSaveCache = () => apiService.setUpCache(true),
-        setUpCacheWithKeywords = () => apiService.setUpCacheWithKeywords();
+    const setUpCache = () => apiService.setUpCache(false);
+    const setUpAndSaveCache = () => apiService.setUpCache(true);
+    const setUpCacheWithKeywords = () => apiService.setUpCacheWithKeywords();
+
     schedule.scheduleJob({ hour: 7, minute: 0, second: 0 }, setUpCacheWithKeywords);
     schedule.scheduleJob({ hour: 9, minute: 0, second: 0 }, setUpAndSaveCache);
     schedule.scheduleJob({ hour: 13, minute: 0, second: 0 }, setUpCache);

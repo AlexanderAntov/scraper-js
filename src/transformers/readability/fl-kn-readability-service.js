@@ -1,8 +1,8 @@
 export class FlKnReadabilityService {
 	static getScore(text) {
-        const wordCount = FlKnReadabilityService._getWordCount(text),
-            sentencesCount = FlKnReadabilityService._getSentencesCount(text),
-            syllablesCount = FlKnReadabilityService._getSyllables(text);
+        const wordCount = FlKnReadabilityService._getWordCount(text);
+        const sentencesCount = FlKnReadabilityService._getSentencesCount(text);
+        const syllablesCount = FlKnReadabilityService._getSyllables(text);
 
         return 206.835 - 
             1.015 * (wordCount / sentencesCount) - 

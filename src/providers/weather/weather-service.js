@@ -17,9 +17,9 @@ export class WeatherService {
                 return [];
             }
 
-            let forecastDescription = '',
-                weatherCode,
-                currentDate = new Date();
+            const currentDate = new Date();
+            let forecastDescription = '';
+            let weatherCode;
 
             data.list.forEach(processWeatherDataItem);
 
@@ -43,13 +43,13 @@ export class WeatherService {
             }
 
             function getCurrentDayDescription(weatherDataItem) {
-                const itemSeparator = '  ',
-                    lineSeparator = '\r\n';
+                const itemSeparator = '  ';
+                const lineSeparator = '\r\n';
+
                 return formatDate(currentDate) + itemSeparator +
                     weatherDataItem.weather[0].description + itemSeparator +
                     Math.round(weatherDataItem.temp.min).toString() + ' / ' +
-                    Math.round(weatherDataItem.temp.max).toString() +
-                    lineSeparator;
+                    Math.round(weatherDataItem.temp.max).toString() + lineSeparator;
 
                 function formatDate(dateValue) {
                     return `${dateValue.getDate().toString()}-${(dateValue.getMonth() + 1).toString()}`;
@@ -102,8 +102,9 @@ export class WeatherService {
             }
 
             function getCurrentDayDescription(weatherDataItem) {
-                const itemSeparator = '  ',
-                    lineSeparator = '\r\n';
+                const itemSeparator = '  ';
+                const lineSeparator = '\r\n';
+
                 return weatherDataItem.weather[0].description + itemSeparator +
                     Math.round(weatherDataItem.temp.min).toString() + ' / ' +
                     Math.round(weatherDataItem.temp.max).toString() + lineSeparator +

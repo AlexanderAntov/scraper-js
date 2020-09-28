@@ -31,16 +31,19 @@ export class ApiService {
             this.providersCacheService.weather(this.cache);
 
             if (saveCache) {
-                const dateTime = new Date(), 
-                    fileName = dateTime.getDate().toString() + 
-                        (dateTime.getMonth() + 1).toString() + 
-                        dateTime.getFullYear().toString() +
-                        '-cache.json';
+                const fileName = this._getCacheFileName(new Date());
                 fs.writeFileSync(`${__dirname}/../caches/${fileName}`, JSON.stringify(this.cache))
             }
 
             return result;
         });
+    }
+
+    _getCacheFileName(dateTime) {
+        const date = dateTime.getDate().toString();
+        const month = (dateTime.getMonth() + 1).toString();
+        const year = dateTime.getFullYear().toString();
+        return `${date}${month}${year}-cache.json`;
     }
 
     setUpCacheWithKeywords() {
@@ -108,7 +111,9 @@ export class ApiService {
     }
 
     scrape(req, res) {
-        let id, model;
+        let id;
+        let model;
+
         if (req.params.id) {
             id = parseInt(req.params.id);
             model = find(this.cache.news, { id: id });

@@ -30,10 +30,10 @@ export class StringComparisonService {
             previous = i;
 
             for (j = 1; j <= firstLength; j++) {
-                if (second[i-1] === first[j-1]) {
-                    value = list[j-1];
+                if (second[i - 1] === first[j - 1]) {
+                    value = list[j - 1];
                 } else {
-                    value = Math.min(list[j-1] + 1, Math.min(previous + 1, list[j] + 1));
+                    value = Math.min(list[j - 1] + 1, Math.min(previous + 1, list[j] + 1));
                 }
 
                 list[j - 1] = previous;

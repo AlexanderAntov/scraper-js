@@ -25,13 +25,13 @@ export class TfIdfModifierService {
                     newsModel.provider !== apiProvidersConst.AIR_POLLUTION.id;
             })));
 
-        const sortedList = orderBy(weightedKeywords, ['score'], ['desc']),
-            sortedListLength = sortedList.length,
-            filteredList = [],
-            processedIds = [];
-        let variationModels = [],
-            i,
-            j;
+        const sortedList = orderBy(weightedKeywords, ['score'], ['desc']);
+        const sortedListLength = sortedList.length;
+        const filteredList = [];
+        const processedIds = [];
+        let variationModels = [];
+        let i;
+        let j;
 
         for (i = 0; i < sortedListLength; i++) {
             if (processedIds.indexOf(sortedList[i].id) === -1) {
@@ -89,8 +89,8 @@ export class TfIdfModifierService {
 
     addTopNewsScore(modelsList) {
         const modelsListLength = modelsList.length;
-        let currentProvider = null,
-            topNewsScore = null;
+        let currentProvider = null;
+        let topNewsScore = null;
 
         for (let i = 0; i < modelsListLength; i++) {
             if (this.options.TOP_NEWS_SCORE) {
@@ -160,9 +160,9 @@ export class TfIdfModifierService {
     }
 
     _countUpperCaseChars(word) {
-        let count = 0,
-            wordLength = word.length,
-            i;
+        let count = 0;
+        let wordLength = word.length;
+        let i;
 
         for (i = 0; i < wordLength; i++) {
             if (/[A-Z]/.test(word.charAt(i))) {

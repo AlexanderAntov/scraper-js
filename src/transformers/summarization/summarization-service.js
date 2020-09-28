@@ -7,9 +7,9 @@ export class SummarizationService {
     }
 
     summarize(title, content, sentencesDictionary) {
-        const summary = [],
-            dictionary = this._getSentencesRanks(content, sentencesDictionary),
-            paragraphs = content.split('\n\n');
+        const summary = [];
+        const dictionary = this._getSentencesRanks(content, sentencesDictionary);
+        const paragraphs = content.split('\n\n');
 
         summary.push(title);
 
@@ -35,7 +35,10 @@ export class SummarizationService {
         const values = [];
     
         let temp = [];
-        let i, j, iValue, jValue;
+        let i;
+        let j;
+        let iValue;
+        let jValue;
 
         for (i = 0; i < sentencesLength; i++) {
             temp = [];
@@ -75,10 +78,10 @@ export class SummarizationService {
             return '';
         }
 
-        let bestSentence = '',
-            maxValue = 0,
-            sentence,
-            index;
+        let bestSentence = '';
+        let maxValue = 0;
+        let sentence;
+        let index;
 
         for (index in sentences) {
             if (sentences.hasOwnProperty(index)) {
@@ -113,7 +116,7 @@ export class SummarizationService {
             return true;
         }
     
-        const splicePivot = ((words1Length + words2Length) / 2);
+        const splicePivot = (words1Length + words2Length) / 2;
         return this._getWordsIntersection(
             words1,
             words1Length,
@@ -123,9 +126,9 @@ export class SummarizationService {
     }
 
     _getWordsIntersection(sentence1, sentence1Length, sentence2, sentence2Length) {
-        let sentence1Index = 0,
-            sentence2Index = 0,
-            result = [];
+        const result = [];
+        let sentence1Index = 0;
+        let sentence2Index = 0;
     
         while (sentence1Index < sentence1Length && sentence2Index < sentence2Length) {
             if (sentence1[sentence1Index] < sentence2[sentence2Index]) {

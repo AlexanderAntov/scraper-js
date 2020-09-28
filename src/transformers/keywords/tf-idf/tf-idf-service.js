@@ -8,30 +8,30 @@ export class TfIdfService {
     }
 
     get(modelsList) {
-        let tfMap = {},
-            idfMap = {},
-            tfIdfMap = [],
-            modelsListLength = modelsList.length,
-            i,
-            j;
+        const tfMap = {};
+        const idfMap = {};
+        const tfIdfMap = [];
+        const modelsListLength = modelsList.length;
+        let frequencyShouldBeEvaluated;
+        let i;
+        let j;
 
         for (i = 0; i < modelsListLength; i++) {
-            let textItemWords = this.generateNGrams(this.normalizeText(modelsList[i].getText())),
-                textItemWordsLength = textItemWords.length,
-                j;
+            const textItemWords = this.generateNGrams(this.normalizeText(modelsList[i].getText()));
+            const textItemWordsLength = textItemWords.length;
 
             for (j = 0; j < textItemWordsLength; j++) {
                 textItemWords[j] = textItemWords[j].trim();
                 if (textItemWords[j] && textItemWords[j].length > this.options.MIN_PHRASE_LENGTH) {
+                    frequencyShouldBeEvaluated = false;
                     if (!tfMap[textItemWords[j]]) {
                         tfMap[textItemWords[j]] = [];
-                        evalFrequency(
-                            modelsList[i],
-                            textItemWords[j],
-                            this.options,
-                            textItemWordsLength
-                        );
+                        frequencyShouldBeEvaluated = true;
                     } else if (tfMap[textItemWords[j]].length < i + 1) {
+                        frequencyShouldBeEvaluated = true;
+                    }
+
+                    if (frequencyShouldBeEvaluated) {
                         evalFrequency(
                             modelsList[i],
                             textItemWords[j],
@@ -43,12 +43,13 @@ export class TfIdfService {
             }
         }
 
-        const wordList = Object.keys(tfMap),
-            wordListLength = wordList.length;
+        const wordList = Object.keys(tfMap);
+        const wordListLength = wordList.length;
 
         for (i = 0; i < wordListLength; i++) {
-            const score = (tfMap[wordList[i]].reduce((x, y) => { return x + y }) / tfMap[wordList[i]].length) * idfMap[wordList[i]],
-                isScoreValid = !this.options.TF_IDF_SCORE_THRESHOLD || (score > this.options.TF_IDF_SCORE_THRESHOLD);
+            const scoreSum = tfMap[wordList[i]].reduce((x, y) => { return x + y });
+            const score = scoreSum / tfMap[wordList[i]].length * idfMap[wordList[i]];
+            const isScoreValid = !this.options.TF_IDF_SCORE_THRESHOLD || score > this.options.TF_IDF_SCORE_THRESHOLD;
             if (isScoreValid) {
                 tfIdfMap.push({
                     id: parseInt(uniqueId()),
@@ -74,18 +75,19 @@ export class TfIdfService {
         }
 
         function evalWordCount(text = '', word = '') {
-            if (word.length <= 0) {
+            const wordLength = word;
+            if (wordLength <= 0) {
                 return (text.length + 1)
             }
 
-            let count = 0,
-                position = 0;
+            let count = 0;
+            let position = 0;
 
             while (true) {
                 position = text.indexOf(word, position);
                 if (position >= 0) {
                     ++count;
-                    position += word.length;
+                    position += wordLength;
                 } else {
                     break;
                 }
@@ -96,14 +98,14 @@ export class TfIdfService {
     }
 
     normalizeText(text) {
-        let stopwordsRegEx = '',
-            i,
-            stopword;
+        let stopwordsRegEx = '';
+        let i;
+        let stopword;
 
         for (i in stopWordsList) {
             stopword = stopWordsList[i];
             if (i !== stopWordsList.length - 1) {
-                stopwordsRegEx = stopwordsRegEx + stopword + '|';
+                stopwordsRegEx = `${stopwordsRegEx}${stopword}|`;;
             }
             else {
                 stopwordsRegEx = stopwordsRegEx + stopword;
@@ -119,11 +121,11 @@ export class TfIdfService {
     }
 
     generateNGrams(text) {
-        let keys = [null],
-            key,
-            i,
-            j,
-            s;
+        let keys = [null];
+        let key;
+        let i;
+        let j;
+        let s;
     
         for (i = 1; i <= this.options.N_GRAM_MAX_WORDS; i++) {
             keys.push({});
@@ -138,7 +140,7 @@ export class TfIdfService {
     
             for (j = 2; j <= this.options.N_GRAM_MAX_WORDS; j++) {
                 if (i + j <= textLength) {
-                    s += ' ' + text[i+j-1];
+                    s += ' ' + text[i + j - 1];
                     keys[j][s] = (keys[j][s] || 0) + 1;
                 } else {
                     break;
