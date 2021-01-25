@@ -20,7 +20,7 @@ export class TfIdfModifierService {
 
         let weightedKeywords = this.tfIdf
             .get(this.addTopNewsScore(modelsList.filter((newsModel) => {
-                return newsModel.provider !== apiProvidersConst.GOOGLE_BG.id && 
+                return newsModel.provider !== apiProvidersConst.BTA.id && 
                     newsModel.provider !== apiProvidersConst.WEATHER.id &&
                     newsModel.provider !== apiProvidersConst.AIR_POLLUTION.id;
             })));
