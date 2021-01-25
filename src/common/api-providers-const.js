@@ -8,10 +8,10 @@ export const apiProvidersConst = {
         id: 2,
         value: 'air pollution'
     },
-    GOOGLE_BG: {
+    BTA: {
         id: 3,
-        value: 'Google BG',
-        filter: 'google'
+        value: 'BTA',
+        filter: 'bta'
     },
     CNN: {
         id: 4,

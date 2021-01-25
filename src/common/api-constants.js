@@ -3,8 +3,8 @@ import * as path from 'path';
 
 class ApiConstants {
     constructor() {
-        const tokensFilePath = path.resolve(__dirname, 'tokens.json'),
-            configFilePath = path.resolve(__dirname, 'config.json');
+        const tokensFilePath = path.resolve(__dirname, 'tokens.json');
+        const configFilePath = path.resolve(__dirname, 'config.json');
 
         if (fs.existsSync(tokensFilePath)) {
             this.tokens = require(tokensFilePath);
@@ -41,13 +41,13 @@ class ApiConstants {
                 isHttps: true,
                 isApi: true,
                 host: 'api.nytimes.com',
-                path: `/svc/topstories/v2/home.json?api-key=${this.tokens.newYorkTimes}`,
+                path: `/svc/topstories/v2/home.json?api-key=${this.tokens.newYorkTimes}`
             },
-            googleNews: {
+            bta: {
                 isApi: false,
-                isHttps: true,
-                host: 'news.google.com',
-                path: '/rss?hl=bg&gl=BG&ceid=BG:bg'
+                isHttps: false,
+                host: 'www.bta.bg',
+                path: '/bg/rss/free'
             },
             cnn: {
                 isHttps: false,
@@ -65,13 +65,7 @@ class ApiConstants {
                 isHttps: true,
                 isApi: true,
                 host: 'content.guardianapis.com',
-                path: `/search?api-key=${this.tokens.theGuardian}&from-date=${new Date().toISOString().split('T')[0]}&order-by=relevance&section=world`,
-            },
-            bta: {
-                isHttps: false,
-                isApi: false,
-                host: 'feeds.bbci.co.uk',
-                path: '/news/rss.xml'
+                path: `/search?api-key=${this.tokens.theGuardian}&from-date=${new Date().toISOString().split('T')[0]}&order-by=relevance&section=world`
             },
             reuters: {
                 isHttps: true,

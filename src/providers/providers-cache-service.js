@@ -2,7 +2,7 @@
 import * as path from 'path';
 import { HttpService } from '../common/http-service.js';
 import { NewYorkTimesNewsService } from './news/new-york-times/new-york-times-news-service.js';
-import { GoogleNewsService } from './news/google-news/google-news-service.js';
+import { BtaNewsService } from './news/bta/bta-news-service.js';
 import { CnnNewsService } from './news/cnn/cnn-news-service.js.js';
 import { BbcNewsService } from './news/bbc/bbc-news-service.js';
 import { ReutersNewsService } from './news/reuters/reuters-news-service.js';
@@ -36,7 +36,7 @@ export class ProvidersCacheService {
             AirPollutionService.getSummary(),
             HeatingSupplyService.get(this.config.suppliersKeyword),
             WaterSupplyService.get(this.config.suppliersKeyword),
-            GoogleNewsService.get(),
+            BtaNewsService.get(),
             NewYorkTimesNewsService.get(),
             CnnNewsService.get(),
             BbcNewsService.get(),

@@ -14,21 +14,21 @@ export class TechCrunchNewsService {
                 return articlesArray;
             }
 
-            let currentInfo = null;
+            const getInfo = (description) => {
+                const localDescription = description[0]
+                    .replace(/<(?:.|\n)*?>/gm, '')
+                    .replace(/&nbsp;/, '');
+
+                return cheerio.load(
+                    NewsModelService.trim(localDescription)
+                ).text();
+            };
 
             xml2js.parseString(data, (err, result) => {
                 result.rss.channel[0].item.forEach((newsItemData) => {
-                    currentInfo = cheerio.load(
-                        NewsModelService.trim(
-                            newsItemData
-                            .description[0]
-                            .replace(/<(?:.|\n)*?>/gm, '')
-                            .replace(/&nbsp;/, '')
-                        )
-                    ).text();
                     articlesArray.push(new NewsModel({
                         title: newsItemData.title[0],
-                        info: currentInfo,
+                        info: getInfo(newsItemData.description),
                         url: newsItemData.link[0],
                         image: null,
                         dateTime: newsItemData.pubDate[0],
