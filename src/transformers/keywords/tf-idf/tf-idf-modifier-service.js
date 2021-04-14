@@ -1,5 +1,6 @@
 import { isEmpty, orderBy, find } from 'lodash';
 import { apiProvidersConst } from '../../../common/api-providers-const.js';
+import { ignoredKeywordsConst } from '../ignored-keywords-const.js';
 import { TfIdfService } from './tf-idf-service.js';
 import { MailerService } from '../../../common/mailer-service.js';
 import { StringComparisonService } from '../string-comparison/string-comparison-service.js';
@@ -8,7 +9,7 @@ import { TfIdfOptions } from './tf-idf-options.js';
 export class TfIdfModifierService {
     constructor() {
         this.options = new TfIdfOptions({
-            TF_SCORE_MODIFIER: (...args) => this._tfScoreModifier(...args)
+            TF_SCORE_MODIFIER: (tfScore, model, word) => this._tfScoreModifier(tfScore, model, word)
         });
         this.tfIdf = new TfIdfService(this.options);
     }
@@ -20,14 +21,14 @@ export class TfIdfModifierService {
 
         let weightedKeywords = this.tfIdf
             .get(this.addTopNewsScore(modelsList.filter((newsModel) => {
-                return newsModel.provider !== apiProvidersConst.BTA.id && 
+                return newsModel.provider !== apiProvidersConst.BTA.id &&
                     newsModel.provider !== apiProvidersConst.WEATHER.id &&
                     newsModel.provider !== apiProvidersConst.AIR_POLLUTION.id;
             })));
 
         const sortedList = orderBy(weightedKeywords, ['score'], ['desc']);
         const sortedListLength = sortedList.length;
-        const filteredList = [];
+        const uniqueKeywordsList = [];
         const processedIds = [];
         let variationModels = [];
         let i;
@@ -50,13 +51,14 @@ export class TfIdfModifierService {
 
             if (!isEmpty(variationModels)) {
                 const highestScoreKeyword = orderBy(variationModels, ['score'], ['desc'])[0];
-                if (!find(filteredList, { id: highestScoreKeyword.id })) {
-                    filteredList.push(highestScoreKeyword);
+                if (!find(uniqueKeywordsList, { id: highestScoreKeyword.id })) {
+                    uniqueKeywordsList.push(highestScoreKeyword);
                 }
             }
             variationModels = [];
         }
 
+        const filteredList = uniqueKeywordsList.filter(item => !ignoredKeywordsConst.includes(item.word));
         cache.newsKeywords = orderBy(filteredList, ['score'], ['desc']);
         return cache.newsKeywords;
     }
