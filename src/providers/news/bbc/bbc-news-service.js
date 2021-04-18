@@ -40,9 +40,9 @@ export class BbcNewsService {
             host: url.host,
             path: url.pathname
         }, (data) => {
-            let $ = cheerio.load(data),
-                result = '';
-            $('.story-body__inner').find('p').each((index, elem) => {
+            let $ = cheerio.load(data);
+            let result = '';
+            $('article').find('p').each((index, elem) => {
                 result += `${$(elem).text()}\n\n`;
             });
             return result;

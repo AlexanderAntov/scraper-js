@@ -1,5 +1,4 @@
 ﻿import xml2js from 'xml2js';
-import cheerio from 'cheerio';
 import { apiConstants, apiProvidersConst, HttpService, NewsModel } from '../../../common/common.js';
 import { isEmpty, cloneDeep } from 'lodash';
 
@@ -28,23 +27,5 @@ export class ReutersNewsService {
             });
             return articlesArray;
         }
-    }
-
-    static scrape(model) {
-        const url = new URL(model.url);
-
-        return HttpService.performGetRequest({
-            isApi: false,
-            isHttps: false,
-            host: url.host,
-            path: url.pathname
-        }, (data) => {
-            let $ = cheerio.load(data),
-                result = '';
-            $('.StandardArticleBody_body').find('p').each((index, elem) => {
-                result += `${$(elem).text()}\n\n`;
-            });
-            return result;
-        });
     }
 }

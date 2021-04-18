@@ -2,7 +2,7 @@
 import { ProvidersCacheService } from './providers/providers-cache-service.js';
 import { ProvidersScrapingService } from './providers/providers-scraping-service.js';
 import { WeatherService } from './providers/weather/weather-service.js';
-import { TfIdfModifierService } from './transformers/keywords/tf-idf/tf-idf-modifier-service.js';
+import { TfIdfService } from './transformers/keywords/tf-idf/tf-idf-service.js';
 import { NewsModelService } from './common/news-model-service.js';
 import { SummarizationService } from './transformers/summarization/summarization-service.js';
 import { FlKnReadabilityService } from './transformers/readability/fl-kn-readability-service.js';
@@ -22,7 +22,7 @@ export class ApiService {
         };
         this.weatherService = new WeatherService();
         this.summarizationService = new SummarizationService();
-        this.tfIdfModifier = new TfIdfModifierService();
+        this.tfIdfService = new TfIdfService();
         this.providersCacheService = new ProvidersCacheService();
     }
 
@@ -48,7 +48,7 @@ export class ApiService {
 
     setUpCacheWithKeywords() {
         this.setUpCache().then(() => {
-            return this.tfIdfModifier.sendMail(this.tfIdfModifier.get(this.cache.news, this.cache));
+            return this.tfIdfService.sendMail(this.tfIdfService.get(this.cache.news, this.cache));
         });
     }
 
@@ -123,7 +123,7 @@ export class ApiService {
             res.send({
                 summary: this.summarizationService.summarize(model.title, data),
                 text: data,
-                keywords: this.tfIdfModifier.get([model]).map(wordData => wordData.word),
+                keywords: this.tfIdfService.get([model]).map(wordData => wordData.word),
                 readabilityScore: FlKnReadabilityService.getScore(model.info)
             });
         });
@@ -148,7 +148,7 @@ export class ApiService {
             let result = this.setUpCache();
             if (req.query.keywords) {
                 result = result.then(() => {
-                    return this.tfIdfModifier.sendMail(this.tfIdfModifier.get(this.cache.news, this.cache));
+                    return this.tfIdfService.sendMail(this.tfIdfService.get(this.cache.news, this.cache));
                 });
             }
             result.then(() => {
